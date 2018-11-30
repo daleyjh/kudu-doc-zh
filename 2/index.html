@@ -1,0 +1,1005 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Kudu 1.4.0 中文文档">
+      
+      
+        <link rel="canonical" href="http://kudu.apachecn.org/2/">
+      
+      
+        <meta name="author" content="ApacheCN Team">
+      
+      
+        <meta name="lang:clipboard.copy" content="复制">
+      
+        <meta name="lang:clipboard.copied" content="已复制">
+      
+        <meta name="lang:search.language" content="jp">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="没有找到符合条件的结果">
+      
+        <meta name="lang:search.result.one" content="找到 1 个符合条件的结果">
+      
+        <meta name="lang:search.result.other" content="# 个符合条件的结果">
+      
+        <meta name="lang:search.tokenizer" content="[\uff0c\u3002]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.3">
+    
+    
+      
+        <title>Kudu 入门指南 - Kudu 1.4.0 中文文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?44851246425f0efa5dd4676b59413604";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <!-- google webmaster -->
+    <meta name="google-site-verification" content="pyo9N70ZWyh8JB43bIu633mhxesJ1IcwWCZlM3jUfFo" />
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="../#kudu" tabindex="1" class="md-skip">
+        跳转至
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Kudu 1.4.0 中文文档
+              </span>
+              <span class="md-header-nav__topic">
+                Kudu 入门指南
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            键入以开始搜索
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Kudu 1.4.0 中文文档
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Kudu 1.4.0 中文文档" class="md-nav__link">
+      Kudu 1.4.0 中文文档
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../1/" title="介绍 Kudu" class="md-nav__link">
+      介绍 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Kudu 入门指南
+      </label>
+    
+    <a href="./" title="Kudu 入门指南" class="md-nav__link md-nav__link--active">
+      Kudu 入门指南
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#apache-kudu" title="Apache Kudu 快速开始" class="md-nav__link">
+    Apache Kudu 快速开始
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu-vm" title="获得 Kudu 快速开始 VM" class="md-nav__link">
+    获得 Kudu 快速开始 VM
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" title="先决条件" class="md-nav__link">
+    先决条件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" title="安装" class="md-nav__link">
+    安装
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" title="加载数据" class="md-nav__link">
+    加载数据
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" title="读取和修改数据" class="md-nav__link">
+    读取和修改数据
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" title="下一步" class="md-nav__link">
+    下一步
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" title="故障排除" class="md-nav__link">
+    故障排除
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ssh-vm" title="通过 SSH 访问 VM 的问题" class="md-nav__link">
+    通过 SSH 访问 VM 的问题
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#virtualbox-sse42" title="在 VirtualBox 中运行时缺少 SSE4.2 支持" class="md-nav__link">
+    在 VirtualBox 中运行时缺少 SSE4.2 支持
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" title="下一步" class="md-nav__link">
+    下一步
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../3/" title="安装指南" class="md-nav__link">
+      安装指南
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../4/" title="配置 Kudu" class="md-nav__link">
+      配置 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../5/" title="Kudu 集成 Apache Impala" class="md-nav__link">
+      Kudu 集成 Apache Impala
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../6/" title="管理 Kudu" class="md-nav__link">
+      管理 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../7/" title="Kudu 故障排除" class="md-nav__link">
+      Kudu 故障排除
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../8/" title="使用 Kudu 开发应用程序" class="md-nav__link">
+      使用 Kudu 开发应用程序
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../9/" title="Kudu Schema Design ( 模式设计 )" class="md-nav__link">
+      Kudu Schema Design ( 模式设计 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../10/" title="Kudu Security ( 安全 )" class="md-nav__link">
+      Kudu Security ( 安全 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../11/" title="Kudu Transaction Semantics ( 事务语义 )" class="md-nav__link">
+      Kudu Transaction Semantics ( 事务语义 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../12/" title="后台维护任务" class="md-nav__link">
+      后台维护任务
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../13/" title="Kudu 配置参考" class="md-nav__link">
+      Kudu 配置参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../14/" title="Kudu 命令行工具参考" class="md-nav__link">
+      Kudu 命令行工具参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../15/" title="已知的问题和限制" class="md-nav__link">
+      已知的问题和限制
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../16/" title="贡献于 Kudu" class="md-nav__link">
+      贡献于 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../17/" title="Export Control Notice ( 出口管制通知 )" class="md-nav__link">
+      Export Control Notice ( 出口管制通知 )
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#apache-kudu" title="Apache Kudu 快速开始" class="md-nav__link">
+    Apache Kudu 快速开始
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu-vm" title="获得 Kudu 快速开始 VM" class="md-nav__link">
+    获得 Kudu 快速开始 VM
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" title="先决条件" class="md-nav__link">
+    先决条件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" title="安装" class="md-nav__link">
+    安装
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" title="加载数据" class="md-nav__link">
+    加载数据
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" title="读取和修改数据" class="md-nav__link">
+    读取和修改数据
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" title="下一步" class="md-nav__link">
+    下一步
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" title="故障排除" class="md-nav__link">
+    故障排除
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ssh-vm" title="通过 SSH 访问 VM 的问题" class="md-nav__link">
+    通过 SSH 访问 VM 的问题
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#virtualbox-sse42" title="在 VirtualBox 中运行时缺少 SSE4.2 支持" class="md-nav__link">
+    在 VirtualBox 中运行时缺少 SSE4.2 支持
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" title="下一步" class="md-nav__link">
+    下一步
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/apachecn/kudu-doc-zh/edit/master/docs/2.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="kudu">Kudu 入门指南</h1>
+<p>原文链接 : <a href="http://kudu.apache.org/docs/quickstart.html">http://kudu.apache.org/docs/quickstart.html</a></p>
+<p>译文链接 : <a href="http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813610">http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813610</a></p>
+<p>贡献者 : <a href="/display/~chenyao">小瑶</a> <a href="/display/~apachecn">ApacheCN</a> <a href="/display/~apachechina">Apache中文网</a></p>
+<h2 id="apache-kudu">Apache Kudu 快速开始</h2>
+<p>按照这些说明设置和运行 <strong>Kudu VM</strong> ，并在几分钟之内从 <strong>Kudu</strong> ，<strong>Kudu_Impala</strong> 和 <strong>CDH</strong> 开始。</p>
+<h2 id="kudu-vm">获得 Kudu 快速开始 VM</h2>
+<h3 id="_1">先决条件</h3>
+<ol>
+<li>安装 <strong><a href="https://www.virtualbox.org/">Oracle Virtualbox</a></strong> 。<strong>VM</strong> 已经通过测试，可以在 <strong>Ubuntu 14.04</strong> 上使用 <strong>VirtualBox 4.3</strong> 版本，并在 <strong>OSX 10.9</strong> 上使用 <strong>VirtualBox 5</strong> 的版本。<strong>VirtualBox</strong> 也包含在大多数软件包管理器中：<strong>apt-get</strong> ，<strong>brew</strong> 等。</li>
+<li>安装完成后，使用 <strong>which VBoxManage</strong> 命令确保 <strong>VBoxManage</strong> 在您的 <strong>PATH</strong> 中。</li>
+</ol>
+<h3 id="_2">安装</h3>
+<p>要下载并启动 <strong>VM</strong> ，请在终端窗口中执行以下命令。</p>
+<pre><code>$ curl -s https://raw.githubusercontent.com/cloudera/kudu-examples/master/demo-vm-setup/bootstrap.sh | bash
+</code></pre>
+
+<p>此命令下载一个 <strong>shell</strong> 脚本，这个脚本克隆了 <strong>kudu-example Git</strong> 仓库，然后将大约 <strong>1.2 GB</strong> 大小的 <strong>VM</strong> 映像下载到当前的工作目录中。您可以在此脚本下载下来之后检查这个脚本通过删除上面脚本的 <strong>| bash</strong> 部分。安装完成之后，您可以通过 <strong>SSH</strong> 连接到 <strong>guest</strong> 虚拟机来验证一切是否正常：</p>
+<pre><code>$ ssh demo@quickstart.cloudera
+</code></pre>
+
+<p>上面的 <strong>username</strong> 和 <strong>password</strong> 都是演示。此外，演示用户具有无密码的 <strong>sudo</strong> 权限，以便您可以安装其他软件和管理 <strong>guest OS</strong> 。您还可以访问 <strong>kudu-examples</strong> 作为<strong> /home/demo/kudu-examples/</strong> 中的共享文件夹，或者在 <strong>host</strong> 上的 <strong>VirtualBox</strong> 共享文件夹位置。这是使脚本或数据对 guest 可见的一种快捷方式。</p>
+<p>你可以通过执行以下命令快速验证 <strong>Kudu</strong> 和 <strong>Impala</strong> 是否正在运行：</p>
+<pre><code>$ ps aux | grep kudu
+$ ps aux | grep impalad
+</code></pre>
+
+<p>如果连接到 <strong>VM</strong> 或其中一个进程没有运行时出现问题，请务必参阅 “<a href="/pages/viewpage.action?pageId=10813626">疑难解答</a>” 部分。</p>
+<h2 id="_3">加载数据</h2>
+<p>要使用 <strong>Kudu</strong> 和 Impala 进行一些典型的操作，我们将使用 <strong><a href="https://data.sfgov.org/Transportation/Raw-AVL-GPS-data/5fk7-ivit/data">San Francisco MTA GPS dataset</a> </strong>。该数据集包含从 <strong>SF MTA</strong>车队的总线上安装的传感器周期性传输的原始位置数据。</p>
+<ol>
+<li>
+<p>下载示例数据并将其加载到 <strong>HDFS</strong> 中
+    首先我们将下载示例数据集，准备并将其上传到 <strong>HDFS</strong> 集群中。
+    <strong>SF MTA</strong> 的站点通常有点慢，所以我们从数据集中镜像了一个 <strong>CSV</strong> 文件样本，网址为  <strong><a href="http://kudu-sample-data.s3.amazonaws.com/sfmtaAVLRawData01012013.csv.gz">http://kudu-sample-data.s3.amazonaws.com/sfmtaAVLRawData01012013.csv.gz</a></strong>
+    原始数据集使用 <strong>DOS</strong> 类型的行结尾，因此我们将在上传过程中使用 <strong>tr</strong> 将其转换为 <strong>UNIX</strong> 风格。</p>
+<p><code>$ wget http://kudu-sample-data.s3.amazonaws.com/sfmtaAVLRawData01012013.csv.gz
+$ hdfs dfs -mkdir /sfmta
+$ zcat sfmtaAVLRawData01012013.csv.gz | tr -d '\r' | hadoop fs -put - /sfmta/data.csv</code></p>
+</li>
+<li>
+<p>创建一个新的外部 <strong>Impala</strong> 表以访问纯文本数据。要在虚拟机中连接到 <strong>Impala</strong> ，请执行以下命令：</p>
+<p><code>ssh demo@quickstart.cloudera -t impala-shell</code></p>
+<p>现在，您可以执行以下命令：</p>
+<p><code>CREATE EXTERNAL TABLE sfmta_raw (
+  revision int,
+  report_time string,
+  vehicle_tag int,
+  longitude float,
+  latitude float,
+  speed float,
+  heading float
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LOCATION '/sfmta/'
+TBLPROPERTIES ('skip.header.line.count'='1');</code></p>
+</li>
+<li>
+<p>验证数据是否实际加载运行以下命令：</p>
+<p>```
+SELECT count(*) FROM sfmta_raw;</p>
+<p>+----------+
+| count(*) |
++----------+
+| 859086   |
++----------+
+```</p>
+</li>
+<li>
+<p>接下来，我们将创建一个 <strong>Kudu</strong> 表并加载数据。请注意，我们将字符串 <strong>report_time</strong> 字段转换为 <strong>unix</strong> 风格的时间戳，以便更有效的存储。</p>
+<p>```
+CREATE TABLE sfmta
+PRIMARY KEY (report_time, vehicle_tag)
+PARTITION BY HASH(report_time) PARTITIONS 8
+STORED AS KUDU
+AS SELECT
+  UNIX_TIMESTAMP(report_time,  'MM/dd/yyyy HH:mm:ss') AS report_time,
+  vehicle_tag,
+  longitude,
+  latitude,
+  speed,
+  heading
+FROM sfmta_raw;</p>
+<p>+------------------------+
+| summary                |
++------------------------+
+| Inserted 859086 row(s) |
++------------------------+
+Fetched 1 row(s) in 5.75s
+```</p>
+<p>创建的表使用复合主键。有关 <strong>Impala</strong> 的扩展 <strong>SQL</strong> 语法的更详细的介绍，请参阅 <a href="/pages/viewpage.action?pageId=10813620"><strong>Kudu Impala</strong> 集成</a>。</p>
+</li>
+</ol>
+<h2 id="_4">读取和修改数据</h2>
+<p>现在数据存储在 <strong>Kudu</strong> 中，您可以对其执行查询。以下查询查找包含最高记录车速的数据点。</p>
+<pre><code>SELECT * FROM sfmta ORDER BY speed DESC LIMIT 1;
+
++-------------+-------------+--------------------+-------------------+-------------------+---------+
+| report_time | vehicle_tag | longitude          | latitude          | speed             | heading |
++-------------+-------------+--------------------+-------------------+-------------------+---------+
+| 1357022342  | 5411        | -122.3968811035156 | 37.76665878295898 | 68.33300018310547 | 82      |
++-------------+-------------+--------------------+-------------------+-------------------+---------+
+</code></pre>
+
+<p>通过快速的 <strong>Google</strong> 搜索，我们可以看到这辆公共汽车在 <strong>68MPH</strong> 的 <strong>16</strong> 街上东行。乍一看，这似乎不太可能是真实的。也许我们做一些研究，发现这辆公共汽车的传感器设备被打破了，我们决定删除数据。使用 <strong>Kudu</strong> 和 标准 <strong>SQL</strong> 这是非常容易纠正的：</p>
+<pre><code>DELETE FROM sfmta WHERE vehicle_tag = '5411';
+
+-- Modified 1169 row(s), 0 row error(s) in 0.25s
+</code></pre>
+
+<h2 id="_5">下一步</h2>
+<p>以上示例显示了如何使用 <strong>Impala</strong> 和 <strong>Kudu</strong> 加载，查询和变更静态数据集。然而， <strong>Kudu</strong> 的真正实力是以流媒体方式吸收和突变数据的能力。</p>
+<p>作为学习 <strong>Kudu</strong> 编程 <strong>API</strong> 的练习，请尝试实现一个使用 <strong>SFMTA XML</strong> 数据 <strong>Feed</strong> 的程序，将该相同的数据集实时摄取到 <strong>Kudu</strong> 表中。</p>
+<h3 id="_6">故障排除</h3>
+<h4 id="ssh-vm">通过 SSH 访问 VM 的问题</h4>
+<ul>
+<li>确保主机已安装 <strong>SSH</strong> 客户端。</li>
+<li>
+<p>确保 <strong>VM</strong> 正在运行，通过运行以下命令并检查名为 <strong>kudu-demo</strong> 的虚拟机：</p>
+<p><code>$ VBoxManage list runningvms</code></p>
+</li>
+<li>
+<p>验证 <strong>VM</strong> 的 <strong>IP</strong> 地址是否包含在主机的 <strong>/etc/hosts</strong> 文件中。您应该看到一行包含一个 <strong>IP</strong> 地址，后跟主机名 <strong>quickstart.cloudera</strong> 。要检查正在运行的 <strong>VM</strong> 的 <strong>IP</strong> 地址，请使用下面的 <strong>VBoxManage</strong> 命令。</p>
+<p><code>$ VBoxManage guestproperty get kudu-demo /VirtualBox/GuestInfo/Net/0/V4/IP
+Value: 192.168.56.100</code></p>
+</li>
+<li>
+<p>如果您以前使用过 <strong>Cloudera QuickStart VM</strong> ，则 <strong>.ssh/known_hosts</strong> 文件可能包含对先前 <strong>VM</strong> 的 <strong>SSH</strong> 凭据的引用。从此文件删除对 <strong>quickstart.cloudera</strong> 的任何引用。</p>
+</li>
+</ul>
+<h4 id="virtualbox-sse42">在 VirtualBox 中运行时缺少 SSE4.2 支持</h4>
+<ul>
+<li>运行 <strong>Kudu</strong> 目前需要一个支持 <strong>SSE4.2</strong> ( <strong>Nehalem</strong> 或者更高版本的 <strong>Intel</strong> ) 的 <strong>CPU</strong> 。要通过 <strong>SSE4.2</strong> 支持进入 <strong>guest</strong> 虚拟机，请参阅 <a href="https://www.virtualbox.org/manual/ch09.html#sse412passthrough"><strong>VirtualBox</strong> 文档</a>。</li>
+</ul>
+<h2 id="_7">下一步</h2>
+<ul>
+<li><a href="/pages/viewpage.action?pageId=10813613">安装 <strong>Kudu</strong></a></li>
+<li><a href="/pages/viewpage.action?pageId=10813616">配置 <strong>Kudu</strong></a></li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+
+              <hr/>
+              <div align="center">
+                  <p><a href="http://www.apachecn.org/" target="_blank"><font face="KaiTi" size="6" color="red">我们一直在努力</font></a><p>
+                  <p><a href="https://github.com/apachecn/kudu-doc-zh/" target="_blank">apachecn/kudu-doc-zh</a></p>
+                  <p><iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=watch&count=true&v=2" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=star&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=fork&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=bcee938030cc9e1552deb3bd9617bbbf62d3ec1647e4b60d9cd6b6e8f78ddc03"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="ML | ApacheCN" title="ML | ApacheCN"></a></p>
+                  <div style="text-align:center;margin:0 0 10.5px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-3565452474788507"
+                             data-ad-slot="2543897000"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script></div>
+              </div>
+
+              <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+              <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+              <div id="gitalk-container" class="container-fluid"></div>
+              <script type="text/javascript">
+                  var gitalk = new Gitalk({
+                  clientID: 'f27b87eb424ba43df978',
+                  clientSecret: '9b3482a495c5257a1d269d8108b9bfd71f048c3c',
+                  repo: 'kudu-doc-zh',
+                  owner: 'apachecn',
+                  admin: ['jiangzhonglian'],
+                  id: md5(location.pathname),
+                  distractionFreeMode: false
+                  })
+                  gitalk.render('gitalk-container')
+              </script>
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../1/" title="介绍 Kudu" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  后退
+                </span>
+                介绍 Kudu
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../3/" title="安装指南" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  前进
+                </span>
+                安装指南
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.583bbe55.js"></script>
+      
+        
+        
+          
+          <script src="../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+                <script src="../assets/javascripts/lunr/tinyseg.js"></script>
+              
+              
+                <script src="../assets/javascripts/lunr/lunr.jp.js"></script>
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

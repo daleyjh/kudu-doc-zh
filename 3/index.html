@@ -1,0 +1,1685 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Kudu 1.4.0 中文文档">
+      
+      
+        <link rel="canonical" href="http://kudu.apachecn.org/3/">
+      
+      
+        <meta name="author" content="ApacheCN Team">
+      
+      
+        <meta name="lang:clipboard.copy" content="复制">
+      
+        <meta name="lang:clipboard.copied" content="已复制">
+      
+        <meta name="lang:search.language" content="jp">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="没有找到符合条件的结果">
+      
+        <meta name="lang:search.result.one" content="找到 1 个符合条件的结果">
+      
+        <meta name="lang:search.result.other" content="# 个符合条件的结果">
+      
+        <meta name="lang:search.tokenizer" content="[\uff0c\u3002]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.3">
+    
+    
+      
+        <title>安装指南 - Kudu 1.4.0 中文文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?44851246425f0efa5dd4676b59413604";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <!-- google webmaster -->
+    <meta name="google-site-verification" content="pyo9N70ZWyh8JB43bIu633mhxesJ1IcwWCZlM3jUfFo" />
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="../#_1" tabindex="1" class="md-skip">
+        跳转至
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Kudu 1.4.0 中文文档
+              </span>
+              <span class="md-header-nav__topic">
+                安装指南
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            键入以开始搜索
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Kudu 1.4.0 中文文档
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Kudu 1.4.0 中文文档" class="md-nav__link">
+      Kudu 1.4.0 中文文档
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../1/" title="介绍 Kudu" class="md-nav__link">
+      介绍 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../2/" title="Kudu 入门指南" class="md-nav__link">
+      Kudu 入门指南
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        安装指南
+      </label>
+    
+    <a href="./" title="安装指南" class="md-nav__link md-nav__link--active">
+      安装指南
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#apache-kudu" title="安装 Apache Kudu" class="md-nav__link">
+    安装 Apache Kudu
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kudu" title="升级 Kudu" class="md-nav__link">
+    升级 Kudu
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" title="先决条件和要求" class="md-nav__link">
+    先决条件和要求
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" title="硬件" class="md-nav__link">
+    硬件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" title="操作系统要求" class="md-nav__link">
+    操作系统要求
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linux" title="Linux" class="md-nav__link">
+    Linux
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macos" title="macOS" class="md-nav__link">
+    macOS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows" title="Windows" class="md-nav__link">
+    Windows
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage" title="Storage ( 存储 )" class="md-nav__link">
+    Storage ( 存储 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#management" title="Management ( 管理 )" class="md-nav__link">
+    Management ( 管理 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" title="使用包安装" class="md-nav__link">
+    使用包安装
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rhel-centos" title="安装在 RHEL 或 CentOS 主机上" class="md-nav__link">
+    安装在 RHEL 或 CentOS 主机上
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sles" title="安装在 SLES 主机上" class="md-nav__link">
+    安装在 SLES 主机上
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ubuntu-debian" title="安装在 Ubuntu 或 Debian 主机上" class="md-nav__link">
+    安装在 Ubuntu 或 Debian 主机上
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" title="验证安装" class="md-nav__link">
+    验证安装
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" title="必需配置" class="md-nav__link">
+    必需配置
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" title="从源代码构建" class="md-nav__link">
+    从源代码构建
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rhel-centos_1" title="RHEL 或者 CentOS" class="md-nav__link">
+    RHEL 或者 CentOS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ubuntu-debian_1" title="Ubuntu 或者 Debian" class="md-nav__link">
+    Ubuntu 或者 Debian
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suse-linux-enterprise-server" title="SUSE Linux Enterprise Server" class="md-nav__link">
+    SUSE Linux Enterprise Server
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macos_1" title="macOS" class="md-nav__link">
+    macOS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c" title="安装 C++ 客户端库" class="md-nav__link">
+    安装 C++ 客户端库
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#java" title="构建 Java 客户端" class="md-nav__link">
+    构建 Java 客户端
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" title="要求" class="md-nav__link">
+    要求
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" title="查看 API 文档" class="md-nav__link">
+    查看 API 文档
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#c-api" title="C++ API 文档" class="md-nav__link">
+    C++ API 文档
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-api" title="Java API 文档" class="md-nav__link">
+    Java API 文档
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu_1" title="从以前版本的 Kudu 升级" class="md-nav__link">
+    从以前版本的 Kudu 升级
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" title="升级程序" class="md-nav__link">
+    升级程序
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" title="下一步" class="md-nav__link">
+    下一步
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../4/" title="配置 Kudu" class="md-nav__link">
+      配置 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../5/" title="Kudu 集成 Apache Impala" class="md-nav__link">
+      Kudu 集成 Apache Impala
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../6/" title="管理 Kudu" class="md-nav__link">
+      管理 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../7/" title="Kudu 故障排除" class="md-nav__link">
+      Kudu 故障排除
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../8/" title="使用 Kudu 开发应用程序" class="md-nav__link">
+      使用 Kudu 开发应用程序
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../9/" title="Kudu Schema Design ( 模式设计 )" class="md-nav__link">
+      Kudu Schema Design ( 模式设计 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../10/" title="Kudu Security ( 安全 )" class="md-nav__link">
+      Kudu Security ( 安全 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../11/" title="Kudu Transaction Semantics ( 事务语义 )" class="md-nav__link">
+      Kudu Transaction Semantics ( 事务语义 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../12/" title="后台维护任务" class="md-nav__link">
+      后台维护任务
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../13/" title="Kudu 配置参考" class="md-nav__link">
+      Kudu 配置参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../14/" title="Kudu 命令行工具参考" class="md-nav__link">
+      Kudu 命令行工具参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../15/" title="已知的问题和限制" class="md-nav__link">
+      已知的问题和限制
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../16/" title="贡献于 Kudu" class="md-nav__link">
+      贡献于 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../17/" title="Export Control Notice ( 出口管制通知 )" class="md-nav__link">
+      Export Control Notice ( 出口管制通知 )
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#apache-kudu" title="安装 Apache Kudu" class="md-nav__link">
+    安装 Apache Kudu
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kudu" title="升级 Kudu" class="md-nav__link">
+    升级 Kudu
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" title="先决条件和要求" class="md-nav__link">
+    先决条件和要求
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" title="硬件" class="md-nav__link">
+    硬件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" title="操作系统要求" class="md-nav__link">
+    操作系统要求
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linux" title="Linux" class="md-nav__link">
+    Linux
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macos" title="macOS" class="md-nav__link">
+    macOS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows" title="Windows" class="md-nav__link">
+    Windows
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage" title="Storage ( 存储 )" class="md-nav__link">
+    Storage ( 存储 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#management" title="Management ( 管理 )" class="md-nav__link">
+    Management ( 管理 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" title="使用包安装" class="md-nav__link">
+    使用包安装
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rhel-centos" title="安装在 RHEL 或 CentOS 主机上" class="md-nav__link">
+    安装在 RHEL 或 CentOS 主机上
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sles" title="安装在 SLES 主机上" class="md-nav__link">
+    安装在 SLES 主机上
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ubuntu-debian" title="安装在 Ubuntu 或 Debian 主机上" class="md-nav__link">
+    安装在 Ubuntu 或 Debian 主机上
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" title="验证安装" class="md-nav__link">
+    验证安装
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" title="必需配置" class="md-nav__link">
+    必需配置
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" title="从源代码构建" class="md-nav__link">
+    从源代码构建
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rhel-centos_1" title="RHEL 或者 CentOS" class="md-nav__link">
+    RHEL 或者 CentOS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ubuntu-debian_1" title="Ubuntu 或者 Debian" class="md-nav__link">
+    Ubuntu 或者 Debian
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suse-linux-enterprise-server" title="SUSE Linux Enterprise Server" class="md-nav__link">
+    SUSE Linux Enterprise Server
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macos_1" title="macOS" class="md-nav__link">
+    macOS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c" title="安装 C++ 客户端库" class="md-nav__link">
+    安装 C++ 客户端库
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#java" title="构建 Java 客户端" class="md-nav__link">
+    构建 Java 客户端
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" title="要求" class="md-nav__link">
+    要求
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" title="查看 API 文档" class="md-nav__link">
+    查看 API 文档
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#c-api" title="C++ API 文档" class="md-nav__link">
+    C++ API 文档
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-api" title="Java API 文档" class="md-nav__link">
+    Java API 文档
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu_1" title="从以前版本的 Kudu 升级" class="md-nav__link">
+    从以前版本的 Kudu 升级
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" title="升级程序" class="md-nav__link">
+    升级程序
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" title="下一步" class="md-nav__link">
+    下一步
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/apachecn/kudu-doc-zh/edit/master/docs/3.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="_1">安装指南</h1>
+<p>原文链接 :<a href="http://kudu.apache.org/docs/installation.html">http://kudu.apache.org/docs/installation.html</a></p>
+<p>译文链接 : <a href="http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813613">http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813613</a></p>
+<p>贡献者 : <a href="/display/~chenyao">小瑶</a> <a href="/display/~apachecn">ApacheCN</a> <a href="/display/~apachechina">Apache中文网</a></p>
+<h2 id="apache-kudu">安装 Apache Kudu</h2>
+<p>您可以使用软件包在集群上部署 <strong>Kudu</strong> ，也可以从源代码构建 <strong>Kudu</strong> 。要运行 <strong>Kudu</strong> 而不安装任何东西，请使用<strong> <a href="/pages/viewpage.action?pageId=10813610">Kudu QuickStart VM</a></strong> 。</p>
+<p>注意</p>
+<p><strong>Kudu</strong> 目前更容易使用 <strong>Cloudera Manager 5.4.7</strong> 或更高版本进行安装和管理。如果您使用 <strong><a href="http://www.cloudera.com/content/www/en-us/products/cloudera-manager.html">Cloudera Manager</a></strong> ，请参阅 <strong>Cloudera</strong> 的 <a href="http://www.cloudera.com/documentation/kudu/latest/topics/kudu_installation.html"><strong>Kudu</strong> 文档</a>。</p>
+<h3 id="kudu">升级 Kudu</h3>
+<p>要从以前的版本升级 <strong>Kudu</strong> ，请参阅从以前版本的<a href="/pages/viewpage.action?pageId=10813613"> <strong>Kudu</strong> 升级</a>。</p>
+<h2 id="_2">先决条件和要求</h2>
+<h3 id="_3">硬件</h3>
+<ul>
+<li>一个或者多个主机运行 <strong>Kudu masters</strong>。建议使用一个主站 ( <strong>master</strong> ) ( 无容错 )，三个 <strong>masters</strong> ( 可以容忍一个故障 ) 或 五个 <strong>masters</strong> ( 可以容忍两个故障 )。</li>
+<li>运行 <strong>Kudu tablet servers</strong> 的一个或多个主机。使用副本时，至少需要三个 <strong>tablet servers</strong> 。</li>
+</ul>
+<h3 id="_4">操作系统要求</h3>
+<h4 id="linux">Linux</h4>
+<ul>
+<li><strong>RHEL 6</strong> ，<strong>RHEL 7</strong> ， <strong>CentOS 6</strong> ， <strong>CentOS 7</strong> ， <strong>Ubuntu 14.04 (Trusty)</strong> ， <strong>Ubuntu 16.04 (Xenial)</strong> ， <strong>Debian 8 (Jessie</strong>) ， 或 <strong>SLES 12</strong> 。</li>
+<li>支持 <strong>hole punching</strong> ( 打孔的 ) 内核和文件系统。打孔是使用<strong> FALLOC_FL_PUNCH_HOLE</strong> 选项设置的 <strong>fallocate(2)</strong> 系统调用。有关详细信息，请参阅 <a href="/pages/viewpage.action?pageId=10813626">故障排除 <strong>hole punching</strong></a> 。</li>
+<li><strong>ntp</strong> 。</li>
+<li><strong>xfs</strong> 或者 <strong>ext4</strong> 格式化的驱动器。</li>
+</ul>
+<h4 id="macos">macOS</h4>
+<ul>
+<li><strong>OS X 10.10 Yosemite</strong> ， <strong>OS X 10.11 El Capitan</strong> ， 或 <strong>macOS Sierra</strong> 。</li>
+<li>未提供预建的 <strong>macOS</strong> 包。</li>
+</ul>
+<h4 id="windows">Windows</h4>
+<ul>
+<li><strong>Microsoft Windows</strong> 不受支持。</li>
+</ul>
+<h4 id="storage">Storage ( 存储 )</h4>
+<ul>
+<li>如果固态存储可用，在这种高性能介质上存储 <strong>Kudu WAL</strong> 可以显著改善 <strong>Kudu</strong> 配置为其最高耐久性水平时的延迟。</li>
+</ul>
+<h4 id="management">Management ( 管理 )</h4>
+<ul>
+<li>如果您使用 <strong>Cloudera Manager</strong> 和 <strong>CDH</strong> ，则需要 C<strong>loudera Manager 5.4.3</strong> 或更高版本。<strong>Cloudera Manager 5.4.7</strong> 及更新版本提供更好的监控和管理选项。</li>
+</ul>
+<h2 id="_5">使用包安装</h2>
+<p>您可以使用操作系统管理的软件包来安装 <strong>Kudu</strong> 。</p>
+<p>表1.<strong>Kudu</strong> 包位置</p>
+<table>
+<thead>
+<tr>
+<th>OS ( 操作系统 )</th>
+<th>Repository ( 存储库 )</th>
+<th>Individual Packages ( 单个包 )</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RHEL 或 CentOS</td>
+<td><a href="http://archive.cloudera.com/kudu/redhat/6/x86_64/kudu/cloudera-kudu.repo">RHEL 6 or CentOS 6</a>, <a href="http://archive.cloudera.com/kudu/redhat/7/x86_64/kudu/cloudera-kudu.repo">RHEL 7 or CentOS 7</a></td>
+<td><a href="http://archive.cloudera.com/kudu/redhat/6/x86_64/kudu/5/RPMS/x86_64/">RHEL 6 or CentOS 6</a>, <a href="http://archive.cloudera.com/kudu/redhat/7/x86_64/kudu/5/RPMS/x86_64/">RHEL 7 or CentOS 7</a></td>
+</tr>
+<tr>
+<td>SLES</td>
+<td><a href="http://archive.cloudera.com/kudu/sles/12/x86_64/kudu/cloudera-kudu.repo">SLES 12</a></td>
+<td><a href="http://archive.cloudera.com/kudu/sles/12/x86_64/kudu/5/RPMS/x86_64/">SLES 12</a></td>
+</tr>
+<tr>
+<td>Ubuntu</td>
+<td><a href="http://archive.cloudera.com/kudu/ubuntu/trusty/amd64/kudu/cloudera.list">Trusty</a>, <a href="http://archive.cloudera.com/kudu/ubuntu/xenial/amd64/kudu/cloudera.list">Xenial</a></td>
+<td><a href="http://archive.cloudera.com/kudu/ubuntu/trusty/amd64/kudu/pool/contrib/k/kudu/">Trusty</a>, <a href="http://archive.cloudera.com/kudu/ubuntu/xenial/amd64/kudu/pool/contrib/k/kudu/">Xenial</a></td>
+</tr>
+<tr>
+<td>Debian</td>
+<td><a href="http://archive.cloudera.com/kudu/debian/jessie/amd64/kudu/cloudera.list">Jessie</a></td>
+<td><a href="http://archive.cloudera.com/kudu/debian/jessie/amd64/kudu/pool/contrib/k/kudu/">Jessie</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="rhel-centos">安装在 RHEL 或 CentOS 主机上</h3>
+<ol>
+<li>下载并配置您的操作系统的 <strong>Kudu</strong> 存储库，或使用 <strong>Kudu Package Locations</strong> 的相应链接手动下载各个 <strong>RPM</strong> 。</li>
+<li>
+<p>如果使用 <strong>Yum</strong> 存储库，请在将 <strong>cloudera-kudu.repo</strong> 文件保存到 <strong>/etc/yum.repos.d/</strong> 之后，使用以下命令在每个主机上安装 <strong>Kudu</strong> 软件包。</p>
+<p><code>sudo yum install kudu                         # Base Kudu files
+sudo yum install kudu-master                  # Kudu master init.d service script and default configuration
+sudo yum install kudu-tserver                 # Kudu tablet server init.d service script and default configuration
+sudo yum install kudu-client0                 # Kudu C++ client shared library
+sudo yum install kudu-client-devel            # Kudu C++ client SDK</code></p>
+</li>
+<li>
+<p>要手动安装 <strong>Kudu RPM</strong> ，首先下载它们，然后使用命令 <strong>sudo rpm -ivh &lt;RPM安装&gt;</strong> 来安装。</p>
+</li>
+<li>
+<p>注意：<strong>kudu-master</strong> 和 <strong>kudu-tserver</strong> 软件包仅在分别有 <strong>master</strong> 或 <strong>tserver</strong> 的主机上需要 ( 如果使用 <strong>Cloudera Manager</strong> 则完全不必要 )。每个提供配置文件和一个 <strong>init.d</strong> 脚本来管理相应的 <strong>Kudu</strong> 进程。一旦安装， <strong>Kudu</strong> 进程将在主机启动并关闭时自动启动和停止。</p>
+</li>
+</ol>
+<h3 id="sles">安装在 SLES 主机上</h3>
+<ol>
+<li>下载并配置您的操作系统的 <strong>Kudu</strong> 存储库，或使用 <strong>Kudu Package Locations</strong> 的相应链接手动下载各个 <strong>RPM</strong> 。</li>
+<li>
+<p>如果使用 <strong>Zypper</strong> 存储库，请在将 <strong>cloudera-kudu.repo</strong> 文件保存到 <strong> /etc/zypper/repos.d</strong> 之后，使用以下命令在每个主机上安装 <strong>Kudu</strong> 软件包。</p>
+<p><code>sudo zypper install kudu                      # Base Kudu files
+sudo zypper install kudu-master               # Kudu master init.d service script and default configuration
+sudo zypper install kudu-tserver              # Kudu tablet server init.d service script and default configuration
+sudo zypper install kudu-client0              # Kudu C++ client shared library
+sudo zypper install kudu-client-devel         # Kudu C++ client SDK</code></p>
+</li>
+<li>
+<p>要手动安装 <strong>Kudu RPM</strong> ，首先下载它们，然后使用命令 <strong>sudo rpm -ivh &lt;RPM安装&gt;</strong> 来安装。</p>
+</li>
+<li>
+<p>注意：<strong>kudu-master</strong> 和 <strong>kudu-tserver</strong> 软件包仅在分别有 <strong>master</strong> 或 <strong>tserver</strong> 的主机上需要 ( 如果使用 <strong>Cloudera Manager</strong> 则完全不必要 )。每个提供配置文件和一个 <strong>init.d</strong> 脚本来管理相应的 <strong>Kudu</strong> 进程。一旦安装， <strong>Kudu</strong> 进程将在主机启动并关闭时自动启动和停止。</p>
+</li>
+</ol>
+<h3 id="ubuntu-debian">安装在 Ubuntu 或 Debian 主机上</h3>
+<ol>
+<li>
+<p>如果使用 <strong>ubuntu</strong> 或 <strong>debian</strong> 存储库，请在将 <strong>cloudera.list</strong> 文件保存到 <strong>/etc/apt/sources.list.d/</strong> 之后，使用以下命令在每个主机上安装 <strong>Kudu</strong> 软件包。</p>
+<p><code>sudo apt-get install kudu                     # Base Kudu files
+sudo apt-get install kudu-master              # Service scripts for managing kudu-master
+sudo apt-get install kudu-tserver             # Service scripts for managing kudu-tserver
+sudo apt-get install libkuduclient0           # Kudu C++ client shared library
+sudo apt-get install libkuduclient-dev        # Kudu C++ client SDK</code></p>
+</li>
+<li>
+<p>要手动安装 <strong>Kudu RPM</strong> ，首先下载它们，然后使用命令 <strong>sudo rpm -ivh &lt;RPM安装&gt;</strong> 来安装。</p>
+</li>
+<li>
+<p>注意：<strong>kudu-master</strong> 和 <strong>kudu-tserver</strong> 软件包仅在分别有 <strong>master</strong> 或 <strong>tserver</strong> 的主机上需要 ( 如果使用 <strong>Cloudera Manager</strong> 则完全不必要 ) 。每个提供配置文件和一个 <strong>init.d</strong> 脚本来管理相应的 <strong>Kudu</strong> 进程。一旦安装， <strong>Kudu</strong> 进程将在主机启动并关闭时自动启动和停止。</p>
+</li>
+</ol>
+<h3 id="_6">验证安装</h3>
+<ol>
+<li>使用以下方法之一验证服务是否正在运行：
+    <strong><em>*</em> 在服务器上检查 </strong>ps<strong> 命令的输出，以验证 </strong>kudu-master<strong> 或 </strong>kudu-tserver<strong> 进程之一或两者正在运行。
+    <strong><em>*</em> 打开 </strong>Master</strong> 或者 <strong>Tablet Server web UI</strong> ，方法是打开 <strong>http://&lt;<em>host_name</em>&gt;:8051/ for master</strong> 或者 <strong>http://&lt;<em>host_name</em>&gt;:8050/ for tablet servers</strong> 。</li>
+<li>如果 <strong>Kudu</strong> 没有运行，请查看 <strong> '/var/log/kudu'</strong> 中的日志文件，如果有一个以<strong> '.FATAL'</strong> 结尾的文件，那意味着 <strong>Kudu</strong> 无法启动。<ul>
+<li>如果 <strong>error</strong> 是 <strong>" Error during hole punch test"</strong> ，可能是 <a href="/pages/viewpage.action?pageId=10813626">您的操作系统的问题</a> 。</li>
+<li>如果 <strong>error</strong> 是 <strong>" Couldn’t get the current time "</strong> ，这是 <a href="/pages/viewpage.action?pageId=10813626">ntp 的问题</a>。</li>
+<li>如果这是其他似乎不明显的东西，或者如果您没有运气尝试上述解决方案，您可以在 <a href="http://kudu.apache.org/community.html">用户邮件列表</a> 中寻求帮助。</li>
+</ul>
+</li>
+</ol>
+<h3 id="_7">必需配置</h3>
+<p>在启动 <strong>Kudu</strong> 服务之前，需要在每个主机上执行其他配置步骤。</p>
+<ol>
+<li>这些包在操作系统的备用数据库中创建一个 <strong>kudu-conf</strong> 条目，并且它们运送内置的 <strong>conf.dist</strong> 替代。要调整配置，您可以直接编辑 <strong>/etc/kudu/conf/</strong> 中的文件，或者使用操作系统实用程序创建一个新的选项，确保它是 <strong>/etc/kudu/conf/</strong> 指向的链接，在那里创建自定义配置文件配置的某些部分也配置在 <strong>/etc/default/kudu-master</strong> 和 <strong>/etc/default/kudu-tserver</strong> 文件中。如果创建自定义配置文件，您应该包括或者复制这些配置选项。
+    查看配置，包括默认的 <strong>WAL</strong> 和数据目录位置，并根据您的要求进行调整。</li>
+<li>
+<p>使用以下命令启动 <strong>Kudu</strong> 服务：</p>
+<p><code>$ sudo service kudu-master start
+$ sudo service kudu-tserver start</code></p>
+</li>
+<li>
+<p>要停止 <strong>Kudu</strong> 服务，请使用以下命令：</p>
+<p><code>$ sudo service kudu-master stop
+$ sudo service kudu-tserver stop</code></p>
+</li>
+<li>
+<p>将 <strong>Kudu</strong> 服务配置为在服务器启动时自动启动，将其添加到默认运行级别：</p>
+<p>```
+$ sudo chkconfig kudu-master on                # RHEL / CentOS / SLES
+$ sudo chkconfig kudu-tserver on               # RHEL / CentOS / SLES</p>
+<p>$ sudo update-rc.d kudu-master defaults        # Debian / Ubuntu
+$ sudo update-rc.d kudu-tserver defaults       # Debian / Ubuntu
+```</p>
+</li>
+<li>
+<p>有关 <strong>Kudu</strong> 服务的其他配置，请参阅 <a href="/pages/viewpage.action?pageId=10813616">配置 <strong>Kudu</strong></a> 。</p>
+</li>
+</ol>
+<h2 id="_8">从源代码构建</h2>
+<p>如果使用包裹或者软件包安装 <strong>Kudu</strong> 不能提供所需的灵活性，则可以从源代码构建 <strong>Kudu</strong> 。您可以在任何支持的操作系统上从源代码构建。</p>
+<p>注意</p>
+<p>已知的构建问题</p>
+<ul>
+<li>不可能在 <strong>MicroSoft Windows</strong> 上构建 <strong>Kudu</strong> 。</li>
+<li>需要一个 <strong>C+ 11</strong> 编译器 ( <strong>GCC 4.8</strong> ) 。</li>
+</ul>
+<h3 id="rhel-centos_1">RHEL 或者 CentOS</h3>
+<p>需要 <strong>RHEL</strong> 或者 <strong>CentOS 6.6</strong> 或更高版本从源代码构建 <strong>Kudu</strong> 。要建立在 <strong>7.0</strong> 以上的版本上，必须安装<strong> Red Hat Developer Toolset</strong> ( 才能访问支持 <strong>C++ 11</strong> 的编译器 )。</p>
+<ol>
+<li>
+<p>安装必备库( 如果没有安装 )。</p>
+<p><code>$ sudo yum install autoconf automake cyrus-sasl-devel cyrus-sasl-gssapi \
+  cyrus-sasl-plain gcc gcc-c++ gdb git krb5-server krb5-workstation libtool \
+  make openssl-devel patch pkgconfig redhat-lsb-core rsync unzip vim-common which</code></p>
+</li>
+<li>
+<p>如果建立在 <strong>7.0</strong> 以上的 <strong>RHEL</strong> 或 <strong>CentOS</strong> 上，请安装 <strong>Red Hat Developer Toolset</strong></p>
+<p><code>$ DTLS_RPM=rhscl-devtoolset-3-epel-6-x86_64-1-2.noarch.rpm
+$ DTLS_RPM_URL=https://www.softwarecollections.org/repos/rhscl/devtoolset-3/epel-6-x86_64/noarch/${DTLS_RPM}
+$ wget ${DTLS_RPM_URL} -O ${DTLS_RPM}
+$ sudo yum install -y scl-utils ${DTLS_RPM}
+$ sudo yum install -y devtoolset-3-toolchain</code></p>
+</li>
+<li>
+<p>可选：如果您计划构建文档，请安装其他包，包括 <strong>ruby</strong>。</p>
+<p><code>$ sudo yum install doxygen gem graphviz ruby-devel zlib-devel</code></p>
+<p>注意</p>
+<p>如果建立在 <strong>7.0</strong> 以上的 <strong>RHEL</strong> 或者 <strong>CentOS</strong> 上，则可能需要使用 <strong>rubygems</strong> 替换 <strong>gem</strong> 包</p>
+</li>
+<li>
+<p>克隆 <strong>Git</strong> 存储库并切换到新的 <strong>kudu</strong> 目录</p>
+<p><code>$ git clone https://github.com/apache/kudu
+$ cd kudu</code></p>
+</li>
+<li>
+<p>使用 <strong>build-if-necessary.sh</strong> 脚本构建任何缺少的第三方要求。不使用 <strong>devtoolset</strong> 会导致主机编译器似乎需要 <strong>libatomic</strong> ，但找不到它。</p>
+<p><code>$ build-support/enable_devtoolset.sh thirdparty/build-if-necessary.sh</code></p>
+</li>
+<li>
+<p>使用上一步中安装的实用程序构建 <strong>Kudu</strong> 。为中间输出选择一个构建目录，除了 <strong>Kudu</strong> 目录本身之外，它可以在文件系统中的任何位置。请注意，<strong>devtoolset</strong> 仍然必须指定，否则您会得到 <strong>cc1plus</strong>：错误：<strong>unrecognized command line option "-std=c++11"</strong> 。</p>
+<p><code>mkdir -p build/release
+cd build/release
+../../build-support/enable_devtoolset.sh \
+  ../../thirdparty/installed/common/bin/cmake \
+  -DCMAKE_BUILD_TYPE=release \
+  ../..
+make -j4</code></p>
+</li>
+<li>
+<p>可选：安装 <strong>Kudu</strong> 二进制文件，库和标题。如果不通过 <strong>DESTDIR</strong> 环境变量指定安装目录，则默认为 <strong>/usr/local/</strong> 。</p>
+<p><code>sudo make DESTDIR=/opt/kudu install</code></p>
+</li>
+<li>
+<p>可选：构建文档。注意：此命令构建不适合上传到 <strong>Kudu</strong> 网站的本地文档。</p>
+<p><code>$ make docs</code></p>
+</li>
+</ol>
+<p><strong>示例 1 . RHEL / CentOS 构建脚本</strong></p>
+<p>此脚本概述了在新安装的 <strong>RHEL</strong> 或 <strong>CentOS</strong> 主机上构建 <strong>Kudu</strong> 的过程，可用作自动部署场景的基础。它跳过上面标记为可选步骤的步骤。</p>
+<pre><code>#!/bin/bash
+
+sudo yum -y install autoconf automake cyrus-sasl-devel cyrus-sasl-gssapi \
+  cyrus-sasl-plain gcc gcc-c++ gdb git krb5-server krb5-workstation libtool \
+  make openssl-devel patch pkgconfig redhat-lsb-core rsync unzip vim-common which
+DTLS_RPM=rhscl-devtoolset-3-epel-6-x86_64-1-2.noarch.rpm
+DTLS_RPM_URL=https://www.softwarecollections.org/repos/rhscl/devtoolset-3/epel-6-x86_64/noarch/${DTLS_RPM}
+wget ${DTLS_RPM_URL} -O ${DTLS_RPM}
+sudo yum install -y scl-utils ${DTLS_RPM}
+sudo yum install -y devtoolset-3-toolchain
+git clone https://github.com/apache/kudu
+cd kudu
+build-support/enable_devtoolset.sh thirdparty/build-if-necessary.sh
+mkdir -p build/release
+cd build/release
+../../build-support/enable_devtoolset.sh \
+  ../../thirdparty/installed/common/bin/cmake \
+  -DCMAKE_BUILD_TYPE=release \
+  ../..
+make -j4
+</code></pre>
+
+<h3 id="ubuntu-debian_1">Ubuntu 或者 Debian</h3>
+<ol>
+<li>
+<p>安装必备库 ( 如果它们没有安装 )</p>
+<p><code>$ sudo apt-get install autoconf automake curl g++ gcc gdb git \
+  krb5-admin-server krb5-kdc krb5-user libkrb5-dev libsasl2-dev libsasl2-modules \
+  libsasl2-modules-gssapi-mit libssl-dev libtool lsb-release make ntp openssl \
+  patch pkg-config python rsync unzip vim-common</code></p>
+</li>
+<li>
+<p>可选：如果您计划构建文档，请安装其他包，包括 <strong>ruby</strong> 。</p>
+<p><code>$ sudo apt-get install doxygen gem graphviz ruby-dev xsltproc zlib1g-dev</code></p>
+</li>
+<li>
+<p>克隆 <strong>Git</strong> 存储库并切换到新的 <strong>kudu</strong> 目录。</p>
+<p><code>$ git clone https://github.com/apache/kudu
+$ cd kudu</code></p>
+</li>
+<li>
+<p>使用 <strong>build-if-necessary.sh</strong> 脚本构建任何缺少的第三方要求。</p>
+<p><code>$ thirdparty/build-if-necessary.sh</code></p>
+</li>
+<li>
+<p>使用上一步中安装的实用程序构建 <strong>Kudu</strong> 。为中间输出选择一个构建目录，除了 <strong>kudu</strong> 目录本身之外，它可以在文件系统中的任何位置。</p>
+<p><code>mkdir -p build/release
+cd build/release
+../../thirdparty/installed/common/bin/cmake -DCMAKE_BUILD_TYPE=release ../..
+make -j4</code></p>
+</li>
+<li>
+<p>可选：安装 <strong>Kudu</strong> 二进制文件，库和标题。如果不通过 <strong>DESTDIR</strong> 环境变量指定安装目录，则默认为 <strong>/usr/local/</strong> 。</p>
+<p><code>sudo make DESTDIR=/opt/kudu install</code></p>
+</li>
+<li>
+<p>可选：构建文档。注意：此命令构建不适合上传到 <strong>Kudu</strong> 网站的本地文档。</p>
+<p><code>$ make docs</code></p>
+</li>
+</ol>
+<p><strong>示例 2 . Ubuntu 或者 Debian 构建脚本</strong></p>
+<p>该脚本概述了在 <strong>Ubuntu</strong> 上构建 <strong>Kudu</strong> 的过程，可以作为自动部署场景的基础。它跳过上面标记为可选步骤的步骤。</p>
+<pre><code>#!/bin/bash
+
+sudo apt-get -y install autoconf automake curl g++ gcc gdb git \
+  krb5-admin-server krb5-kdc krb5-user libkrb5-dev libsasl2-dev libsasl2-modules \
+  libsasl2-modules-gssapi-mit libssl-dev libtool lsb-release make ntp openssl \
+  patch pkg-config python rsync unzip vim-common
+git clone https://github.com/apache/kudu
+cd kudu
+thirdparty/build-if-necessary.sh
+mkdir -p build/release
+cd build/release
+../../thirdparty/installed/common/bin/cmake \
+  -DCMAKE_BUILD_TYPE=release \
+  ../..
+make -j4
+</code></pre>
+
+<h3 id="suse-linux-enterprise-server">SUSE Linux Enterprise Server</h3>
+<ol>
+<li>
+<p>安装必备库（如果没有安装）。</p>
+<p><code>$ sudo zypper install autoconf automake curl cyrus-sasl-devel \
+  cyrus-sasl-gssapi gcc gcc-c++ gdb git krb5-devel libtool lsb-release make ntp \
+  openssl-devel patch pkg-config python rsync unzip vim</code></p>
+</li>
+<li>
+<p>克隆 <strong>Git</strong> 存储库并切换到新的 <strong>kudu</strong> 目录。</p>
+<p><code>$ git clone https://github.com/apache/kudu
+$ cd kudu</code></p>
+</li>
+<li>
+<p>使用 <strong>build-if-necessary.sh</strong> 脚本构建任何缺少的第三方要求。</p>
+<p><code>$ thirdparty/build-if-necessary.sh</code></p>
+</li>
+<li>
+<p>使用上一步中安装的实用程序构建 <strong>Kudu</strong> 。为中间输出选择一个构建目录，除了 <strong>kudu</strong> 目录本身之外，它可以在文件系统中的任何位置。</p>
+<p><code>mkdir -p build/release
+cd build/release
+../../thirdparty/installed/common/bin/cmake \
+  -DCMAKE_BUILD_TYPE=release \
+  ../..
+make -j4</code></p>
+</li>
+<li>
+<p>可选：安装 <strong>Kudu</strong> 二进制文件，库和标题。如果不通过 <strong>DESTDIR</strong> 环境变量指定安装目录，则默认为 <strong>/usr/local/</strong> 。</p>
+<p><code>sudo make DESTDIR=/opt/kudu install</code></p>
+</li>
+</ol>
+<p><strong>示例 3 .SLES 构建脚本</strong></p>
+<p>此脚本概述了在 <strong>SLES</strong> 上构建 <strong>Kudu</strong> 的过程，并可用作自动部署场景的基础。它跳过上面标记为可选步骤的步骤。</p>
+<pre><code>#!/bin/bash
+
+sudo zypper install -y autoconf automake curl cyrus-sasl-devel \
+  cyrus-sasl-gssapi gcc gcc-c++ gdb git krb5-devel libtool lsb-release make ntp \
+  openssl-devel patch pkg-config python rsync unzip vim
+git clone https://github.com/apache/kudu
+cd kudu
+thirdparty/build-if-necessary.sh
+mkdir -p build/release
+cd build/release
+../../thirdparty/installed/common/bin/cmake \
+  -DCMAKE_BUILD_TYPE=release \
+  ../..
+make -j4
+</code></pre>
+
+<h3 id="macos_1">macOS</h3>
+<p><strong>Xcode</strong> 包是编译 <strong>Kudu</strong> 所必需的。下面的一些说明使用 <a href="http://brew.sh/"><strong>Homebrew</strong></a> 来安装依赖关系，但手动依赖安装是可能的。</p>
+<p>注意</p>
+<p><strong>macOS</strong> 已知问题</p>
+<p><strong>Kudu</strong> 对 <strong>macOS</strong> 的支持是实验性的，只能用于开发。有关详细信息，请参阅 <a href="https://issues.cloudera.org/browse/KUDU-1219"><strong>macOS</strong> 限制和已知问题</a>。</p>
+<ol>
+<li>
+<p>安装必备库（如果没有安装）。</p>
+<p><code>$ brew tap homebrew/dupes
+$ brew install autoconf automake cmake git krb5 libtool openssl pkg-config pstree</code></p>
+</li>
+<li>
+<p>可选：如果您计划构建文档，请安装其他包，包括 <strong>ruby</strong> 。</p>
+<p><code>$ brew install doxygen graphviz ruby
+$ brew install gnu-sed --with-default-names #The macOS default sed handles the -i parameter differently</code></p>
+</li>
+<li>
+<p>克隆 <strong>Git</strong> 存储库并切换到新的 <strong>kudu</strong> 目录。</p>
+<p><code>$ git clone https://github.com/apache/kudu
+$ cd kudu</code></p>
+</li>
+<li>
+<p>使用 <strong>build-if-necessary.sh</strong> 脚本构建任何缺少的第三方要求。</p>
+<p><code>$ thirdparty/build-if-necessary.sh</code></p>
+</li>
+<li>
+<ul>
+<li>
+<p>如果不同版本的依赖关系在调用 <strong>thirdParty / build-if-necessary.sh</strong> 时安装并使用，则可能会遇到类似于以下内容的输出：</p>
+<p><code>./configure: line 16299: error near unexpected token `newline'
+./configure: line 16299: `  PKG_CHECK_MODULES('</code></p>
+<p>第三方构建可能被缓存，并可能反映不正确版本的依赖关系。确保您具有步骤1中列出的正确依赖项，清理工作区，然后尝试重新构建。</p>
+<p><code>$ git clean -fdx
+$ thirdparty/build-if-necessary.sh</code></p>
+</li>
+<li>
+<p>自制安装和系统升级的一些组合可能会导致不同种类的错误：</p>
+<p><code>libtool: Version mismatch error.  This is libtool 2.4.6, but the
+libtool: definition of this LT_INIT comes from libtool 2.4.2.
+libtool: You should recreate aclocal.m4 with macros from libtool 2.4.6
+libtool: and run autoconf again.</code></p>
+<p>如 <a href="https://github.com/Homebrew/legacy-homebrew/issues/43874">本线程</a> 所述，可能的修复是卸载并重新安装 <strong>libtool</strong>：</p>
+<p><code>$ brew uninstall libtool &amp;&amp; brew install libtool</code></p>
+</li>
+</ul>
+</li>
+</ol>
+<p>5. 构建 <strong>Kudu</strong> 。为中间输出选择一个构建目录，除了 <strong>kudu</strong> 目录本身之外，它可以在文件系统中的任何位置。</p>
+<pre><code>mkdir -p build/release
+cd build/release
+../../thirdparty/installed/common/bin/cmake \
+  -DCMAKE_BUILD_TYPE=release \
+  -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl \
+  ../..
+make -j4
+</code></pre>
+
+<p><strong>示例 4. macOS 构建脚本</strong></p>
+<p>此脚本概述了在 <strong>MacOS</strong> 上构建 <strong>Kudu</strong> 的过程，可用作自动部署场景的基础。它假定安装了 <strong>Xcode</strong> 和 <strong>Homebrew</strong> 。</p>
+<pre><code>#!/bin/bash
+
+brew tap homebrew/dupes
+brew install autoconf automake cmake git krb5 libtool openssl pkg-config pstree
+git clone https://github.com/apache/kudu
+cd kudu
+thirdparty/build-if-necessary.sh
+mkdir -p build/release
+cd build/release
+../../thirdparty/installed/common/bin/cmake \
+  -DCMAKE_BUILD_TYPE=release \
+  -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl \
+  ../..
+make -j4
+</code></pre>
+
+<h2 id="c">安装 C++ 客户端库</h2>
+<p>如果您需要访问 <strong>Kudu</strong> 客户端库进行开发，请为您的平台安装 <strong>kudu-client</strong> 和 <strong>kudu-client-devel</strong> 软件包。请参阅 <a href="/pages/viewpage.action?pageId=10813613">使用软件包安装</a> 。</p>
+<p>注意</p>
+<p>仅针对客户端库和头（ <strong>kudu_client.so</strong> 和 <strong>client.h</strong> ）构建。其他图书馆和标题是 <strong>Kudu</strong> 的内部，没有稳定的保证。</p>
+<h2 id="java">构建 <strong>Java</strong> 客户端</h2>
+<h3 id="_9">要求</h3>
+<ul>
+<li><strong>JDK 7</strong></li>
+<li><strong>Apache Maven 3.x</strong></li>
+</ul>
+<p>要构建 <strong>Java</strong> 客户端，请克隆 <strong>Kudu Git</strong> 存储库，更改为 <strong>java</strong> 目录，并发出以下命令：</p>
+<pre><code>$ mvn install -DskipTests
+</code></pre>
+
+<p>有关构建 <strong>Java API</strong> 以及 <strong>Eclipse</strong> 集成的更多信息，请参阅 <strong>java/README.md</strong> 。</p>
+<h2 id="api">查看 API 文档</h2>
+<h3 id="c-api">C++ API 文档</h3>
+<p>您可以在线查看 <a href="http://kudu.apache.org/cpp-client-api/index.html"><strong>C ++</strong>客户端<strong>API</strong>文档</a> 。或者，在 <a href="/pages/viewpage.action?pageId=10813613">从源代码构建 <strong>Kudu</strong></a> 后，您还可以另外构建 <strong>doxygen</strong> 目标（例如，如果使用 <strong>make</strong> ，则运行 <strong>make doxygen</strong> ），并通过在您最喜欢的 <strong>Web</strong> 中打开 <strong>docs/doxygen/client_api/html/index.html</strong> 文件来使用本地生成的 <strong>API</strong> 文档浏览器。</p>
+<p>注意</p>
+<p>为了构建 <strong>doxygen</strong> 目标，有必要在您的构建机器上安装带有 <strong>Dot（graphviz）</strong> 支持的 <strong>doxygen</strong> 。如果您从源代码构建 <strong>Kudu</strong> 后安装了 <strong>doxygen</strong> ，则需要再次运行 <strong>cmake</strong> 以获取 <strong>doxygen</strong> 位置并生成适当的目标。</p>
+<h3 id="java-api">Java API 文档</h3>
+<p>您可以在线查看 <a href="http://kudu.apache.org/apidocs/index.html"><strong>Java API</strong> 文档</a>。或者，在 <a href="/pages/viewpage.action?pageId=10813613">构建 <strong>Java</strong> 客户端</a> 之后，<strong>Java API</strong> 文档可以在 <strong>java/kudu-client/target/apidocs/index.html</strong> 中找到。</p>
+<h2 id="kudu_1">从以前版本的 Kudu 升级</h2>
+<p>升级之前，您应该阅读要安装的 <strong>Kudu</strong> 版本的发行说明。 密切关注不兼容性，升级和降级在那里记录的笔记。</p>
+<p>注意</p>
+<p>目前不支持滚动升级。 升级软件之前，请关闭所有的 <strong>Kudu</strong> 服务。</p>
+<h3 id="_10">升级程序</h3>
+<ol>
+<li>
+<p>停止 <strong>Kudu  master</strong> 和 <strong>tablet server</strong> 服务：</p>
+<p><code>$ sudo service kudu-master stop
+$ sudo service kudu-tserver stop</code></p>
+</li>
+<li>
+<p>升级软件包：</p>
+<ul>
+<li>在 <strong>RHEL</strong> 或者 <strong>CentOS</strong> 主机上：</li>
+</ul>
+<p><code>sudo yum clean all
+sudo yum upgrade kudu</code></p>
+<ul>
+<li>在 <strong>SLES</strong> 主机上：</li>
+</ul>
+<p><code>sudo zypper clean --all
+sudo zypper update kudu</code></p>
+<ul>
+<li>在 <strong>Ubuntu</strong> 或者 <strong>Debian</strong> 主机上：</li>
+</ul>
+<p><code>sudo apt-get update
+sudo apt-get install kudu</code></p>
+</li>
+<li>
+<p>启动 <strong>Kudu master</strong> 和<strong>tablet server</strong> 服务：</p>
+<p><code>$ sudo service kudu-master start
+$ sudo service kudu-tserver start</code></p>
+</li>
+</ol>
+<h2 id="_11">下一步</h2>
+<ul>
+<li><a href="/pages/viewpage.action?pageId=10813616">配置 <strong>Kudu</strong></a></li>
+<li><a href="/pages/viewpage.action?pageId=10813623">管理 <strong>Kudu</strong></a></li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+
+              <hr/>
+              <div align="center">
+                  <p><a href="http://www.apachecn.org/" target="_blank"><font face="KaiTi" size="6" color="red">我们一直在努力</font></a><p>
+                  <p><a href="https://github.com/apachecn/kudu-doc-zh/" target="_blank">apachecn/kudu-doc-zh</a></p>
+                  <p><iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=watch&count=true&v=2" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=star&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=fork&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=bcee938030cc9e1552deb3bd9617bbbf62d3ec1647e4b60d9cd6b6e8f78ddc03"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="ML | ApacheCN" title="ML | ApacheCN"></a></p>
+                  <div style="text-align:center;margin:0 0 10.5px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-3565452474788507"
+                             data-ad-slot="2543897000"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script></div>
+              </div>
+
+              <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+              <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+              <div id="gitalk-container" class="container-fluid"></div>
+              <script type="text/javascript">
+                  var gitalk = new Gitalk({
+                  clientID: 'f27b87eb424ba43df978',
+                  clientSecret: '9b3482a495c5257a1d269d8108b9bfd71f048c3c',
+                  repo: 'kudu-doc-zh',
+                  owner: 'apachecn',
+                  admin: ['jiangzhonglian'],
+                  id: md5(location.pathname),
+                  distractionFreeMode: false
+                  })
+                  gitalk.render('gitalk-container')
+              </script>
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../2/" title="Kudu 入门指南" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  后退
+                </span>
+                Kudu 入门指南
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../4/" title="配置 Kudu" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  前进
+                </span>
+                配置 Kudu
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.583bbe55.js"></script>
+      
+        
+        
+          
+          <script src="../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+                <script src="../assets/javascripts/lunr/tinyseg.js"></script>
+              
+              
+                <script src="../assets/javascripts/lunr/lunr.jp.js"></script>
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1220 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Kudu 1.4.0 中文文档">
+      
+      
+        <link rel="canonical" href="http://kudu.apachecn.org/9/">
+      
+      
+        <meta name="author" content="ApacheCN Team">
+      
+      
+        <meta name="lang:clipboard.copy" content="复制">
+      
+        <meta name="lang:clipboard.copied" content="已复制">
+      
+        <meta name="lang:search.language" content="jp">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="没有找到符合条件的结果">
+      
+        <meta name="lang:search.result.one" content="找到 1 个符合条件的结果">
+      
+        <meta name="lang:search.result.other" content="# 个符合条件的结果">
+      
+        <meta name="lang:search.tokenizer" content="[\uff0c\u3002]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.3">
+    
+    
+      
+        <title>Kudu Schema Design ( 模式设计 ) - Kudu 1.4.0 中文文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?44851246425f0efa5dd4676b59413604";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <!-- google webmaster -->
+    <meta name="google-site-verification" content="pyo9N70ZWyh8JB43bIu633mhxesJ1IcwWCZlM3jUfFo" />
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="../#kudu-schema-design" tabindex="1" class="md-skip">
+        跳转至
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Kudu 1.4.0 中文文档
+              </span>
+              <span class="md-header-nav__topic">
+                Kudu Schema Design ( 模式设计 )
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            键入以开始搜索
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Kudu 1.4.0 中文文档
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Kudu 1.4.0 中文文档" class="md-nav__link">
+      Kudu 1.4.0 中文文档
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../1/" title="介绍 Kudu" class="md-nav__link">
+      介绍 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../2/" title="Kudu 入门指南" class="md-nav__link">
+      Kudu 入门指南
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../3/" title="安装指南" class="md-nav__link">
+      安装指南
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../4/" title="配置 Kudu" class="md-nav__link">
+      配置 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../5/" title="Kudu 集成 Apache Impala" class="md-nav__link">
+      Kudu 集成 Apache Impala
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../6/" title="管理 Kudu" class="md-nav__link">
+      管理 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../7/" title="Kudu 故障排除" class="md-nav__link">
+      Kudu 故障排除
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../8/" title="使用 Kudu 开发应用程序" class="md-nav__link">
+      使用 Kudu 开发应用程序
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Kudu Schema Design ( 模式设计 )
+      </label>
+    
+    <a href="./" title="Kudu Schema Design ( 模式设计 )" class="md-nav__link md-nav__link--active">
+      Kudu Schema Design ( 模式设计 )
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#apache-kudu-schema-design-apache-kudu" title="Apache Kudu Schema Design ( Apache Kudu 模式设计 )" class="md-nav__link">
+    Apache Kudu Schema Design ( Apache Kudu 模式设计 )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-perfect-schema" title="The Perfect Schema ( 完美的模式 )" class="md-nav__link">
+    The Perfect Schema ( 完美的模式 )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#column-design" title="Column Design ( 列设计 )" class="md-nav__link">
+    Column Design ( 列设计 )
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#column-encoding" title="Column Encoding ( 列编码 )" class="md-nav__link">
+    Column Encoding ( 列编码 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#column-compression" title="Column Compression ( 列压缩 )" class="md-nav__link">
+    Column Compression ( 列压缩 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primary-key-design" title="Primary Key Design ( 主键设计 )" class="md-nav__link">
+    Primary Key Design ( 主键设计 )
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#primary-key-index" title="Primary Key Index ( 主键索引 )" class="md-nav__link">
+    Primary Key Index ( 主键索引 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partitioning" title="Partitioning ( 分区 )" class="md-nav__link">
+    Partitioning ( 分区 )
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#range-partitioning" title="Range Partitioning ( 范围分区 )" class="md-nav__link">
+    Range Partitioning ( 范围分区 )
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#range-partition-management" title="Range Partition Management ( 范围分区管理 )" class="md-nav__link">
+    Range Partition Management ( 范围分区管理 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hash-partitioning" title="Hash Partitioning ( 哈希分区 )" class="md-nav__link">
+    Hash Partitioning ( 哈希分区 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multilevel-partitioning" title="Multilevel Partitioning ( 多级分区 )" class="md-nav__link">
+    Multilevel Partitioning ( 多级分区 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partition-pruning" title="Partition Pruning ( 分区修剪 )" class="md-nav__link">
+    Partition Pruning ( 分区修剪 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partitioning-examples" title="Partitioning Examples ( 分区示例 )" class="md-nav__link">
+    Partitioning Examples ( 分区示例 )
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#range-partitioning-example" title="Range Partitioning Example ( 范围分区示例 )" class="md-nav__link">
+    Range Partitioning Example ( 范围分区示例 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hash-partitioning-example" title="Hash Partitioning Example ( 哈希分区示例 )" class="md-nav__link">
+    Hash Partitioning Example ( 哈希分区示例 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hash-and-range-partitioning-example" title="Hash and Range Partitioning Example ( 哈希和范围分区示例 )" class="md-nav__link">
+    Hash and Range Partitioning Example ( 哈希和范围分区示例 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hash-and-hash-partitioning-example" title="Hash and Hash Partitioning Example ( 哈希和哈希示例 )" class="md-nav__link">
+    Hash and Hash Partitioning Example ( 哈希和哈希示例 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schema-alterations" title="Schema Alterations ( 模式变更 )" class="md-nav__link">
+    Schema Alterations ( 模式变更 )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-limitations" title="Known Limitations ( 已知限制 )" class="md-nav__link">
+    Known Limitations ( 已知限制 )
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../10/" title="Kudu Security ( 安全 )" class="md-nav__link">
+      Kudu Security ( 安全 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../11/" title="Kudu Transaction Semantics ( 事务语义 )" class="md-nav__link">
+      Kudu Transaction Semantics ( 事务语义 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../12/" title="后台维护任务" class="md-nav__link">
+      后台维护任务
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../13/" title="Kudu 配置参考" class="md-nav__link">
+      Kudu 配置参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../14/" title="Kudu 命令行工具参考" class="md-nav__link">
+      Kudu 命令行工具参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../15/" title="已知的问题和限制" class="md-nav__link">
+      已知的问题和限制
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../16/" title="贡献于 Kudu" class="md-nav__link">
+      贡献于 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../17/" title="Export Control Notice ( 出口管制通知 )" class="md-nav__link">
+      Export Control Notice ( 出口管制通知 )
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#apache-kudu-schema-design-apache-kudu" title="Apache Kudu Schema Design ( Apache Kudu 模式设计 )" class="md-nav__link">
+    Apache Kudu Schema Design ( Apache Kudu 模式设计 )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-perfect-schema" title="The Perfect Schema ( 完美的模式 )" class="md-nav__link">
+    The Perfect Schema ( 完美的模式 )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#column-design" title="Column Design ( 列设计 )" class="md-nav__link">
+    Column Design ( 列设计 )
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#column-encoding" title="Column Encoding ( 列编码 )" class="md-nav__link">
+    Column Encoding ( 列编码 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#column-compression" title="Column Compression ( 列压缩 )" class="md-nav__link">
+    Column Compression ( 列压缩 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primary-key-design" title="Primary Key Design ( 主键设计 )" class="md-nav__link">
+    Primary Key Design ( 主键设计 )
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#primary-key-index" title="Primary Key Index ( 主键索引 )" class="md-nav__link">
+    Primary Key Index ( 主键索引 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partitioning" title="Partitioning ( 分区 )" class="md-nav__link">
+    Partitioning ( 分区 )
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#range-partitioning" title="Range Partitioning ( 范围分区 )" class="md-nav__link">
+    Range Partitioning ( 范围分区 )
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#range-partition-management" title="Range Partition Management ( 范围分区管理 )" class="md-nav__link">
+    Range Partition Management ( 范围分区管理 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hash-partitioning" title="Hash Partitioning ( 哈希分区 )" class="md-nav__link">
+    Hash Partitioning ( 哈希分区 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multilevel-partitioning" title="Multilevel Partitioning ( 多级分区 )" class="md-nav__link">
+    Multilevel Partitioning ( 多级分区 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partition-pruning" title="Partition Pruning ( 分区修剪 )" class="md-nav__link">
+    Partition Pruning ( 分区修剪 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partitioning-examples" title="Partitioning Examples ( 分区示例 )" class="md-nav__link">
+    Partitioning Examples ( 分区示例 )
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#range-partitioning-example" title="Range Partitioning Example ( 范围分区示例 )" class="md-nav__link">
+    Range Partitioning Example ( 范围分区示例 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hash-partitioning-example" title="Hash Partitioning Example ( 哈希分区示例 )" class="md-nav__link">
+    Hash Partitioning Example ( 哈希分区示例 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hash-and-range-partitioning-example" title="Hash and Range Partitioning Example ( 哈希和范围分区示例 )" class="md-nav__link">
+    Hash and Range Partitioning Example ( 哈希和范围分区示例 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hash-and-hash-partitioning-example" title="Hash and Hash Partitioning Example ( 哈希和哈希示例 )" class="md-nav__link">
+    Hash and Hash Partitioning Example ( 哈希和哈希示例 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schema-alterations" title="Schema Alterations ( 模式变更 )" class="md-nav__link">
+    Schema Alterations ( 模式变更 )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-limitations" title="Known Limitations ( 已知限制 )" class="md-nav__link">
+    Known Limitations ( 已知限制 )
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/apachecn/kudu-doc-zh/edit/master/docs/9.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="kudu-schema-design">Kudu Schema Design ( 模式设计 )</h1>
+<p>原文链接 : <a href="http://kudu.apache.org/docs/schema_design.html">http://kudu.apache.org/docs/schema_design.html</a></p>
+<p>译文链接 : <a href="http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813632">http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813632</a></p>
+<p>贡献者 : <a href="/display/~chenyao">小瑶</a> <a href="/display/~apachecn">ApacheCN</a> <a href="/display/~apachechina">Apache中文网</a></p>
+<h2 id="apache-kudu-schema-design-apache-kudu">Apache Kudu Schema Design ( Apache Kudu 模式设计 )</h2>
+<p><strong>Kudu</strong> 表具有与传统 <strong>RDBMS</strong> 中的表类似的结构化数据模型。模式设计对于实现 <strong>Kudu</strong> 的最佳性能和运行稳定性至关重要。每个工作负载都是独一无二的，没有一个最合适每个表的单一模式设计。本文档概述了 <strong>Kudu</strong> 的有效模式设计理念，特别注意与传统 <strong>RDBMS</strong> 模式所采用的方法不同的地方。</p>
+<p>在高层次上，创建 <strong>Kudu</strong> 表有三个问题：<a href="/pages/viewpage.action?pageId=10813632">列设计</a>，<a href="/pages/viewpage.action?pageId=10813632">主键设计</a>和<a href="/pages/viewpage.action?pageId=10813632">分区设计</a>。其中只有分区对于熟悉传统的非分布式关系数据库的人来说将是一个新的概念。最后一节讨论 <a href="/pages/viewpage.action?pageId=10813632">改变现有表的模式</a> ，以及关于模式设计的 <a href="/pages/viewpage.action?pageId=10813632">已知限制</a> 。</p>
+<h2 id="the-perfect-schema">The Perfect Schema ( 完美的模式 )</h2>
+<p>完美的模式将完成以下工作：</p>
+<ul>
+<li>数据将以这样的方式进行分发，即读取和写入在 <strong>tablet servers</strong> 上均匀分布。这受到分区的影响。</li>
+<li><strong>Tablets</strong> 将以均匀，可预测的速度增长， <strong>tablets</strong> 的负载将随着时间的推移而保持稳定。这最受影响分区。</li>
+<li>扫描将读取完成查询所需的最少数据量。这主要受到主键设计的影响，但分区也通过分区修剪来起作用。</li>
+</ul>
+<p>完美的模式取决于数据的特性，需要做的事情以及集群的拓扑。模式设计是您最大限度地发挥 <strong>Kudu</strong> 集群性能的最重要的一件事。</p>
+<h2 id="column-design">Column Design ( 列设计 )</h2>
+<p><strong>Kudu</strong> 表由一个列或多个列组成，每个列都有一个定义的类型。不属于主键的列可能为空。支持的列类型包括：</p>
+<ul>
+<li>boolean</li>
+<li>8-bit signed integer</li>
+<li>16-bit signed integer</li>
+<li>32-bit signed integer</li>
+<li>64-bit signed integer</li>
+<li>unixtime_micros (从 UNIX 时代起，64 位微秒)</li>
+<li>single-precision (32-bit) IEEE-754 floating-point number ( 单精度，32位，IEEE-754 浮点数 )</li>
+<li>double-precision (64-bit) IEEE-754 floating-point number ( 双精度，64位，IEEE-754 浮点数 )</li>
+<li>UTF-8 encoded string (up to 64KB uncompressed) ( UTF-8 编码字符串（高达 64KB 未压缩） )</li>
+<li>binary (up to 64KB uncompressed) ( 二进制（高达 64KB 未压缩） )</li>
+</ul>
+<p><strong>Kudu</strong> 利用强类型的列和柱状磁盘存储格式来提供高效的编码和序列化。为了充分利用这些功能，列应该被指定为适当的类型，而不是使用字符串或二进制列来模拟 '<strong>schemaless</strong>' 表，否则可能会进行结构化。除了编码之外，Kudu 允许按照每列进行压缩。</p>
+<h3 id="column-encoding">Column Encoding ( 列编码 )</h3>
+<p>可以根据列的类型，使用编码创建 <strong>Kudu</strong> 表中的每个列。</p>
+<p>表 1. <strong>Encoding type</strong> ( 编码类型 )</p>
+<table>
+<thead>
+<tr>
+<th>Column Type ( 列类型 )</th>
+<th>Encoding ( 编码 )</th>
+<th>Default ( 默认 )</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int8, int16, int32</td>
+<td>plain, bitshuffle, run length</td>
+<td>bitshuffle</td>
+</tr>
+<tr>
+<td>int64, unixtime_micros</td>
+<td> plain, bitshuffle, run length</td>
+<td>bitshuffle</td>
+</tr>
+<tr>
+<td>float, double</td>
+<td>plain, bitshuffle</td>
+<td>bitshuffle</td>
+</tr>
+<tr>
+<td>bool</td>
+<td>plain, run length</td>
+<td>run length</td>
+</tr>
+<tr>
+<td>string, binary</td>
+<td>plain, prefix, dictionary</td>
+<td>dictionary</td>
+</tr>
+</tbody>
+</table>
+<p><strong>plain Encoding ( 普通编码 )</strong></p>
+<p>数据以其自然格式存储。例如，<strong>int32 values</strong> 作为固定大小的 <strong>32</strong> 位 <strong>little-endian integers</strong> 存储。</p>
+<p><strong>Bitshuffle Encoding</strong></p>
+<p>重新排列一组值以存储每个值的最高有效位，其次是每个值的第二个最高有效位，依此类推。最后，结果是 <strong>LZ4</strong> 压缩。 <strong>Bitshuffle</strong> 编码对于具有许多重复值的列或按主键排序时少量更改的列是不错的选择。 <strong>bithuffle</strong> 项目对性能和用例有很好的概述。</p>
+<p><strong>Run Length Encoding ( 运行长度编码 )</strong></p>
+<p>通过仅存储值和计数，在列中压缩运行（连续重复值）。当按主键排序时，运行长度编码对于具有许多连续重复值的列是有效的。</p>
+<p><strong>Dictionary Encoding ( 字典编码 )</strong></p>
+<p>构建了唯一值的字典，并且每个列值都被编码为字典中的相应索引。字典编码对于基数较低的列是有效的。如果给定行集的列值由于唯一值的数量太高而无法压缩，则 <strong>Kudu</strong> 将透明地回退到该行集的纯编码。这在 <strong>flush</strong> 过程中进行评估。</p>
+<p><strong>Prefix Encoding ( 前缀编码 )</strong></p>
+<p>公共前缀在连续列值中进行压缩。前缀编码对于共享公共前缀的值或主键的第一列可能有效，因为行按 <strong>tablet</strong> 内的主键排序。</p>
+<h3 id="column-compression">Column Compression ( 列压缩 )</h3>
+<p><strong>Kudu</strong> 允许使用 <strong>LZ4</strong> ， <strong>Snappy</strong> 或 <strong>zlib</strong> 压缩编解码器进行每列压缩。默认情况下，列未压缩存储。如果减少存储空间比原始扫描性能更重要，请考虑使用压缩。</p>
+<h2 id="primary-key-design">Primary Key Design ( 主键设计 )</h2>
+<p>每个 <strong>Kudu</strong> 表必须声明一个主键索引由一个或多个列组成。主键列必须不可为空，并且可能不是布尔值或浮点型。在表创建期间设置后，主键中的列集合可能不会更改。像 <strong>RDBMS</strong> 主键一样，<strong>Kudu</strong> 主键强制执行唯一性约束;尝试插入与现有行具有相同主键值的行将导致重复的键错误。</p>
+<p>与 <strong>RDBMS</strong> 不同，<strong>Kudu</strong> 不提供自动递增列功能，因此应用程序必须始终在插入期间提供完整的主键。行删除和更新操作还必须指定要更改的行的完整主键;  <strong>Kudu</strong> 本身不支持范围删除或更新。在插入行之后，列的主键值可能不会被更新;但是，可以删除该行并重新插入更新的值。</p>
+<h3 id="primary-key-index">Primary Key Index ( 主键索引 )</h3>
+<p>与许多传统关系数据库一样，<strong>Kudu</strong> 的主键是 <strong>clustered index</strong> ( 聚集索引 )。 <strong>tablet</strong> 中的所有行都保持主键排序顺序。在主键上指定相等或范围约束的 <strong>Kudu</strong> 扫描将自动跳过不能满足谓词的行。这允许通过在主键列上指定相等约束来有效地找到各行。</p>
+<p>注意</p>
+<p>主键索引优化适用于单个 <strong>tablet</strong> 上的扫描。有关扫描如何使用谓词跳过整个 tablet 的详细信息，请参阅 <a href="/pages/viewpage.action?pageId=10813632">分区修剪</a> 部分。</p>
+<h2 id="partitioning">Partitioning ( 分区 )</h2>
+<p>为了提供可扩展性，<strong>Kudu</strong> 表被划分为称为 <strong>tablets</strong> 的单元，并分布在许多 <strong>tablet servers</strong> 上。行总是属于单个 <strong>tablet</strong> 。将行分配给 <strong>tablet</strong> 的方法由在表创建期间设置的表的分区决定。</p>
+<p>选择分区策略需要了解数据模型和表的预期工作负载。对于写入繁重的工作负载，重要的是设计分区，以使写入分散在 <strong>tablet</strong> 上，以避免单个 <strong>tablet</strong> 的超载。对于涉及许多短扫描的工作负载，如果所有扫描的数据位于同一个 <strong>tablet</strong> 中，那么远程服务器的开销占主导地位，可以提高性能。了解这些基本权衡是设计有效的分区模式的核心。</p>
+<p>重要</p>
+<p>没有默认分区</p>
+<p><strong>Kudu</strong> 在创建表时不提供默认分区策略。建议预期具有较大读写工作负荷的新表至少与 <strong>tablet servers</strong> 一样多的 <strong>tablets</strong> 。</p>
+<p><strong>Kudu</strong> 提供了两种类型的分区：<a href="/pages/viewpage.action?pageId=10813632"><strong>range partitioning</strong> ( 范围分区 )</a> 和 <a href="/pages/viewpage.action?pageId=10813632"><strong>hash partitioning</strong> ( 哈希分区 )</a>。表也可能具有 <a href="/pages/viewpage.action?pageId=10813632">多级分区</a> ，其结合范围和哈希分区，或多个散列分区实例。</p>
+<h3 id="range-partitioning">Range Partitioning ( 范围分区 )</h3>
+<p>范围分区使用完全有序的分区键分配行。每个分区分配了范围分区密钥空间的连续段。密钥必须由主键列的子集组成。如果范围分区列与主键列匹配，则行的范围分区键将等于其主键。在没有哈希分区的范围分区表中，每个范围分区将对应于一个 <strong>tablet</strong> 。</p>
+<p>在创建表时，将初始的范围分区集合指定为一组分区边界和拆分行。对于每个绑定，将在表中创建一个范围分区。每个分割将两个范围分割。如果没有指定分区界限，则表将默认为覆盖整个密钥空间的单个分区（下面和下面无界限）。范围分区必须始终不重叠，拆分行必须在范围分区内。</p>
+<p>重要</p>
+<p>请参阅 <a href="/pages/viewpage.action?pageId=10813632">范围分区示例</a> ，以进一步讨论范围分区。</p>
+<h4 id="range-partition-management">Range Partition Management ( 范围分区管理 )</h4>
+<p><strong>Kudu</strong> 允许在运行时从表中动态添加和删除范围分区，而不影响其他分区的可用性。删除分区将删除属于分区的 tablet 以及其中包含的数据。随后插入到丢弃的分区将失败。可以添加新分区，但不能与任何现有的分区分区重叠。 <strong>Kudu</strong> 允许在单个事务性更改表操作中删除并添加任意数量的范围分区。</p>
+<p>动态添加和删除范围分区对于时间序列使用情况尤其有用。随着时间的推移，可以添加范围分区以覆盖即将到来的时间范围。例如，存储事件日志的表可以在每月开始之前添加一个月份的分区，以便保存即将到来的事件。必要时可以删除旧范围分区，以便有效地删除历史数据。</p>
+<h4 id="hash-partitioning">Hash Partitioning ( 哈希分区 )</h4>
+<p>哈希分区通过哈希值将行分配到许多 <strong>buckets</strong> ( 存储桶 )之一。在 <strong>single-level hash partitioned tables</strong> ( 单级散列分区表 )中，每个 <strong>bucket  </strong>( 存储桶 ) 将对应于一个 tablet 。在创建表时设置桶数。通常，主键列用作散列的列，但与范围分区一样，可以使用主键列的任何子集。</p>
+<p>哈希分区是一种有效的策略，当不需要对表进行有序访问时。哈希分区对于在 tablet 之间随机散布这些功能是有效的，这有助于减轻热点和 <strong>tablet</strong> 大小不均匀。</p>
+<p>注意</p>
+<p>有关哈希分区的进一步讨论，请参阅 <a href="/pages/viewpage.action?pageId=10813632">哈希分区示例</a> 。</p>
+<h4 id="multilevel-partitioning">Multilevel Partitioning ( 多级分区 )</h4>
+<p><strong>Kudu</strong> 允许一个表在单个表上组合多级分区。零个或多个哈希分区级别可以与可选的范围分区级别组合。除了单个分区类型的约束之外，多级分区的唯一附加约束是多个级别的哈希分区不能对相同的列进行哈希。</p>
+<p>当正确使用时，多级分区可以保留各个分区类型的优点，同时减少每个分区的缺点。多级分区表中的 <strong>tablet</strong> 总数是每个级别中分区数量的乘积。</p>
+<p>注意</p>
+<p>请参阅 <a href="/pages/viewpage.action?pageId=10813632">哈希和范围分区示例</a> 以及 <a href="/pages/viewpage.action?pageId=10813632">哈希和哈希分区示例</a> ，以进一步讨论多级分区。</p>
+<h4 id="partition-pruning">Partition Pruning ( 分区修剪 )</h4>
+<p>当可以确定分区可以被扫描谓词完全过滤时，<strong>Kudu</strong> 扫描将自动跳过扫描整个分区。 要修剪哈希分区，扫描必须在每个散列列上包含相等谓词。 要修剪范围分区，扫描必须在范围分区列上包含相等或范围谓词。 对多级分区表的扫描可以独立地利用任何级别的分区修剪。</p>
+<h4 id="partitioning-examples">Partitioning Examples ( 分区示例 )</h4>
+<p>为了说明与为表设计分区策略相关的因素和权衡，我们将通过一些不同的分区方案。 考虑存储机器度量数据的下表模式（为了清楚起见，使用 <strong>SQL</strong> 语法和日期格式的时间戳）：</p>
+<pre><code>CREATE TABLE metrics (
+    host STRING NOT NULL,
+    metric STRING NOT NULL,
+    time INT64 NOT NULL,
+    value DOUBLE NOT NULL,
+    PRIMARY KEY (host, metric, time),
+);
+</code></pre>
+
+<h5 id="range-partitioning-example">Range Partitioning Example ( 范围分区示例 )</h5>
+<p>分割度量表的一种自然方式是在时间列上对范围进行分区。假设我们想要每年都有一个分区，该表将保存 <strong>2014</strong> 年，<strong>2015</strong> 年和 <strong>2016</strong> 年的数据。表格至少有两种方式可以被分割：具有无界范围的分区，也可以是有限范围的分区。</p>
+<p><img alt="" src="../img/23e0544da4eb539454cdfe62537348b0.jpg" /></p>
+<p>上图显示了度量表可以在时间列上进行范围分区的两种方式。在第一个示例（蓝色）中，使用默认范围分区边界，并在 <strong>2015-01-01</strong> 和 <strong>2014</strong> 年 <strong>1</strong> 月分隔。这导致三个 <strong>tablet</strong> ： <strong>2015</strong> 年之前的第一个值， <strong>2015</strong> 年的第二个值，以及 2016 年以后的第三个值。第二个例子（绿色）使用了<strong>[(2014-01-01)</strong> ，<strong>(2017-01-01)]</strong>，并分期于 <strong>2015-01-01</strong> 和 <strong>2016-01-01</strong> 。第二个例子可以等价地通过<strong>[(2014-01-01)，(2015-01-01)]，[(2015-01-01)</strong>，<strong>(2016-01-01)]</strong>和<strong>[(2016-01-01)，(2017-01-01)]</strong>，没有分裂。第一个例子有无界的下限和上限分区，而第二个例子包括边界。</p>
+<p>上述范围分区示例中的每一个都允许有时限的扫描来修剪掉在扫描时间限制之外的分区。当有很多分区时，这可以大大提高性能。写作时，两个例子都有潜在的热点问题。由于度量趋向于始终在当前时间写入，大多数写入将进入单个范围分区。</p>
+<p>第二个例子比第一个例子更灵活，因为它允许未来几年的范围分区添加到表中。在第一个示例中，在 <strong>2016-01-01</strong> 之后的时间的所有写入将落入最后一个分区，因此分区可能最终变得太大，以致于单个 <strong>tablet servers</strong> 无法处理。</p>
+<h5 id="hash-partitioning-example">Hash Partitioning Example ( 哈希分区示例 )</h5>
+<p>分割 <strong>metrics table</strong> ( 度量表 ) 的另一种方法是在 <strong>host</strong> 和 <strong>metric columns</strong> ( 度量列 ) 上哈希分区。</p>
+<p><img alt="" src="../img/92fba007683fb729ff4418e98669bb8a.jpg" /></p>
+<p>在上面的示例中，<strong>metrics table</strong> 是将 host 和 <strong>metric columns</strong> 上的哈希分区分为四个存储桶。与前面的范围分区示例不同，此分区策略将均匀地在表中的所有 <strong>tablets</strong> 上传播写入，这有助于总体写入吞吐量。通过指定相等谓词，扫描特定的 <strong>host</strong> 和 <strong>metric</strong> 可以利用分区修剪，将扫描的 <strong>tablet</strong> 数量减少到一个。使用纯哈希分区策略要小心的一个问题是，随着越来越多的数据被插入到表中， <strong>tablet</strong> 可以无限期地增长。最终 <strong>tablet</strong> 将变得太大，无法让个人 <strong>tablet servers</strong> 持有。</p>
+<p>注意</p>
+<p>虽然这些示例编号为 tablet ，但实际上 <strong>tablet</strong> 只提供 <strong>UUID</strong> 标识符。哈希分区表中的 <strong>tablet</strong> 之间没有自然排序。</p>
+<h5 id="hash-and-range-partitioning-example">Hash and Range Partitioning Example ( 哈希和范围分区示例 )</h5>
+<p>以前的示例显示了 <strong>metrics table</strong> 如何在 <strong>time column</strong> ( 时间列 ) 上进行范围分区，或者在 <strong>host</strong> 和 <strong>metrics column</strong> 上进行哈希分区。这些策略具有相关的实力和弱点：</p>
+<p>表 2. <strong>Partitioning Strategies</strong> ( 分区策略 )</p>
+<table>
+<thead>
+<tr>
+<th>Strategy ( 策略 )</th>
+<th>Writes ( 写入 )</th>
+<th>Reads ( 读取 )</th>
+<th>Tablet Growth ( tablet 增长 )</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>range(time)</td>
+<td>✗ - 所有写入到最新分区</td>
+<td>✓ - 可以修剪与时间绑定的 <strong>scan</strong></td>
+<td>✓ - 可以在未来的时间段添加新的 <strong>tablets</strong></td>
+</tr>
+<tr>
+<td>hash(host, metric)</td>
+<td>✓ - 在 <strong>tablets</strong> 上均匀分布</td>
+<td>✓ - 可以修剪对特定 <strong>hosts</strong> 和 <strong>metrics</strong> 的 <strong>scan</strong></td>
+<td>✗ - <strong>tablets</strong> 可以增长到很大</td>
+</tr>
+</tbody>
+</table>
+<p>哈希分区有利于最大限度地提高写入吞吐量，而范围分区可避免 tablet 无限增长的问题。这两种策略都可以利用分区修剪来优化不同场景中的扫描。使用多级分区，可以组合这两种策略，以获得两者的优点，同时最大限度地减少每个策略的缺点。</p>
+<p><img alt="Hash and Range Partitioning" src="../img/b713a8e118df019f5d83cb2c26068abc.jpg" /></p>
+<p>在上面的示例中， <strong>time column</strong>  上的范围分区与 <strong>host</strong> 和 <strong>metric columns</strong> 上的哈希分区相结合。这个策略可以被认为具有二维划分：一个用于哈希级别，一个用于范围级别。在当前时刻写入此表将并行化到哈希桶的数量，在 <strong>4</strong> 这种情况下。读取可以利用时间限制和特定的 <strong>host</strong> 和 <strong>metric</strong> 谓词来修剪分区。可以添加新的范围分区，这将导致创建 <strong>4</strong> 个额外的 <strong>tablet</strong> （好像新列已添加到图表中）。</p>
+<h5 id="hash-and-hash-partitioning-example">Hash and Hash Partitioning Example ( 哈希和哈希示例 )</h5>
+<p><strong>Kudu</strong> 可以在同一个表中支持任意数量的哈希分区级别，只要这些级别没有共同的 <strong>hashed columns</strong> ( 散列列 ) 。</p>
+<p><img alt="Hash and Hash Partitioning" src="../img/f3adebcac321489355e9494ca6e253b9.jpg" /></p>
+<p>在上面的示例中，表是主机上的哈希分区，分为 <strong>4</strong> 个桶，散列在公制中分区为 <strong>3</strong> 个桶，从而产生12个 <strong>tablet</strong> 。尽管在使用此策略时，所有 <strong>tablets</strong> 中的写入将趋向于传播，但是比单独的 <strong>host</strong> 或 <strong>metric</strong> 的所有值始终属于单个 <strong>tablet</strong> 时，与多个独立列的哈希分区相比，它更容易受到热点查找。扫描可以分别利用 <strong>host</strong> 和 <strong>metric columns</strong> 上的等式谓词来修剪分区。</p>
+<p>多级哈希分区也可以与范围分区相结合，逻辑上增加了分区的另一个维度。</p>
+<h2 id="schema-alterations">Schema Alterations ( 模式变更 )</h2>
+<p>您可以通过以下方式更改表的模式：</p>
+<ul>
+<li>重命名表</li>
+<li>重命名主键列</li>
+<li>重命名，添加或删除非主键列</li>
+<li>添加和删除范围分区</li>
+</ul>
+<p>可以在单个事务操作中组合多个更改步骤。</p>
+<p>注意</p>
+<p><strong>重命名主键列</strong></p>
+<p><strong><a href="https://issues.apache.org/jira/browse/KUDU-1626">KUDU-1626</a></strong> ：<strong>Kudu</strong> 还不支持重命名主键列。</p>
+<h2 id="known-limitations">Known Limitations ( 已知限制 )</h2>
+<p><strong>Kudu</strong> 目前有一些已知的限制，可能会影响模式设计。</p>
+<p><strong>Number of Columns ( 列数 )</strong></p>
+<p>默认情况下，<strong>Kudu</strong> 不允许创建 <strong>300</strong> 列以上的表。我们建议使用较少列的模式设计来获得最佳性能。</p>
+<p><strong>Size of Cells ( 单元格大小 )</strong></p>
+<p>在编码或压缩之前，没有单个单元格可能大于 <strong>64KB</strong> 。组合密钥的单元在 <strong>Kudu</strong> 完成的内部复合密钥编码之后，总共限制在 <strong>16KB</strong> 。插入不符合这些限制的行将导致错误返回给客户端。</p>
+<p><strong>Size of Rows ( 行大小 )</strong></p>
+<p>尽管单个单元格可能高达 <strong>64KB</strong> ，而 <strong>Kudu</strong> 最多支持 <strong>300</strong> 列，但建议不要单行大于几百 <strong>KB</strong> 。</p>
+<p><strong>Valid Identifiers ( 有效标识符 )</strong></p>
+<p>诸如表和列名称的标识符必须是有效的 <strong>UTF-8</strong> 序列，不超过 <strong>256</strong> 个字节。</p>
+<p><strong>Immutable Primary Keys ( 不可变的主键 )</strong></p>
+<p><strong>Kudu</strong> 不允许您更新一行的主键列。</p>
+<p><strong>Non-alterable Primary Key ( 不可更改的主键 )</strong></p>
+<p>表创建后，<strong>Kudu</strong> 不允许您更改主键列。</p>
+<p><strong>Non-alterable Partitioning ( 不可更改的分区 )</strong></p>
+<p><strong>Kudu</strong> 不允许您更改创建后如何分区表，但添加或删除范围分区除外。</p>
+<p><strong>Non-alterable Column Types ( 不可更改的列类型 )</strong></p>
+<p><strong>Kudu</strong> 不允许更改列的类型。</p>
+<p><strong>Partition Splitting ( 分区切分 )</strong></p>
+<p>表创建后，分区不能拆分或合并。</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+
+              <hr/>
+              <div align="center">
+                  <p><a href="http://www.apachecn.org/" target="_blank"><font face="KaiTi" size="6" color="red">我们一直在努力</font></a><p>
+                  <p><a href="https://github.com/apachecn/kudu-doc-zh/" target="_blank">apachecn/kudu-doc-zh</a></p>
+                  <p><iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=watch&count=true&v=2" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=star&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=fork&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=bcee938030cc9e1552deb3bd9617bbbf62d3ec1647e4b60d9cd6b6e8f78ddc03"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="ML | ApacheCN" title="ML | ApacheCN"></a></p>
+                  <div style="text-align:center;margin:0 0 10.5px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-3565452474788507"
+                             data-ad-slot="2543897000"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script></div>
+              </div>
+
+              <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+              <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+              <div id="gitalk-container" class="container-fluid"></div>
+              <script type="text/javascript">
+                  var gitalk = new Gitalk({
+                  clientID: 'f27b87eb424ba43df978',
+                  clientSecret: '9b3482a495c5257a1d269d8108b9bfd71f048c3c',
+                  repo: 'kudu-doc-zh',
+                  owner: 'apachecn',
+                  admin: ['jiangzhonglian'],
+                  id: md5(location.pathname),
+                  distractionFreeMode: false
+                  })
+                  gitalk.render('gitalk-container')
+              </script>
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../8/" title="使用 Kudu 开发应用程序" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  后退
+                </span>
+                使用 Kudu 开发应用程序
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../10/" title="Kudu Security ( 安全 )" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  前进
+                </span>
+                Kudu Security ( 安全 )
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.583bbe55.js"></script>
+      
+        
+        
+          
+          <script src="../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+                <script src="../assets/javascripts/lunr/tinyseg.js"></script>
+              
+              
+                <script src="../assets/javascripts/lunr/lunr.jp.js"></script>
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

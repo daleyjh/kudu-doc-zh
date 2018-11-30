@@ -1,0 +1,928 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Kudu 1.4.0 中文文档">
+      
+      
+        <link rel="canonical" href="http://kudu.apachecn.org/11/">
+      
+      
+        <meta name="author" content="ApacheCN Team">
+      
+      
+        <meta name="lang:clipboard.copy" content="复制">
+      
+        <meta name="lang:clipboard.copied" content="已复制">
+      
+        <meta name="lang:search.language" content="jp">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="没有找到符合条件的结果">
+      
+        <meta name="lang:search.result.one" content="找到 1 个符合条件的结果">
+      
+        <meta name="lang:search.result.other" content="# 个符合条件的结果">
+      
+        <meta name="lang:search.tokenizer" content="[\uff0c\u3002]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.3">
+    
+    
+      
+        <title>Kudu Transaction Semantics ( 事务语义 ) - Kudu 1.4.0 中文文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?44851246425f0efa5dd4676b59413604";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <!-- google webmaster -->
+    <meta name="google-site-verification" content="pyo9N70ZWyh8JB43bIu633mhxesJ1IcwWCZlM3jUfFo" />
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="../#kudu-transaction-semantics" tabindex="1" class="md-skip">
+        跳转至
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Kudu 1.4.0 中文文档
+              </span>
+              <span class="md-header-nav__topic">
+                Kudu Transaction Semantics ( 事务语义 )
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            键入以开始搜索
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Kudu 1.4.0 中文文档
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Kudu 1.4.0 中文文档" class="md-nav__link">
+      Kudu 1.4.0 中文文档
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../1/" title="介绍 Kudu" class="md-nav__link">
+      介绍 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../2/" title="Kudu 入门指南" class="md-nav__link">
+      Kudu 入门指南
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../3/" title="安装指南" class="md-nav__link">
+      安装指南
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../4/" title="配置 Kudu" class="md-nav__link">
+      配置 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../5/" title="Kudu 集成 Apache Impala" class="md-nav__link">
+      Kudu 集成 Apache Impala
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../6/" title="管理 Kudu" class="md-nav__link">
+      管理 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../7/" title="Kudu 故障排除" class="md-nav__link">
+      Kudu 故障排除
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../8/" title="使用 Kudu 开发应用程序" class="md-nav__link">
+      使用 Kudu 开发应用程序
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../9/" title="Kudu Schema Design ( 模式设计 )" class="md-nav__link">
+      Kudu Schema Design ( 模式设计 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../10/" title="Kudu Security ( 安全 )" class="md-nav__link">
+      Kudu Security ( 安全 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Kudu Transaction Semantics ( 事务语义 )
+      </label>
+    
+    <a href="./" title="Kudu Transaction Semantics ( 事务语义 )" class="md-nav__link md-nav__link--active">
+      Kudu Transaction Semantics ( 事务语义 )
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#apache-kudu-transaction-semantics" title="Apache Kudu 的 Transaction Semantics ( 事务语义 )" class="md-nav__link">
+    Apache Kudu 的 Transaction Semantics ( 事务语义 )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#single-tablet-write-operations-tablet" title="Single tablet write operations ( 单 tablet 写入操作 )" class="md-nav__link">
+    Single tablet write operations ( 单 tablet 写入操作 )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-to-multiple-tablets-tablets" title="Writing to multiple tablets ( 写入多个 tablets )" class="md-nav__link">
+    Writing to multiple tablets ( 写入多个 tablets )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#read-operations-scans" title="Read Operations (Scans) ( 阅读操作(扫描) )" class="md-nav__link">
+    Read Operations (Scans) ( 阅读操作(扫描) )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-issues-and-limitations" title="Known Issues and Limitations ( 已知问题和限制 )" class="md-nav__link">
+    Known Issues and Limitations ( 已知问题和限制 )
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reads-scans" title="Reads (Scans) ( 阅读（扫描） )" class="md-nav__link">
+    Reads (Scans) ( 阅读（扫描） )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#writes" title="Writes ( 写入 )" class="md-nav__link">
+    Writes ( 写入 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommendations" title="Recommendations  ( 建议 )" class="md-nav__link">
+    Recommendations  ( 建议 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" title="References ( 参考 )" class="md-nav__link">
+    References ( 参考 )
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../12/" title="后台维护任务" class="md-nav__link">
+      后台维护任务
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../13/" title="Kudu 配置参考" class="md-nav__link">
+      Kudu 配置参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../14/" title="Kudu 命令行工具参考" class="md-nav__link">
+      Kudu 命令行工具参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../15/" title="已知的问题和限制" class="md-nav__link">
+      已知的问题和限制
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../16/" title="贡献于 Kudu" class="md-nav__link">
+      贡献于 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../17/" title="Export Control Notice ( 出口管制通知 )" class="md-nav__link">
+      Export Control Notice ( 出口管制通知 )
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#apache-kudu-transaction-semantics" title="Apache Kudu 的 Transaction Semantics ( 事务语义 )" class="md-nav__link">
+    Apache Kudu 的 Transaction Semantics ( 事务语义 )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#single-tablet-write-operations-tablet" title="Single tablet write operations ( 单 tablet 写入操作 )" class="md-nav__link">
+    Single tablet write operations ( 单 tablet 写入操作 )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-to-multiple-tablets-tablets" title="Writing to multiple tablets ( 写入多个 tablets )" class="md-nav__link">
+    Writing to multiple tablets ( 写入多个 tablets )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#read-operations-scans" title="Read Operations (Scans) ( 阅读操作(扫描) )" class="md-nav__link">
+    Read Operations (Scans) ( 阅读操作(扫描) )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-issues-and-limitations" title="Known Issues and Limitations ( 已知问题和限制 )" class="md-nav__link">
+    Known Issues and Limitations ( 已知问题和限制 )
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reads-scans" title="Reads (Scans) ( 阅读（扫描） )" class="md-nav__link">
+    Reads (Scans) ( 阅读（扫描） )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#writes" title="Writes ( 写入 )" class="md-nav__link">
+    Writes ( 写入 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommendations" title="Recommendations  ( 建议 )" class="md-nav__link">
+    Recommendations  ( 建议 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" title="References ( 参考 )" class="md-nav__link">
+    References ( 参考 )
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/apachecn/kudu-doc-zh/edit/master/docs/11.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="kudu-transaction-semantics">Kudu Transaction Semantics ( 事务语义 )</h1>
+<p>原文链接 : <a href="http://kudu.apache.org/docs/transaction_semantics.html">http://kudu.apache.org/docs/transaction_semantics.html</a></p>
+<p>译文链接 : <a href="http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813638">http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813638</a></p>
+<p>贡献者 : <a href="/display/~chenyao">小瑶</a> <a href="/display/~apachecn">ApacheCN</a> <a href="/display/~apachechina">Apache中文网</a></p>
+<h2 id="apache-kudu-transaction-semantics">Apache Kudu 的 Transaction Semantics ( 事务语义 )</h2>
+<p>这是 <strong>Kudu</strong> 的 交易和一致性语义的简要介绍。对于这里提到的大部分内容的深入技术论述，为什么是正确的，请参阅技术报告<a href="/pages/viewpage.action?pageId=10813638">[1]</a>。</p>
+<p><strong>Kudu</strong> 的  <strong>transactional semantics</strong> ( 事务语义 )和体系结构受到 <strong>Spanner</strong> <a href="/pages/viewpage.action?pageId=10813638">[2]</a> 和 <strong>Calvin</strong> <a href="/pages/viewpage.action?pageId=10813638">[3]</a> 等最先进的系统的启发。 <strong>Kudu</strong> 建立在数十年的数据库研究基础之上。核心理念是通过提供简单，强大的语义的事务，使开发人员的生活更轻松，而不会牺牲性能或调整到不同需求的能力。</p>
+<p><strong>Kudu</strong> 旨在最终完全获得 <strong>ACID</strong> ，但是多 <strong>tablet</strong> 事务尚未实施。因此，本次讨论的重点是单片写入操作，只是简单地触摸多 <strong>tablets</strong> 读取。最终 <strong>Kudu</strong> 将支持完全严格的可序列化语义。事实上，它已经在有限的范围内，但并不是所有的角落都被覆盖，因为这仍然是一个正在进行的工作。</p>
+<p><strong>Kudu</strong> 目前允许以下操作：</p>
+<ul>
+<li>
+<p><strong>Write operations</strong> ( 写入操作 ) 是在具有多个副本的单个 <strong>tablet</strong> 中在存储引擎中插入，更新或删除的 <strong>sets of rows </strong>( 行集 ) 。写操作没有单独的 <strong>“read sets”</strong> ，即它们在执行写入之前不扫描现有数据。每个写入仅涉及即将更改的行的先前状态。用户明确不写 <strong>“committed”</strong> 。相反，它们将在系统完成后自动提交。</p>
+</li>
+<li>
+<p><strong>Scans</strong> ( 扫描 ) 是可以遍历多个 <strong>tablets</strong> 并读取信息的读取操作，具有一致性或正确性保证。扫描可以执行时间行进读取，即用户能够设置过去的扫描时间戳，并返回在该时间点反映存储引擎的状态的结果。</p>
+</li>
+</ul>
+<p>重要</p>
+<p><strong>开始之前</strong></p>
+<ul>
+<li>多次提到术语时间戳来说明功能，但是时间戳是用户最不可见的内部概念，除了在 <strong>KuduScanner</strong> 上设置时间戳。</li>
+<li>我们通常指的是 <strong>C ++  client</strong> 的方法和类。虽然 <strong>Java</strong> 客户端大多具有类似的方法和类，但是 <strong>API</strong> 的确切名称可能不同。</li>
+</ul>
+<h2 id="single-tablet-write-operations-tablet">Single tablet write operations ( 单 tablet 写入操作 )</h2>
+<p><strong>Kudu</strong> 采用 <strong>Multiverion</strong> 并发控制 （<strong>MVCC</strong>） 和 Raft 一致性算法 <a href="/pages/viewpage.action?pageId=10813638">[4]</a> 。<strong>Kudu</strong> 的每个写入操作必须经过 tablet 的领导。</p>
+<ol>
+<li>leader 将为其将更改的行获取所有锁。</li>
+<li>leader 在提交写入复制之前分配写入时间戳。这个时间戳是 <strong>MVCC</strong> 中的 <strong>write</strong> 的 <strong>“tag”</strong> 。</li>
+<li>在大多数副本确认更改后，实际的行将被更改。</li>
+<li>更改完成后，它们可以以原子方式同时进行写入和读取。</li>
+</ol>
+<p><strong>tablets</strong> 的所有副本都遵循相同的操作顺序，如果为写入操作分配时间戳 <strong>n</strong> 并更改 行 <strong>x</strong> ，则保证时间戳 <strong>m &gt;  n</strong> 的第二次写入操作可以看到 x 的新值。</p>
+<p>锁定采集和时间戳分配的这种严格排序通过协商一致的方式强制执行 <strong>tablets</strong> 的所有副本。因此，相对于同一个平板电脑中的其他写入，关于时钟分配的时间戳，写入操作是完全排序的。换句话说，写入具有严格的可序列化语义，尽管在一个公认的有限的上下文中。有关这些语义是什么意思，请参阅这篇 <a href="http://www.bailis.org/blog/linearizability-versus-serializability">博客文章</a> 。</p>
+<p>虽然在 <strong>ACID</strong> 意义上的隔离和耐用性，多行写入操作尚未完全原子化。批量操作中单次写入的故障不会回滚操作，而是产生每行错误。</p>
+<h2 id="writing-to-multiple-tablets-tablets">Writing to multiple tablets ( 写入多个 tablets )</h2>
+<p><strong>Kudu</strong> 还不支持跨多个 <strong>tablets</strong> 的事务。但是，一致的快照读取是可能的（如当前实现中的警告），如下所述。</p>
+<p><strong>Kudu</strong> 客户端的写入可选地缓冲在内存中，直到它们被刷新并发送到服务器。当客户端的会话刷新时，每个 <strong>tablet</strong> 的行被批处理在一起，并发送到托管 <strong>tablet</strong> 的 <strong>leader replica</strong> 的 <strong>tablet servers</strong> 。由于没有 <strong>inter-tablet</strong> 事务，这些批次中的每一个代表具有自己的时间戳的单独的独立写入操作。然而，客户端 <strong>API</strong> 提供了对分配的时间戳施加一些约束的选项，以及客户端如何观察对不同 <strong>tablet</strong> 的写入。</p>
+<p><strong>Kudu</strong> 像 <strong>Spanner</strong> 一样被设计为外部一致 <a href="/pages/viewpage.action?pageId=10813638">[5]</a> ，即使在跨多个平板电脑甚至多个数据中心的情况下也能保持一致性。在实践中，这意味着如果写入操作在平板电脑 <strong>A</strong> 上更改项目 <strong>x</strong> ，并且以下写入操作在平板电脑 <strong>B</strong> 上更改项目 <strong>y</strong> ，则可能需要强制执行，如果观察到 <strong>y</strong> 的更改，则 <strong>x</strong> 的更改也必须为观察到的。有很多例子可以说是重要的。例如，如果 <strong>Kudu</strong> 正在存储用于进一步分析的点击流，并且两次点击相互关联，但存储在不同的 <strong>tablet</strong> 中，则后续点击应该被分配后续时间戳，以便捕获它们之间的因果关系。</p>
+<p><strong>CLIENT_PROPAGATED Consistency</strong></p>
+<p><strong>Kudu</strong> 的默认外部一致性模式称为 <strong>CLIENT_PROPAGATED</strong> 。有关如何工作的详细说明，请参阅 <a href="/pages/viewpage.action?pageId=10813638">[1]</a> 。简而言之，此模式会导致单个客户端的写入自动在外部保持一致。在上述 <strong>Clickstream</strong> 场景中，如果两个点击是由不同的客户端实例提交的，则应用程序必须手动将时间戳从一个客户端传播到另一个客户端，以便捕获因果关系。</p>
+<p>客户端 <strong>a</strong> 和 <strong>b</strong> 之间的时间戳可以传播如下：</p>
+<p><strong>Java Client</strong></p>
+<p>调用 <strong>AsyncKuduClient#getLastPropagatedTimestamp()</strong> 在客户端 <strong>a</strong> ，将时间戳传播到客户端 <strong>b</strong> ，并在客户端 <strong>b</strong> 上调用<strong>AsyncKuduClient#setLastPropagatedTimestamp()</strong> 。</p>
+<p><strong>C++ Client</strong></p>
+<p>在客户端 <strong>a</strong> 上调用<strong>KuduClient::GetLatestObservedTimestamp()</strong> ，将时间戳传播到客户端 <strong>b</strong> ，并在客户端 <strong>b</strong> 上调用 <strong>KuduClient::SetLatestObservedTimestamp()</strong> 。</p>
+<p><strong><code>COMMIT_WAIT</code> Consistency</strong></p>
+<p><strong>Kudu</strong> 还有一个在 <strong>Google</strong> 的 <strong>Spanner</strong> 中使用的外部一致性模型的实验实现，称为 <strong>COMMIT_WAIT</strong> 。  <strong>COMMIT_WAIT</strong> 通过在集群中的所有计算机上紧密同步时钟来起作用。然后，当发生写入时，分配时间戳，并且在通过足够的时间之前写入的结果不可见，使得集群中的其他计算机不可能为下一次写入分配较低的时间戳。</p>
+<p>当使用此模式时，写入的延迟与所有集群主机上的时钟精度紧密相关，并且使用松散时钟同步的此模式会导致写入需要很长时间才能完成甚至超时。请参阅 <a href="/pages/viewpage.action?pageId=10813638">已知问题和限制</a> 。</p>
+<p><strong>COMMIT_WAIT</strong>一致性模式可以如下选择：</p>
+<p><strong>Java Client</strong></p>
+<p>调用 <strong>KuduSession#setExternalConsistencyMode(ExternalConsistencyMode.COMMIT_WAIT)</strong></p>
+<p><strong>C++ Client</strong></p>
+<p>调用 <strong>KuduSession :: SetExternalConsistencyMode(COMMIT_WAIT)</strong></p>
+<p>注意</p>
+<p><strong>COMMIT_WAIT</strong> 一致性被认为是一个实验功能。它可能会返回不正确的结果，展示性能问题或对集群稳定性产生负面影响。不鼓励在生产环境中使用。</p>
+<h2 id="read-operations-scans">Read Operations (Scans) ( 阅读操作(扫描) )</h2>
+<p>扫描是由可能跨越一个或多个 <strong>tablets</strong> 跨越一行或多行的客户端执行的读取操作。当服务器接收到扫描请求时，会收到 <strong>MVCC</strong> 状态的快照，然后根据用户选择的读取模式，以两种方式之一进行。该模式可以如下选择：</p>
+<p><strong>Java Client</strong></p>
+<p>调用 <strong>KuduScannerBuilder#setReadMode(...)</strong></p>
+<p><strong>C++ Client</strong></p>
+<p>调用 <strong>KuduScanner :: SetReadMode()</strong></p>
+<p>以下模式在两个客户端都可用：</p>
+<p><strong>READ_LATEST</strong></p>
+<p>这是默认的读取模式。服务器拍摄 <strong>MVCC</strong> 状态的快照，并立即继续阅读。在此模式下读取只会产生 <strong>“Read Committed”</strong> 隔离。</p>
+<p><strong>READ_AT_SNAPSHOT</strong></p>
+<p>在这种读取模式下，扫描是一致的和可重复的。快照的时间戳由服务器选择，或由用户通过 <strong>KuduScanner :: SetSnapshotMicros()</strong> 显式设置。建议明确设置时间戳;见 <a href="/pages/viewpage.action?pageId=10813638"><strong>Recommendations</strong> ( 建议书 )</a> 。服务器等待，直到这个时间戳为 <strong>“safe”</strong> （直到所有具有较低时间戳的写入操作都已完成并可见）。这种延迟加上外部一致性方法，最终将允许 <strong>Kudu</strong> 具有完全严格可序列化的读写语义。这仍然是一个正在进行的工作，一些异常仍然是可能的（请参阅 <a href="/pages/viewpage.action?pageId=10813638">已知问题和限制</a> ）。只有在这种模式下进行扫描可以是容错的。</p>
+<p>在读取模式之间进行选择需要平衡权衡并做出适合您工作负载的选择。 例如，需要扫描整个数据库的报告应用程序可能需要执行仔细的计费操作，以便扫描可能需要容错，但可能不需要一个微微小的最新视图 的数据库。 在这种情况下，您可以选择 <strong>READ_AT_SNAPSHOT</strong> ，并选择扫描开始时过去几秒的时间戳。 另一方面，不吸收整个数据集并且已经具有统计性质的机器学习工作负载可能不要求扫描是可重复的，因此您可以选择 <strong>READ_LATEST</strong> 。</p>
+<h2 id="known-issues-and-limitations">Known Issues and Limitations ( 已知问题和限制 )</h2>
+<p>目前，在一些情况下，<strong>Kudu</strong> 已经完全严格序列化，存在几个缺陷和角落。以下是详细信息，接下来是一些建议。</p>
+<h3 id="reads-scans">Reads (Scans) ( 阅读（扫描） )</h3>
+<ul>
+<li>对 <strong>COMMIT_WAIT</strong> 的支持是实验性的，需要仔细调整时间同步协议，如 <strong>NTP</strong> （网络时间协议）。在生产环境中不鼓励使用它。</li>
+</ul>
+<h3 id="writes">Writes ( 写入 )</h3>
+<ul>
+<li>在 <strong>leader change</strong> 中，<strong>READ_AT_SNAPSHOT</strong> 扫描时间戳超出最后一次写入的快照，也可能会产生不可重复的读取（参见 <strong><a href="https://issues.apache.org/jira/browse/KUDU-1188">KUDU-1188</a></strong> ）。请参阅 有关解决方法的<a href="/pages/viewpage.action?pageId=10813638">建议</a>。</li>
+<li><strong>Impala</strong> 扫描当前以 <strong>READ_LATEST</strong> 的形式执行，并且没有一致性保证。</li>
+<li>在 <strong>AUTO_BACKGROUND_FLUSH</strong> 模式下，或者使用 “异步” 刷新机制时，应用于单个客户端会话的写入可能由于将数据刷新到服务器的并发而重新排序。如果用不同的值连续快速更新单个行，这可能会特别明显。这种现象影响所有的客户端 API 实现。解决方法在 API 文档中介绍了 <strong>FlushMode</strong> 或 <strong>AsyncKuduSession</strong> 文档中各自的实现。见<strong> <a href="https://issues.apache.org/jira/browse/KUDU-1767">KUDU-1767</a></strong> 。</li>
+</ul>
+<h3 id="recommendations">Recommendations  ( 建议 )</h3>
+<ul>
+<li>如果可重复的快照读取是必需的，请使用 <strong>READ_AT_SNAPSHOT</strong> ，其时间戳稍微在过去（在 <strong>2-5</strong> 秒之间，理想情况下）。这将绕过 <strong>Reads（Scans）</strong> 中描述的异常。即使异常已被解决，回溯时间戳总是使扫描速度更快，因为它们不太可能被阻止。</li>
+<li>如果需要外部一致性，并且您决定使用 <strong>COMMIT_WAIT</strong> ，则需要仔细调整时间同步协议。每个事务将在执行时等待 <strong>2x</strong> 最大时钟错误，通常为 <strong>100</strong> 毫秒至 <strong>1</strong> 秒范围与默认设置，也许更多。因此，交易将需要至少 <strong>200</strong> 毫秒至 <strong>2</strong> 秒使用默认设置完成甚至可能会超时。</li>
+</ul>
+<p>* 本地服务器应该用作时间服务器。我们使用 Google Compute Engine 数据中心提供的默认 <strong>NTP</strong> 时间源进行实验，并能够获得合理的最大误差范围，通常在 <strong>12-17</strong> 毫秒之间变化。</p>
+<p>* 应在 <strong>/etc/ntp.conf</strong> 中调整以下参数以收紧最大错误：</p>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<p>服务器 my_server.org iburst minpoll 1 maxpoll 8</p>
+</li>
+<li>
+<p>tinker dispersion 500</p>
+</li>
+<li>
+<p>tinker allan 0</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>信息</p>
+<p>上述参数以估计误差为代价最小化最大误差，后者可能高于 <strong>“normal”</strong> 值的数量级。这些参数也可能对时间服务器造成更大的负担，因为它们使得服务器的轮询频率更高。</p>
+<h2 id="references">References ( 参考 )</h2>
+<ul>
+<li>[1] David Alves, Todd Lipcon and Vijay Garg. Technical Report: HybridTime - Accessible Global Consistency with High Clock Uncertainty. April, 2014. <a href="http://users.ece.utexas.edu/~garg/pdslab/david/hybrid-time-tech-report-01.pdf">http://users.ece.utexas.edu/~garg/pdslab/david/hybrid-time-tech-report-01.pdf</a></li>
+<li>[2] James C. Corbett, Jeffrey Dean, Michael Epstein, Andrew Fikes, Christopher Frost, J. J. Furman, Sanjay Ghemawat, Andrey Gubarev, Christopher Heiser, Peter Hochschild, Wilson Hsieh, Sebastian Kanthak, Eugene Kogan, Hongyi Li, Alexander Lloyd, Sergey Melnik, David Mwaura, David Nagle, Sean Quinlan, Rajesh Rao, Lindsay Rolig, Yasushi Saito, Michal Szymaniak, Christopher Taylor, Ruth Wang, and Dale Woodford. 2012. Spanner: Google’s globally-distributed database. In Proceedings of the 10th USENIX conference on Operating Systems Design and Implementation (OSDI'12). USENIX Association, Berkeley, CA, USA, 251-264.</li>
+<li>[3] Alexander Thomson, Thaddeus Diamond, Shu-Chun Weng, Kun Ren, Philip Shao, and Daniel J. Abadi. 2012. Calvin: fast distributed transactions for partitioned database systems. In Proceedings of the 2012 ACM SIGMOD International Conference on Management of Data (SIGMOD '12). ACM, New York, NY, USA, 1-12. DOI=10.1145/2213836.2213838 <a href="http://doi.acm.org/10.1145/2213836.2213838">http://doi.acm.org/10.1145/2213836.2213838</a></li>
+<li>[4] Diego Ongaro and John Ousterhout. 2014. In search of an understandable consensus algorithm. In Proceedings of the 2014 USENIX conference on USENIX Annual Technical Conference (USENIX ATC'14), Garth Gibson and Nickolai Zeldovich (Eds.). USENIX Association, Berkeley, CA, USA, 305-320.</li>
+<li>[5] Kwei-Jay Lin, "Consistency issues in real-time database systems," in System Sciences, 1989. Vol.II: Software Track, Proceedings of the Twenty-Second Annual Hawaii International Conference on , vol.2, no., pp.654-661 vol.2, 3-6 Jan 1989 doi: 10.1109/HICSS.1989.48069</li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+
+              <hr/>
+              <div align="center">
+                  <p><a href="http://www.apachecn.org/" target="_blank"><font face="KaiTi" size="6" color="red">我们一直在努力</font></a><p>
+                  <p><a href="https://github.com/apachecn/kudu-doc-zh/" target="_blank">apachecn/kudu-doc-zh</a></p>
+                  <p><iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=watch&count=true&v=2" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=star&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=fork&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=bcee938030cc9e1552deb3bd9617bbbf62d3ec1647e4b60d9cd6b6e8f78ddc03"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="ML | ApacheCN" title="ML | ApacheCN"></a></p>
+                  <div style="text-align:center;margin:0 0 10.5px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-3565452474788507"
+                             data-ad-slot="2543897000"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script></div>
+              </div>
+
+              <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+              <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+              <div id="gitalk-container" class="container-fluid"></div>
+              <script type="text/javascript">
+                  var gitalk = new Gitalk({
+                  clientID: 'f27b87eb424ba43df978',
+                  clientSecret: '9b3482a495c5257a1d269d8108b9bfd71f048c3c',
+                  repo: 'kudu-doc-zh',
+                  owner: 'apachecn',
+                  admin: ['jiangzhonglian'],
+                  id: md5(location.pathname),
+                  distractionFreeMode: false
+                  })
+                  gitalk.render('gitalk-container')
+              </script>
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../10/" title="Kudu Security ( 安全 )" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  后退
+                </span>
+                Kudu Security ( 安全 )
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../12/" title="后台维护任务" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  前进
+                </span>
+                后台维护任务
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.583bbe55.js"></script>
+      
+        
+        
+          
+          <script src="../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+                <script src="../assets/javascripts/lunr/tinyseg.js"></script>
+              
+              
+                <script src="../assets/javascripts/lunr/lunr.jp.js"></script>
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

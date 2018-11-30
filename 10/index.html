@@ -1,0 +1,949 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Kudu 1.4.0 中文文档">
+      
+      
+        <link rel="canonical" href="http://kudu.apachecn.org/10/">
+      
+      
+        <meta name="author" content="ApacheCN Team">
+      
+      
+        <meta name="lang:clipboard.copy" content="复制">
+      
+        <meta name="lang:clipboard.copied" content="已复制">
+      
+        <meta name="lang:search.language" content="jp">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="没有找到符合条件的结果">
+      
+        <meta name="lang:search.result.one" content="找到 1 个符合条件的结果">
+      
+        <meta name="lang:search.result.other" content="# 个符合条件的结果">
+      
+        <meta name="lang:search.tokenizer" content="[\uff0c\u3002]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.3">
+    
+    
+      
+        <title>Kudu Security ( 安全 ) - Kudu 1.4.0 中文文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?44851246425f0efa5dd4676b59413604";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <!-- google webmaster -->
+    <meta name="google-site-verification" content="pyo9N70ZWyh8JB43bIu633mhxesJ1IcwWCZlM3jUfFo" />
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="../#kudu-security" tabindex="1" class="md-skip">
+        跳转至
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Kudu 1.4.0 中文文档
+              </span>
+              <span class="md-header-nav__topic">
+                Kudu Security ( 安全 )
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            键入以开始搜索
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Kudu 1.4.0 中文文档
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Kudu 1.4.0 中文文档" class="md-nav__link">
+      Kudu 1.4.0 中文文档
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../1/" title="介绍 Kudu" class="md-nav__link">
+      介绍 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../2/" title="Kudu 入门指南" class="md-nav__link">
+      Kudu 入门指南
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../3/" title="安装指南" class="md-nav__link">
+      安装指南
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../4/" title="配置 Kudu" class="md-nav__link">
+      配置 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../5/" title="Kudu 集成 Apache Impala" class="md-nav__link">
+      Kudu 集成 Apache Impala
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../6/" title="管理 Kudu" class="md-nav__link">
+      管理 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../7/" title="Kudu 故障排除" class="md-nav__link">
+      Kudu 故障排除
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../8/" title="使用 Kudu 开发应用程序" class="md-nav__link">
+      使用 Kudu 开发应用程序
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../9/" title="Kudu Schema Design ( 模式设计 )" class="md-nav__link">
+      Kudu Schema Design ( 模式设计 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Kudu Security ( 安全 )
+      </label>
+    
+    <a href="./" title="Kudu Security ( 安全 )" class="md-nav__link md-nav__link--active">
+      Kudu Security ( 安全 )
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" title="Authentication（认证）" class="md-nav__link">
+    Authentication（认证）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#internal-pki" title="Internal PKI" class="md-nav__link">
+    Internal PKI
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication-tokens" title="Authentication Tokens（认证令牌）" class="md-nav__link">
+    Authentication Tokens（认证令牌）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scalability" title="Scalability（可扩展性）" class="md-nav__link">
+    Scalability（可扩展性）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encryption" title="Encryption（加密）" class="md-nav__link">
+    Encryption（加密）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu-tls" title="Kudu 允许使用 TLS 对服务器之间以及客户端和服务器之间的所有通信进行加密。" class="md-nav__link">
+    Kudu 允许使用 TLS 对服务器之间以及客户端和服务器之间的所有通信进行加密。
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coarse-grained-authorization" title="Coarse-Grained Authorization（粗粒度授权）" class="md-nav__link">
+    Coarse-Grained Authorization（粗粒度授权）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-ui-encryption" title="Web UI Encryption（加密）" class="md-nav__link">
+    Web UI Encryption（加密）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-ui-redaction" title="Web UI Redaction" class="md-nav__link">
+    Web UI Redaction
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#log-security" title="Log Security（日志安全）" class="md-nav__link">
+    Log Security（日志安全）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-a-secure-kudu-cluster-kudu" title="Configuring a Secure Kudu Cluster（配置安全的 Kudu 集群）" class="md-nav__link">
+    Configuring a Secure Kudu Cluster（配置安全的 Kudu 集群）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-limitations" title="Known Limitations（已知限制）" class="md-nav__link">
+    Known Limitations（已知限制）
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../11/" title="Kudu Transaction Semantics ( 事务语义 )" class="md-nav__link">
+      Kudu Transaction Semantics ( 事务语义 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../12/" title="后台维护任务" class="md-nav__link">
+      后台维护任务
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../13/" title="Kudu 配置参考" class="md-nav__link">
+      Kudu 配置参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../14/" title="Kudu 命令行工具参考" class="md-nav__link">
+      Kudu 命令行工具参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../15/" title="已知的问题和限制" class="md-nav__link">
+      已知的问题和限制
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../16/" title="贡献于 Kudu" class="md-nav__link">
+      贡献于 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../17/" title="Export Control Notice ( 出口管制通知 )" class="md-nav__link">
+      Export Control Notice ( 出口管制通知 )
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" title="Authentication（认证）" class="md-nav__link">
+    Authentication（认证）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#internal-pki" title="Internal PKI" class="md-nav__link">
+    Internal PKI
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication-tokens" title="Authentication Tokens（认证令牌）" class="md-nav__link">
+    Authentication Tokens（认证令牌）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scalability" title="Scalability（可扩展性）" class="md-nav__link">
+    Scalability（可扩展性）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encryption" title="Encryption（加密）" class="md-nav__link">
+    Encryption（加密）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu-tls" title="Kudu 允许使用 TLS 对服务器之间以及客户端和服务器之间的所有通信进行加密。" class="md-nav__link">
+    Kudu 允许使用 TLS 对服务器之间以及客户端和服务器之间的所有通信进行加密。
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coarse-grained-authorization" title="Coarse-Grained Authorization（粗粒度授权）" class="md-nav__link">
+    Coarse-Grained Authorization（粗粒度授权）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-ui-encryption" title="Web UI Encryption（加密）" class="md-nav__link">
+    Web UI Encryption（加密）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-ui-redaction" title="Web UI Redaction" class="md-nav__link">
+    Web UI Redaction
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#log-security" title="Log Security（日志安全）" class="md-nav__link">
+    Log Security（日志安全）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-a-secure-kudu-cluster-kudu" title="Configuring a Secure Kudu Cluster（配置安全的 Kudu 集群）" class="md-nav__link">
+    Configuring a Secure Kudu Cluster（配置安全的 Kudu 集群）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-limitations" title="Known Limitations（已知限制）" class="md-nav__link">
+    Known Limitations（已知限制）
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/apachecn/kudu-doc-zh/edit/master/docs/10.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="kudu-security">Kudu Security ( 安全 )</h1>
+<p>原文链接 : <a href="http://kudu.apache.org/docs/security.html">http://kudu.apache.org/docs/security.html</a></p>
+<p>译文链接 : <a href="http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813635">http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813635</a></p>
+<p>贡献者 : <a href="/display/~chenyao">小瑶</a>，<a href="/display/~apachecn">ApacheCN</a>，<a href="/display/~apachechina">Apache中文网</a></p>
+<p><strong>Kudu</strong> 包括安全功能，它可以让集群更安全以防止未授权的用户访问。本指南介绍了 <strong>Kudu</strong> 提供的安全功能，列出了必要的配置选项。 <a href="http://kudu.apache.org/docs/security.html#known-limitations">Known Limitations</a> 包含了 <strong>Kudu</strong> 中安全兼容性方面不足的列表。</p>
+<h2 id="authentication"><a href="http://kudu.apache.org/docs/security.html#_authentication">Authentication</a>（认证）</h2>
+<p><strong>Kudu</strong> 可以配置为在服务器之间和客户端和服务器之间实施安全认证。身份验证可防止不受信任的行为者访问 <strong>Kudu</strong>，并安全地识别连接的用户或服务以进行授权检查。Kudu 的认证旨在通过使用 <strong>Kerberos </strong>与其他安全的 <strong>Hadoop</strong> 组件进行互操作。</p>
+<p>可以在 <strong>Kudu</strong> <strong>servers</strong> 上使用 <code>**--rpc-authentication** 标记来配置认证</code>，它可以被设置为 <strong><code>required</code></strong>，<strong><code>optional</code></strong>，或 <strong><code>disabled</code></strong>。默认情况下，该标记设置为 <strong><code>optional</code></strong>。当设置为 <code>**required** 时，</code><strong>Kudu</strong> 将拒绝客户端和缺少身份验证凭证的服务器的连接。当设置为 <code>**optional** 时</code>，<strong>Kudu</strong> 将尝试使用强身份验证。当配置为 <code>**disabled** 或针对</code>“<strong>optional</strong>” 的强认证失败时，默认情况下，<strong>Kudu</strong> 将只允许来自受信任子网的未经身份验证的连接，它们是非私有网络（127.0.0.0.08,10.0.0.08,172.16.0.0/12,192.168.0.0/16,169.254.0.0 / 16）和本地网络接口的本地子网。来自可公开路由的 <strong>IP</strong> 的未认证连接将被拒绝。</p>
+<p>可信任的子网可以使用 <code>**--trusted_subnets** 标记</code>进行配置，该标记可以设置为以逗号分隔的 <strong>CIDR</strong> 表示法的 <strong>IP</strong> 块。将其设置为 “<strong>0.0.0.0/0</strong>” 以允许来自所有远程 <strong>IP</strong> 地址的未经身份验证的连接。但是，如果网络访问不受防火墙的限制，恶意用户可能会获得未经授权的访问。如果认证被配置为 <strong>required</strong>，这可以减少这样的行为。</p>
+<p>警告 :</p>
+<p>当 <strong>--rpc-authentication</strong> 标记设置为 <strong>optional</strong> 时，该集群不会阻止来自未授权用户的访问请求。要保护集群，请使用 <strong>--rpc-authentication=required</strong>。</p>
+<h2 id="internal-pki">Internal PKI</h2>
+<p><strong>Kudu</strong> 使用内部 <strong>PKI</strong> 系统向集群中的服务器发出 <strong>X.509</strong> 证书。具有获得证书的对等体之间的连接将使用 <strong>TLS </strong>进行身份验证，这不需要联系 <strong>Kerberos KDC</strong>。这些证书_ <strong>only</strong>（仅仅）_用于 <strong>Kudu </strong>服务器之间以及 <strong>Kudu </strong>客户端和服务器之间的内部通信。这些证书永远不会在面向公众的协议中呈现。</p>
+<p>通过使用内部颁发的证书，<strong>Kudu </strong>提供强大的身份验证功能，可扩展到巨大的群集，并允许使用 <strong>TLS </strong>加密，而无需在每个节点上手动部署证书。</p>
+<h2 id="authentication-tokens"><a href="http://kudu.apache.org/docs/security.html#_authentication_tokens">Authentication Tokens</a>（<a href="http://kudu.apache.org/docs/security.html#_authentication_tokens">认证令牌</a>）</h2>
+<p>在对安全的群集进行身份验证后，<strong>Kudu</strong> 客户端将自动向 <strong>Kudu</strong>主机请求一个身份验证令牌。认证令牌封装认证用户的身份，并携带 <strong>master</strong> 的 <strong>RSA</strong> 签名，以便验证其真实性。</p>
+<p>该令牌将用于验证后续连接。默认情况下，身份验证令牌仅在七天内有效，因此即使令牌遭到入侵，也不能无限期地使用令牌。在大多数情况下，身份验证令牌应对用户完全透明。通过使用身份验证令牌，<strong>Kudu</strong> 可以利用强大的身份验证功能，而无需支付与每个连接的中央机构进行通信的可扩展性成本。</p>
+<p>当与分布式计算框架（如 <strong>Spark</strong>）一起使用时，身份验证令牌可以简化配置并提高安全性。例如，<strong>Kudu</strong> <strong>Spark connector</strong>（连接器）将在规划阶段自动检索认证令牌，并将令牌分发到任务。这样，<strong>Spark </strong>可以对受保护的 <strong>Kudu </strong>集群工作，只有 <strong>planner node</strong> 具有 <strong>Kerberos </strong>凭据。</p>
+<h2 id="scalability"><a href="http://kudu.apache.org/docs/security.html#_scalability">Scalability</a>（可扩展性）</h2>
+<p><strong>Kudu</strong> 认证旨在扩展到数千个节点，这需要避免与中央认证机构（如 <strong>Kerberos</strong> <strong>KDC</strong>）的不必要的协调。相反，<strong>Kudu </strong>服务器和客户端将使用 <strong>Kerberos </strong>与 <strong>Kudu </strong>主机建立初始信任，然后使用备用凭据进行后续连接。特别是，<strong>master</strong> 将向服务器发出内部 <strong>X.509</strong> 证书，向客户端发出临时认证令牌。</p>
+<h2 id="encryption">Encryption（加密）</h2>
+<h2 id="kudu-tls"><strong>Kudu</strong> 允许使用 <strong>TLS </strong>对服务器之间以及客户端和服务器之间的所有通信进行加密。</h2>
+<p>可以在 <strong>Kudu</strong> <strong>servers</strong> 上使用 <code>**--rpc-encryption** 标记来配置加密</code>，它可以被设置为 <strong><code>required</code></strong>，<strong><code>optional</code></strong>或 <strong><code>disabled</code></strong>。默认情况下，该标志设置为 <strong><code>optional</code></strong>。当配置为 <code>**required** 时，</code><strong>Kudu</strong> 将拒绝未加密的连接。当配置为 <code>**optional** 时</code>，<strong>Kudu</strong> 将尝试使用加密。与认证相同，当配置为 <strong><code>disabled</code></strong>或针对 <code>**optional** 的情况下加密失败</code>，<strong>Kudu</strong> 将只允许来自受信任的子网的未加密的连接，并拒绝公开可路由的 <strong>IP</strong> 的任何未加密的连接。要保护群集，请使用 <strong><code>--rpc-encryption=required</code></strong>。</p>
+<p>警告 :</p>
+<p><strong>Kudu</strong> 将自动关闭本地环回连接上的加密，因为来自这些连接的流量不会从外部暴露出来。这允许像 <strong>Spark</strong> 和 <strong>Impala</strong> 这样的位置感知计算框架避免加密开销，同时确保数据的机密性。</p>
+<h2 id="coarse-grained-authorization">Coarse-Grained Authorization（粗粒度授权）</h2>
+<p><strong>Kudu</strong> 支持基于认证的客户端 <strong>Kerberos </strong>主体（即用户或服务）对客户端请求进行粗粒度授权。可以配置的两个级别的访问是 : </p>
+<ul>
+<li>
+<p><strong>Superuser</strong>（超级用户）- 被授权为超级用户的 <strong>principals </strong>能够执行某些管理功能，例如使用 <strong><code>kudu</code></strong>命令行工具诊断或修复群集问题。</p>
+</li>
+<li>
+<p><strong>User</strong>（用户）- 授权为用户 <strong>principals </strong>都能够在 <strong>Kudu</strong> 集群中访问和修改所有数据。这包括 <strong>create</strong>（创建），<strong>drop</strong>（删除）和 <strong>alter</strong>（更改）表以及 <strong>read</strong>（读取），<strong>insert</strong>（插入），<strong>update</strong>（更新）和 <strong>delete</strong>（删除）数据的功能。</p>
+<p>警告 :</p>
+<p>在内部，<strong>Kudu</strong> 针对守护进程本身具有第三的访问级别。这样可以确保用户无法连接到集群，并可以作为 <strong>tablet server</strong>。</p>
+<p>使用白名单样式的访问控制列表（<strong>ACL</strong>）授予访问级别，对于两个级别中的每一级都可以访问。每个访问控制列表指定以逗号分隔的用户列表，或者可以设置 <code>*****</code>为表示所有经过身份验证的用户能够以指定级别获得访问权限。有关示例，请参阅下面的 <a href="http://kudu.apache.org/docs/security.html#configuration">配置安全的 Kudu 群集</a>。</p>
+<p>警告 :</p>
+<p>用户 <strong>ACL</strong> 的默认值是 <code>*</code>允许所有用户访问集群。但是，如果启用了身份验证，这仍然限制对只能通过 <strong>Kerberos</strong> 成功验证的用户的访问。与 <strong>Kudu server</strong> 在同一网络上的未认证用户将无法访问集群。</p>
+</li>
+</ul>
+<h2 id="web-ui-encryption"><strong>Web UI Encryption</strong>（加密）</h2>
+<p>可以通过为每个服务器提供 <strong>TLS </strong>证书，将 <strong>Kudu Web UI</strong> 配置为使用安全的 <strong>HTTPS </strong>加密。有关 <strong>Web UI HTTPS</strong> 配置的更多信息，请参阅 <a href="http://kudu.apache.org/docs/security.html#configuration">配置安全的 Kudu 集群</a>。</p>
+<h2 id="web-ui-redaction">Web UI Redaction</h2>
+<p>为了防止在 <strong>Web UI</strong> 中暴露敏感数据，所有行数据都被修改。表元数据，如表名，列名和分区信息不会被修改。可以通过在 <strong>Kudu server </strong>上设置 <strong><code>--webserver-enabled=false</code> </strong><code>标记</code>来完全禁用 <strong>Web UI </strong>。</p>
+<p>警告 :</p>
+<p>禁用 <strong>Web UI</strong> 也将禁用 <strong>REST endpoints</strong>，例如 <strong><code>/metrics</code></strong>。监控系统依靠这些 <strong>endpoints</strong> 来收集 <strong>metrics</strong> 指标数据。</p>
+<h3 id="log-security">Log Security（日志安全）</h3>
+<p>为了防止敏感数据包含在 <strong>Kudu </strong>服务器日志中，默认情况下会修改所有行数据。该功能可以配置 <code>**--redact** 标记来关闭</code>。</p>
+<h2 id="configuring-a-secure-kudu-cluster-kudu"><a href="http://kudu.apache.org/docs/security.html#configuration">Configuring a Secure Kudu Cluster</a>（配置安全的 Kudu 集群）</h2>
+<p>应在所有服务器（<strong>master</strong> 和 <strong>tablet server</strong>）上设置以下配置参数，以确保 <strong>Kudu </strong>集群安全 : </p>
+<pre><code># Connection Security
+#--------------------
+--rpc-authentication=required
+--rpc-encryption=required
+--keytab-file=&lt;path-to-kerberos-keytab&gt;
+
+# Web UI Security
+#--------------------
+--webserver-certificate-file=&lt;path-to-cert-pem&gt;
+--webserver-private-key-file=&lt;path-to-key-pem&gt;
+# optional
+--webserver-private-key-password-cmd=&lt;password-cmd&gt;
+
+# If you prefer to disable the web UI entirely:
+--webserver-enabled=false
+
+# Coarse-grained authorization
+#--------------------------------
+
+# This example ACL setup allows the 'impala' user as well as the
+# 'nightly_etl_service_account' principal access to all data in the
+# Kudu cluster. The 'hadoopadmin' user is allowed to use administrative
+# tooling. Note that, by granting access to 'impala', other users
+# may access data in Kudu via the Impala service subject to its own
+# authorization rules.
+--user-acl=impala,nightly_etl_service_account
+--superuser-acl=hadoopadmin
+</code></pre>
+
+<p>有关这些标记的更多信息，请参见配置标记指南。</p>
+<h2 id="known-limitations">Known Limitations（已知限制）</h2>
+<p><strong>Kudu</strong> 有一些已知的安全限制 : </p>
+<p><strong>Long-lived Tokens</strong>（常用的令牌）</p>
+<p><strong>Java Kudu</strong> 客户端在初始 <strong>tokens</strong>（令牌）到期后不会自动请求新的 <strong>authn tokens</strong>（令牌），因此不支持长期存在的安全集群中的 <strong>Java </strong>客户端。然而，针对 <strong>C</strong> 的 <strong>Kudu</strong> 客户端会自动请求新的 <strong>authn tokens</strong> 令牌，因此支持安全集群中长久的 <strong>C </strong>客户端（即超出 <strong>authn token </strong>令牌生存期）。</p>
+<p><strong>Custom Kerberos Principal</strong>（自定义 kerberos 主体）</p>
+<p><strong>Kudu</strong> 不支持为 <strong>Kudu</strong> 进程设置自定义服务 <strong>principal</strong>。<strong>principal </strong>必须是 '<strong>kudu</strong>'。</p>
+<p><strong>External PKI</strong></p>
+<p><strong>Kudu</strong> 不支持外部颁发的内部线路加密证书（服务器到服务器和客户端到服务器）。细粒度授权 <strong>Kudu </strong>无法根据操作类型或目标（表，列等）限制访问。ACL 目前不支持基于组中成员资格的授权。</p>
+<p><strong>On-disk Encryption</strong>（磁盘加密）</p>
+<p><strong>Kudu</strong> 没有内置的磁盘加密。然而，<strong>Kudu </strong>可以使用全盘加密工具，如 <strong>dm-crypt</strong>。</p>
+<p><strong>Web UI Authentication（认证）</strong></p>
+<p><strong>Kudu Web UI</strong> 缺少基于 <strong>Kerberos</strong> 的身份验证（<strong>SPNEGO</strong>），因此不能基于 <strong>Kerberos</strong> 的 <strong>principals </strong>进行访问限制。</p>
+<p><strong>Flume Integration（Flume 集成）</strong></p>
+<p>需要验证或加密的安全 <strong>Kudu </strong>集群不支持 <strong>Flume</strong> 集成。</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+
+              <hr/>
+              <div align="center">
+                  <p><a href="http://www.apachecn.org/" target="_blank"><font face="KaiTi" size="6" color="red">我们一直在努力</font></a><p>
+                  <p><a href="https://github.com/apachecn/kudu-doc-zh/" target="_blank">apachecn/kudu-doc-zh</a></p>
+                  <p><iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=watch&count=true&v=2" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=star&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=fork&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=bcee938030cc9e1552deb3bd9617bbbf62d3ec1647e4b60d9cd6b6e8f78ddc03"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="ML | ApacheCN" title="ML | ApacheCN"></a></p>
+                  <div style="text-align:center;margin:0 0 10.5px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-3565452474788507"
+                             data-ad-slot="2543897000"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script></div>
+              </div>
+
+              <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+              <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+              <div id="gitalk-container" class="container-fluid"></div>
+              <script type="text/javascript">
+                  var gitalk = new Gitalk({
+                  clientID: 'f27b87eb424ba43df978',
+                  clientSecret: '9b3482a495c5257a1d269d8108b9bfd71f048c3c',
+                  repo: 'kudu-doc-zh',
+                  owner: 'apachecn',
+                  admin: ['jiangzhonglian'],
+                  id: md5(location.pathname),
+                  distractionFreeMode: false
+                  })
+                  gitalk.render('gitalk-container')
+              </script>
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../9/" title="Kudu Schema Design ( 模式设计 )" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  后退
+                </span>
+                Kudu Schema Design ( 模式设计 )
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../11/" title="Kudu Transaction Semantics ( 事务语义 )" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  前进
+                </span>
+                Kudu Transaction Semantics ( 事务语义 )
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.583bbe55.js"></script>
+      
+        
+        
+          
+          <script src="../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+                <script src="../assets/javascripts/lunr/tinyseg.js"></script>
+              
+              
+                <script src="../assets/javascripts/lunr/lunr.jp.js"></script>
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1038 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Kudu 1.4.0 中文文档">
+      
+      
+        <link rel="canonical" href="http://kudu.apachecn.org/8/">
+      
+      
+        <meta name="author" content="ApacheCN Team">
+      
+      
+        <meta name="lang:clipboard.copy" content="复制">
+      
+        <meta name="lang:clipboard.copied" content="已复制">
+      
+        <meta name="lang:search.language" content="jp">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="没有找到符合条件的结果">
+      
+        <meta name="lang:search.result.one" content="找到 1 个符合条件的结果">
+      
+        <meta name="lang:search.result.other" content="# 个符合条件的结果">
+      
+        <meta name="lang:search.tokenizer" content="[\uff0c\u3002]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.3">
+    
+    
+      
+        <title>使用 Kudu 开发应用程序 - Kudu 1.4.0 中文文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?44851246425f0efa5dd4676b59413604";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <!-- google webmaster -->
+    <meta name="google-site-verification" content="pyo9N70ZWyh8JB43bIu633mhxesJ1IcwWCZlM3jUfFo" />
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="../#kudu" tabindex="1" class="md-skip">
+        跳转至
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Kudu 1.4.0 中文文档
+              </span>
+              <span class="md-header-nav__topic">
+                使用 Kudu 开发应用程序
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            键入以开始搜索
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Kudu 1.4.0 中文文档
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Kudu 1.4.0 中文文档" class="md-nav__link">
+      Kudu 1.4.0 中文文档
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../1/" title="介绍 Kudu" class="md-nav__link">
+      介绍 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../2/" title="Kudu 入门指南" class="md-nav__link">
+      Kudu 入门指南
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../3/" title="安装指南" class="md-nav__link">
+      安装指南
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../4/" title="配置 Kudu" class="md-nav__link">
+      配置 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../5/" title="Kudu 集成 Apache Impala" class="md-nav__link">
+      Kudu 集成 Apache Impala
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../6/" title="管理 Kudu" class="md-nav__link">
+      管理 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../7/" title="Kudu 故障排除" class="md-nav__link">
+      Kudu 故障排除
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        使用 Kudu 开发应用程序
+      </label>
+    
+    <a href="./" title="使用 Kudu 开发应用程序" class="md-nav__link md-nav__link--active">
+      使用 Kudu 开发应用程序
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#kudu_1" title="使用 Kudu 开发应用程序" class="md-nav__link">
+    使用 Kudu 开发应用程序
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" title="查看 API 文档" class="md-nav__link">
+    查看 API 文档
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#c-api" title="C++ API 文档" class="md-nav__link">
+    C++ API 文档
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-api" title="Java API 文档" class="md-nav__link">
+    Java API 文档
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" title="工作实例" class="md-nav__link">
+    工作实例
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#maven-artifacts-maven" title="Maven Artifacts ( Maven 工件 )" class="md-nav__link">
+    Maven Artifacts ( Maven 工件 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#impala-kudu" title="Impala命令使用 Kudu 的例子" class="md-nav__link">
+    Impala命令使用 Kudu 的例子
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu-spark" title="Kudu 与 Spark 集成" class="md-nav__link">
+    Kudu 与 Spark 集成
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spark" title="Spark 集成已知问题和限制" class="md-nav__link">
+    Spark 集成已知问题和限制
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu-python" title="Kudu Python 客户端" class="md-nav__link">
+    Kudu Python 客户端
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapreduce-yarn" title="与 MapReduce ， YARN 和其他框架集成" class="md-nav__link">
+    与 MapReduce ， YARN 和其他框架集成
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../9/" title="Kudu Schema Design ( 模式设计 )" class="md-nav__link">
+      Kudu Schema Design ( 模式设计 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../10/" title="Kudu Security ( 安全 )" class="md-nav__link">
+      Kudu Security ( 安全 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../11/" title="Kudu Transaction Semantics ( 事务语义 )" class="md-nav__link">
+      Kudu Transaction Semantics ( 事务语义 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../12/" title="后台维护任务" class="md-nav__link">
+      后台维护任务
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../13/" title="Kudu 配置参考" class="md-nav__link">
+      Kudu 配置参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../14/" title="Kudu 命令行工具参考" class="md-nav__link">
+      Kudu 命令行工具参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../15/" title="已知的问题和限制" class="md-nav__link">
+      已知的问题和限制
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../16/" title="贡献于 Kudu" class="md-nav__link">
+      贡献于 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../17/" title="Export Control Notice ( 出口管制通知 )" class="md-nav__link">
+      Export Control Notice ( 出口管制通知 )
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#kudu_1" title="使用 Kudu 开发应用程序" class="md-nav__link">
+    使用 Kudu 开发应用程序
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" title="查看 API 文档" class="md-nav__link">
+    查看 API 文档
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#c-api" title="C++ API 文档" class="md-nav__link">
+    C++ API 文档
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-api" title="Java API 文档" class="md-nav__link">
+    Java API 文档
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" title="工作实例" class="md-nav__link">
+    工作实例
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#maven-artifacts-maven" title="Maven Artifacts ( Maven 工件 )" class="md-nav__link">
+    Maven Artifacts ( Maven 工件 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#impala-kudu" title="Impala命令使用 Kudu 的例子" class="md-nav__link">
+    Impala命令使用 Kudu 的例子
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu-spark" title="Kudu 与 Spark 集成" class="md-nav__link">
+    Kudu 与 Spark 集成
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spark" title="Spark 集成已知问题和限制" class="md-nav__link">
+    Spark 集成已知问题和限制
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu-python" title="Kudu Python 客户端" class="md-nav__link">
+    Kudu Python 客户端
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapreduce-yarn" title="与 MapReduce ， YARN 和其他框架集成" class="md-nav__link">
+    与 MapReduce ， YARN 和其他框架集成
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/apachecn/kudu-doc-zh/edit/master/docs/8.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="kudu">使用 Kudu 开发应用程序</h1>
+<p>原文链接 : <a href="http://kudu.apache.org/docs/developing.html">http://kudu.apache.org/docs/developing.html</a></p>
+<p>译文链接 : <a href="http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813629">http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813629</a></p>
+<p>贡献者 : <a href="/display/~chenyao">小瑶</a> <a href="/display/~apachecn">ApacheCN</a> <a href="/display/~apachechina">Apache中文网</a></p>
+<h2 id="kudu_1">使用 Kudu 开发应用程序</h2>
+<p><strong>Kudu </strong>提供 <strong>C ++</strong>，<strong>Java</strong> 和 <strong>Python</strong> 客户端 <strong>API</strong> 以及参考示例来说明它们的用途。</p>
+<p>注意</p>
+<p>不支持使用服务器端或专用接口，不属于公共 <strong>API</strong> 的接口没有稳定性保证。</p>
+<h2 id="api">查看 API 文档</h2>
+<h3 id="c-api">C++ API 文档</h3>
+<p>您可以在线查看 <strong>C ++</strong> 客户端 <strong>API</strong> 文档。或者，在从源代码构建 <strong>Kudu</strong> 后，您还可以另外构建 <strong>doxygen</strong> 目标（例如，如果使用 <strong>make</strong> ，则运行 <strong>make doxygen</strong> ），并通过在您最喜欢的 <strong>Web</strong> 中打开 <strong>docs/doxygen/client_api/html/index.html</strong> 文件来使用本地生成的 <strong>API</strong> 文档浏览器。</p>
+<p>重要</p>
+<p>为了构建 <strong>doxygen</strong> 目标，有必要在您的构建机器上安装带有 <strong>Dot（ graphviz ）</strong>支持的 <strong>doxygen</strong> 。如果您从源代码构建 <strong>Kudu</strong> 后安装了 <strong>doxygen</strong> ，则需要再次运行 <strong>cmake</strong> 以获取 <strong>doxygen</strong> 位置并生成适当的目标。</p>
+<h3 id="java-api">Java API 文档</h3>
+<p>您可以在线查看<a href="http://kudu.apache.org/apidocs/index.html"> <strong>Java API</strong> 文档</a> 。或者，在构建 <a href="/pages/viewpage.action?pageId=10813629"><strong>Java</strong> 客户端</a>之后，<strong>Java API</strong> 文档可以在 <strong>java/kudu-client/target/apidocs/index.html</strong> 中找到。</p>
+<h2 id="_1">工作实例</h2>
+<p><a href="https://github.com/cloudera/kudu-examples"><strong>kudu</strong> 示例</a> <strong>Github</strong> 仓库中提供了几个示例应用程序。每个示例包括一个自述文件，显示如何编译和运行它。这些例子说明了 <strong>Kudu</strong> <strong>API</strong> 的正确使用，以及如何设置虚拟机来运行 <strong>Kudu</strong> 。以下列表包括今天可用的一些示例。检查存储库本身，以防此列表过期。</p>
+<p><strong>java/java-example</strong></p>
+<p>连接到 <strong>Kudu</strong> 实例的简单 <strong>Java</strong> 应用程序创建一个表，向其中写入数据，然后丢弃该表。</p>
+<p><strong>java/collectl</strong></p>
+<p>侦听 <strong>TCP</strong> 套接字的小型 <strong>Java</strong> 应用程序，用于与 <strong>Collectl</strong> 有线协议相对应的时间序列数据。常用的 <strong>collectl</strong> 工具可用于将示例数据发送到服务器。</p>
+<p><strong>java/insert-loadgen</strong></p>
+<p>生成随机插入负载的 <strong>Java</strong> 应用程序。</p>
+<p><strong>python/dstat-kudu</strong></p>
+<p>一个示例程序，显示如何使用 <strong>Kudu Python API</strong> 将数据加载到由外部程序生成的新的/现有的 <strong>Kudu</strong> 表中， <strong>dstat</strong> 在这种情况下。</p>
+<p><strong>python/graphite-kudu</strong></p>
+<p>使用 <strong>graphite-web</strong> ( 石墨网 ) 与 <strong>Kudu</strong> 作为后端的实验插件。</p>
+<p><strong>demo-vm-setup</strong></p>
+<p>脚本下载并运行带有 <strong>Kudu</strong> 的 <strong>VirtualBox</strong> 虚拟机已安装。有关详细信息，请参阅 <a href="/pages/viewpage.action?pageId=10813610">快速入门</a> 。</p>
+<p>这些例子应该是您自己的 <strong>Kudu</strong> 应用程序和集成的有用起点。</p>
+<h3 id="maven-artifacts-maven">Maven Artifacts ( Maven 工件 )</h3>
+<p>以下 <strong>Maven &lt;dependency&gt;</strong> 元素对于 <strong>Apache Kudu</strong> 公开版本（从<strong>1.0.0</strong> 开始）是有效的：</p>
+<pre><code>&lt;dependency&gt;
+  &lt;groupId&gt;org.apache.kudu&lt;/groupId&gt;
+  &lt;artifactId&gt;kudu-client&lt;/artifactId&gt;
+  &lt;version&gt;1.1.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<p><strong>Java</strong> 客户端和各种 <strong>Java</strong> 集成（例如 <strong>Spark</strong> ， <strong>Flume</strong> ）的便利二进制文件现在也可以通过<a href="http://repository.apache.org/"> <strong>ASF Maven</strong> 存储库</a> 和<a href="https://mvnrepository.com/artifact/org.apache.kudu"> <strong>Maven Central</strong> 存储库</a>获得。</p>
+<h2 id="impala-kudu">Impala命令使用 Kudu 的例子</h2>
+<p>请参阅 <a href="/pages/viewpage.action?pageId=10813620">使用 <strong>Impala</strong> 与 <strong>Kudu</strong></a> 进行有关使用 <strong>Kudu</strong> 安装和使用 <strong>Impala</strong> 的指导，其中包括几个 <strong>impala-shell</strong> 示例。</p>
+<h2 id="kudu-spark">Kudu 与 Spark 集成</h2>
+<p><strong>Kudu</strong> 从 <strong>1.0.0</strong> 版开始，通过 <strong>Data Source API</strong> 与 <strong>Spark</strong> 集成。使用 <strong>--packages</strong> 选项包括 <strong>kudu-spark</strong> 依赖关系：</p>
+<p>如果使用 <strong>Spark</strong> 与 <strong>Scala 2.10</strong> ，请使用 <strong>kudu-spark_2.10</strong> 插件：</p>
+<pre><code>spark-shell --packages org.apache.kudu:kudu-spark_2.10:1.1.0
+</code></pre>
+
+<p>如果在 <strong>Scala 2.11</strong> 中使用 <strong>Spark 2</strong> ，请使用 <strong>kudu-spark2_2.11</strong> 插件：</p>
+<pre><code>spark-shell --packages org.apache.kudu:kudu-spark2_2.11:1.1.0
+</code></pre>
+
+<p>然后导入 <strong>kudu-spark</strong> 并创建一个数据框：</p>
+<pre><code>import org.apache.kudu.spark.kudu._
+import org.apache.kudu.client._
+import collection.JavaConverters._
+
+// Read a table from Kudu
+val df = sqlContext.read.options(Map(&quot;kudu.master&quot; -&gt; &quot;kudu.master:7051&quot;,&quot;kudu.table&quot; -&gt; &quot;kudu_table&quot;)).kudu
+
+// Query using the Spark API...
+df.select(&quot;id&quot;).filter(&quot;id&quot; &gt;= 5).show()
+
+// ...or register a temporary table and use SQL
+df.registerTempTable(&quot;kudu_table&quot;)
+val filteredDF = sqlContext.sql(&quot;select id from kudu_table where id &gt;= 5&quot;).show()
+
+// Use KuduContext to create, delete, or write to Kudu tables
+val kuduContext = new KuduContext(&quot;kudu.master:7051&quot;, sqlContext.sparkContext)
+
+// Create a new Kudu table from a dataframe schema
+// NB: No rows from the dataframe are inserted into the table
+kuduContext.createTable(
+    &quot;test_table&quot;, df.schema, Seq(&quot;key&quot;),
+    new CreateTableOptions()
+        .setNumReplicas(1)
+        .addHashPartitions(List(&quot;key&quot;).asJava, 3))
+
+// Insert data
+kuduContext.insertRows(df, &quot;test_table&quot;)
+
+// Delete data
+kuduContext.deleteRows(filteredDF, &quot;test_table&quot;)
+
+// Upsert data
+kuduContext.upsertRows(df, &quot;test_table&quot;)
+
+// Update data
+val alteredDF = df.select(&quot;id&quot;, $&quot;count&quot; + 1)
+kuduContext.updateRows(filteredRows, &quot;test_table&quot;
+
+// Data can also be inserted into the Kudu table using the data source, though the methods on KuduContext are preferred
+// NB: The default is to upsert rows; to perform standard inserts instead, set operation = insert in the options map
+// NB: Only mode Append is supported
+df.write.options(Map(&quot;kudu.master&quot;-&gt; &quot;kudu.master:7051&quot;, &quot;kudu.table&quot;-&gt; &quot;test_table&quot;)).mode(&quot;append&quot;).kudu
+
+// Check for the existence of a Kudu table
+kuduContext.tableExists(&quot;another_table&quot;)
+
+// Delete a Kudu table
+kuduContext.deleteTable(&quot;unwanted_table&quot;)
+
+&lt;&gt; and OR predicates are not pushed to Kudu, and instead will be evaluated by the Spark task. Only LIKE predicates with a suffix wildcard are pushed to Kudu, meaning that LIKE &quot;FOO%&quot; is pushed down but LIKE &quot;FOO%BAR&quot; isn’t.
+</code></pre>
+
+<h3 id="spark">Spark 集成已知问题和限制</h3>
+<ul>
+<li>注册为临时表时，必须为具有大写字母或非 <strong>ASCII</strong> 字符的名称的 <strong>Kudu</strong> 表分配备用名称。</li>
+<li>具有包含大写字母或非 <strong>ASCII</strong> 字符的列名称的 <strong>Kudu</strong> 表可能不与 <strong>SparkSQL</strong> 一起使用。 <strong>Columns </strong>可能在 <strong>Kudu</strong> 更名为解决这个问题。</li>
+<li><strong>&lt;&gt;</strong> 和 <strong>OR</strong> 谓词不被推送到 <strong>Kudu</strong> ，而是将在 <strong>Spark</strong> 的evaluate过程中执行， 只有具有后缀通配符的 <strong>LIKE</strong> 谓词才被推送到 <strong>Kudu</strong> 执行，这意味着 <strong>LIKE“FOO％”</strong>语句被下推到<strong>Kudu</strong>，而 <strong>“FOO％BAR”</strong> 这样的语句不会。</li>
+<li><strong>Kudu</strong> 不支持 <strong>Spark SQL</strong> 支持的所有类型，例如 <strong>Date</strong> ， <strong>Decimal</strong> 和复杂类型。</li>
+<li><strong>Kudu</strong> 表只能在 <strong>SparkSQL</strong> 中注册为临时表。 可能不会使用 <strong>HiveContext</strong> 查询 <strong>Kudu</strong> 表。</li>
+</ul>
+<h2 id="kudu-python">Kudu Python 客户端</h2>
+<p><strong>Kudu Python</strong> 客户端为 <strong>C ++</strong> 客户端 API 提供了一个 <strong>Python</strong> 友好的界面。 下面的示例演示了如何使用部分 <strong>Python</strong> 客户端。</p>
+<pre><code>import kudu
+from kudu.client import Partitioning
+from datetime import datetime
+
+# Connect to Kudu master server
+client = kudu.connect(host='kudu.master', port=7051)
+
+# Define a schema for a new table
+builder = kudu.schema_builder()
+builder.add_column('key').type(kudu.int64).nullable(False).primary_key()
+builder.add_column('ts_val', type_=kudu.unixtime_micros, nullable=False, compression='lz4')
+schema = builder.build()
+
+# Define partitioning schema
+partitioning = Partitioning().add_hash_partitions(column_names=['key'], num_buckets=3)
+
+# Create new table
+client.create_table('python-example', schema, partitioning)
+
+# Open a table
+table = client.table('python-example')
+
+# Create a new session so that we can apply write operations
+session = client.new_session()
+
+# Insert a row
+op = table.new_insert({'key': 1, 'ts_val': datetime.utcnow()})
+session.apply(op)
+
+# Upsert a row
+op = table.new_upsert({'key': 2, 'ts_val': &quot;2016-01-01T00:00:00.000000&quot;})
+session.apply(op)
+
+# Updating a row
+op = table.new_update({'key': 1, 'ts_val': (&quot;2017-01-01&quot;, &quot;%Y-%m-%d&quot;)})
+session.apply(op)
+
+# Delete a row
+op = table.new_delete({'key': 2})
+session.apply(op)
+
+# Flush write operations, if failures occur, capture print them.
+try:
+    session.flush()
+except kudu.KuduBadStatus as e:
+    print(session.get_pending_errors())
+
+# Create a scanner and add a predicate
+scanner = table.scanner()
+scanner.add_predicate(table['ts_val'] == datetime(2017, 1, 1))
+
+# Open Scanner and read all tuples
+# Note: This doesn't scale for large scans
+result = scanner.open().read_all_tuples()
+</code></pre>
+
+<h2 id="mapreduce-yarn">与 MapReduce ， YARN 和其他框架集成</h2>
+<p><strong>Kudu</strong> 旨在与 <strong>Hadoop</strong> 生态系统中的 <strong>MapReduce</strong> ， <strong>YARN</strong> ， <strong>Spark</strong> 和其他框架集成。 请参阅 <strong><a href="https://github.com/apache/kudu/blob/master/java/kudu-client-tools/src/main/java/org/apache/kudu/mapreduce/tools/RowCounter.java">RowCounter.java</a></strong> 和<strong> <a href="https://github.com/apache/kudu/blob/master/java/kudu-client-tools/src/main/java/org/apache/kudu/mapreduce/tools/ImportCsv.java">ImportCsv.java</a></strong> ，了解可以对自己的集成进行建模的示例。 请继续关注未来使用 <strong>YARN</strong> 和 <strong>Spark</strong> 的更多示例。</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+
+              <hr/>
+              <div align="center">
+                  <p><a href="http://www.apachecn.org/" target="_blank"><font face="KaiTi" size="6" color="red">我们一直在努力</font></a><p>
+                  <p><a href="https://github.com/apachecn/kudu-doc-zh/" target="_blank">apachecn/kudu-doc-zh</a></p>
+                  <p><iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=watch&count=true&v=2" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=star&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=fork&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=bcee938030cc9e1552deb3bd9617bbbf62d3ec1647e4b60d9cd6b6e8f78ddc03"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="ML | ApacheCN" title="ML | ApacheCN"></a></p>
+                  <div style="text-align:center;margin:0 0 10.5px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-3565452474788507"
+                             data-ad-slot="2543897000"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script></div>
+              </div>
+
+              <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+              <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+              <div id="gitalk-container" class="container-fluid"></div>
+              <script type="text/javascript">
+                  var gitalk = new Gitalk({
+                  clientID: 'f27b87eb424ba43df978',
+                  clientSecret: '9b3482a495c5257a1d269d8108b9bfd71f048c3c',
+                  repo: 'kudu-doc-zh',
+                  owner: 'apachecn',
+                  admin: ['jiangzhonglian'],
+                  id: md5(location.pathname),
+                  distractionFreeMode: false
+                  })
+                  gitalk.render('gitalk-container')
+              </script>
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../7/" title="Kudu 故障排除" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  后退
+                </span>
+                Kudu 故障排除
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../9/" title="Kudu Schema Design ( 模式设计 )" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  前进
+                </span>
+                Kudu Schema Design ( 模式设计 )
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.583bbe55.js"></script>
+      
+        
+        
+          
+          <script src="../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+                <script src="../assets/javascripts/lunr/tinyseg.js"></script>
+              
+              
+                <script src="../assets/javascripts/lunr/lunr.jp.js"></script>
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

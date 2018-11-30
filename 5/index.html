@@ -1,0 +1,1580 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Kudu 1.4.0 中文文档">
+      
+      
+        <link rel="canonical" href="http://kudu.apachecn.org/5/">
+      
+      
+        <meta name="author" content="ApacheCN Team">
+      
+      
+        <meta name="lang:clipboard.copy" content="复制">
+      
+        <meta name="lang:clipboard.copied" content="已复制">
+      
+        <meta name="lang:search.language" content="jp">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="没有找到符合条件的结果">
+      
+        <meta name="lang:search.result.one" content="找到 1 个符合条件的结果">
+      
+        <meta name="lang:search.result.other" content="# 个符合条件的结果">
+      
+        <meta name="lang:search.tokenizer" content="[\uff0c\u3002]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.3">
+    
+    
+      
+        <title>Kudu 集成 Apache Impala - Kudu 1.4.0 中文文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?44851246425f0efa5dd4676b59413604";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <!-- google webmaster -->
+    <meta name="google-site-verification" content="pyo9N70ZWyh8JB43bIu633mhxesJ1IcwWCZlM3jUfFo" />
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="../#kudu-apache-impala" tabindex="1" class="md-skip">
+        跳转至
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Kudu 1.4.0 中文文档
+              </span>
+              <span class="md-header-nav__topic">
+                Kudu 集成 Apache Impala
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            键入以开始搜索
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Kudu 1.4.0 中文文档
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Kudu 1.4.0 中文文档" class="md-nav__link">
+      Kudu 1.4.0 中文文档
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../1/" title="介绍 Kudu" class="md-nav__link">
+      介绍 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../2/" title="Kudu 入门指南" class="md-nav__link">
+      Kudu 入门指南
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../3/" title="安装指南" class="md-nav__link">
+      安装指南
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../4/" title="配置 Kudu" class="md-nav__link">
+      配置 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Kudu 集成 Apache Impala
+      </label>
+    
+    <a href="./" title="Kudu 集成 Apache Impala" class="md-nav__link md-nav__link--active">
+      Kudu 集成 Apache Impala
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#apache-kuduapache-impala" title="使用Apache Kudu与Apache Impala（孵化）" class="md-nav__link">
+    使用Apache Kudu与Apache Impala（孵化）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" title="要求" class="md-nav__link">
+    要求
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" title="配置" class="md-nav__link">
+    配置
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#impala-shell" title="使用 Impala Shell" class="md-nav__link">
+    使用 Impala Shell
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#impala" title="内部和外部 Impala 表" class="md-nav__link">
+    内部和外部 Impala 表
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#internal" title="Internal ( 内部 )" class="md-nav__link">
+    Internal ( 内部 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external" title="External ( 外部 )" class="md-nav__link">
+    External ( 外部 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impala-kudu" title="查询 Impala 中现有的 Kudu 表" class="md-nav__link">
+    查询 Impala 中现有的 Kudu 表
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impala-kudu_1" title="从 Impala 创建一个新的 Kudu 表" class="md-nav__link">
+    从 Impala 创建一个新的 Kudu 表
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tablet-partitioning-tablet" title="指定 Tablet Partitioning ( Tablet 分区 )" class="md-nav__link">
+    指定 Tablet Partitioning ( Tablet 分区 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impala-kudu_2" title="Impala 数据库和 Kudu" class="md-nav__link">
+    Impala 数据库和 Kudu
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kudu-impala" title="不支持 Kudu 表的 Impala 关键字" class="md-nav__link">
+    不支持 Kudu 表的 Impala 关键字
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql" title="优化评估 SQL 谓词的性能" class="md-nav__link">
+    优化评估 SQL 谓词的性能
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" title="分区表" class="md-nav__link">
+    分区表
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" title="基本分区" class="md-nav__link">
+    基本分区
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" title="高级分区" class="md-nav__link">
+    高级分区
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partitioning-rules-of-thumb" title="Partitioning Rules of Thumb ( 拇指分区规则 )" class="md-nav__link">
+    Partitioning Rules of Thumb ( 拇指分区规则 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kudu" title="将数据插入 Kudu 表" class="md-nav__link">
+    将数据插入 Kudu 表
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" title="插入单个值" class="md-nav__link">
+    插入单个值
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" title="批量插入" class="md-nav__link">
+    批量插入
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insert-and-primary-key-uniqueness-violations" title="INSERT and Primary Key Uniqueness Violations ( 插入和主键唯一性违规 )" class="md-nav__link">
+    INSERT and Primary Key Uniqueness Violations ( 插入和主键唯一性违规 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" title="更新行" class="md-nav__link">
+    更新行
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" title="批量更新" class="md-nav__link">
+    批量更新
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" title="删除行" class="md-nav__link">
+    删除行
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" title="批量删除" class="md-nav__link">
+    批量删除
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insertupdate-delete" title="INSERT，UPDATE 和 DELETE 操作期间的故障" class="md-nav__link">
+    INSERT，UPDATE 和 DELETE 操作期间的故障
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" title="更改表属性" class="md-nav__link">
+    更改表属性
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impala-kudu_3" title="使用 Impala 删除 Kudu 表" class="md-nav__link">
+    使用 Impala 删除 Kudu 表
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" title="下一步做什么？" class="md-nav__link">
+    下一步做什么？
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" title="已知问题和限制" class="md-nav__link">
+    已知问题和限制
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../6/" title="管理 Kudu" class="md-nav__link">
+      管理 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../7/" title="Kudu 故障排除" class="md-nav__link">
+      Kudu 故障排除
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../8/" title="使用 Kudu 开发应用程序" class="md-nav__link">
+      使用 Kudu 开发应用程序
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../9/" title="Kudu Schema Design ( 模式设计 )" class="md-nav__link">
+      Kudu Schema Design ( 模式设计 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../10/" title="Kudu Security ( 安全 )" class="md-nav__link">
+      Kudu Security ( 安全 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../11/" title="Kudu Transaction Semantics ( 事务语义 )" class="md-nav__link">
+      Kudu Transaction Semantics ( 事务语义 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../12/" title="后台维护任务" class="md-nav__link">
+      后台维护任务
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../13/" title="Kudu 配置参考" class="md-nav__link">
+      Kudu 配置参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../14/" title="Kudu 命令行工具参考" class="md-nav__link">
+      Kudu 命令行工具参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../15/" title="已知的问题和限制" class="md-nav__link">
+      已知的问题和限制
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../16/" title="贡献于 Kudu" class="md-nav__link">
+      贡献于 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../17/" title="Export Control Notice ( 出口管制通知 )" class="md-nav__link">
+      Export Control Notice ( 出口管制通知 )
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#apache-kuduapache-impala" title="使用Apache Kudu与Apache Impala（孵化）" class="md-nav__link">
+    使用Apache Kudu与Apache Impala（孵化）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" title="要求" class="md-nav__link">
+    要求
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" title="配置" class="md-nav__link">
+    配置
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#impala-shell" title="使用 Impala Shell" class="md-nav__link">
+    使用 Impala Shell
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#impala" title="内部和外部 Impala 表" class="md-nav__link">
+    内部和外部 Impala 表
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#internal" title="Internal ( 内部 )" class="md-nav__link">
+    Internal ( 内部 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external" title="External ( 外部 )" class="md-nav__link">
+    External ( 外部 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impala-kudu" title="查询 Impala 中现有的 Kudu 表" class="md-nav__link">
+    查询 Impala 中现有的 Kudu 表
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impala-kudu_1" title="从 Impala 创建一个新的 Kudu 表" class="md-nav__link">
+    从 Impala 创建一个新的 Kudu 表
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tablet-partitioning-tablet" title="指定 Tablet Partitioning ( Tablet 分区 )" class="md-nav__link">
+    指定 Tablet Partitioning ( Tablet 分区 )
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impala-kudu_2" title="Impala 数据库和 Kudu" class="md-nav__link">
+    Impala 数据库和 Kudu
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kudu-impala" title="不支持 Kudu 表的 Impala 关键字" class="md-nav__link">
+    不支持 Kudu 表的 Impala 关键字
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql" title="优化评估 SQL 谓词的性能" class="md-nav__link">
+    优化评估 SQL 谓词的性能
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" title="分区表" class="md-nav__link">
+    分区表
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" title="基本分区" class="md-nav__link">
+    基本分区
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" title="高级分区" class="md-nav__link">
+    高级分区
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partitioning-rules-of-thumb" title="Partitioning Rules of Thumb ( 拇指分区规则 )" class="md-nav__link">
+    Partitioning Rules of Thumb ( 拇指分区规则 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kudu" title="将数据插入 Kudu 表" class="md-nav__link">
+    将数据插入 Kudu 表
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" title="插入单个值" class="md-nav__link">
+    插入单个值
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" title="批量插入" class="md-nav__link">
+    批量插入
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insert-and-primary-key-uniqueness-violations" title="INSERT and Primary Key Uniqueness Violations ( 插入和主键唯一性违规 )" class="md-nav__link">
+    INSERT and Primary Key Uniqueness Violations ( 插入和主键唯一性违规 )
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" title="更新行" class="md-nav__link">
+    更新行
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" title="批量更新" class="md-nav__link">
+    批量更新
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" title="删除行" class="md-nav__link">
+    删除行
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" title="批量删除" class="md-nav__link">
+    批量删除
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insertupdate-delete" title="INSERT，UPDATE 和 DELETE 操作期间的故障" class="md-nav__link">
+    INSERT，UPDATE 和 DELETE 操作期间的故障
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" title="更改表属性" class="md-nav__link">
+    更改表属性
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impala-kudu_3" title="使用 Impala 删除 Kudu 表" class="md-nav__link">
+    使用 Impala 删除 Kudu 表
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" title="下一步做什么？" class="md-nav__link">
+    下一步做什么？
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" title="已知问题和限制" class="md-nav__link">
+    已知问题和限制
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/apachecn/kudu-doc-zh/edit/master/docs/5.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="kudu-apache-impala">Kudu 集成 Apache Impala</h1>
+<p>原文链接 : <a href="http://kudu.apache.org/docs/kudu_impala_integration.html">http://kudu.apache.org/docs/kudu_impala_integration.html</a></p>
+<p>译文链接 : <a href="http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813620">http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813620</a></p>
+<p>贡献者 : <a href="/display/~chenyao">小瑶</a> <a href="/display/~apachecn">ApacheCN</a> <a href="/display/~apachechina">Apache中文网</a></p>
+<h2 id="apache-kuduapache-impala">使用Apache Kudu与Apache Impala（孵化）</h2>
+<p><strong>Kudu</strong> 与 <strong>Apache Impala</strong> （孵化）紧密集成，允许您使用 <strong>Impala</strong> 使用 <strong>Impala</strong> 的 <strong>SQL</strong> 语法从 <strong>Kudu tablets</strong> 插入，查询，更新和删除数据，作为使用 <strong><a href="/pages/viewpage.action?pageId=10813613">Kudu API</a></strong> 构建自定义 <strong>Kudu</strong> 应用程序的替代方法。此外，您可以使用 <strong>JDBC</strong> 或 <strong>ODBC</strong> 将使用任何语言，框架或商业智能工具编写的现有或新应用程序与使用 <strong>Impala</strong> 作为代理的 <strong>Kudu</strong> 数据进行连接。</p>
+<h2 id="_1">要求</h2>
+<ul>
+<li>此文档特定于 <strong>Impala</strong> 的某些版本。描述的语法将仅在以下版本中运行：
+    <em> <strong>CDH 5.10</strong> 附带的 <strong>Impala 2.7.0</strong> 版本。 <strong>SELECT VERSION()</strong> 将报告 <strong>impalad version 2.7.0-cdh5.10.0</strong> 。
+    </em> 从源代码编译的 <strong>Apache Impala 2.8.0</strong> 版本。 <strong>SELECT VERSION()</strong> 将报告 <strong>impalad version 2.8.0</strong>。
+    较早版本的 <strong>Impala 2.7</strong>（包括以前提供的特殊 <strong>IMPALA_KUDU</strong> 版本）具有不兼容的语法。未来版本可能与此语法兼容，但我们建议您检查这是与您安装的相应版本相对应的最新可用文档。</li>
+<li>本文档不描述 <strong>Impala</strong> 安装过程。请参阅 <strong>Impala</strong> 文档，并确保您可以在继续之前对 <strong>HDFS</strong> 上的 <strong>Impala</strong> 表运行简单查询。</li>
+</ul>
+<h2 id="_2">配置</h2>
+<p><strong>Kudu</strong> 内不需要进行配置更改，从而可以访问 <strong>Impala</strong> 。</p>
+<p>虽然不是绝对必要的，但建议您配置 <strong>Impala</strong> 与 <strong>Kudu Master servers</strong> 的位置：</p>
+<ul>
+<li>在 <strong>Impala</strong> 服务配置中设置 <strong>--kudu_master_hosts = &lt;master1&gt; [：port]</strong> ， <strong>&lt;master2&gt; [：port]</strong> ， <strong>&lt;master3&gt; [：port]</strong> 标志。如果您正在使用 <strong>Cloudera Manager</strong> ，请参阅相应的 <strong>Cloudera Manager</strong> 文档。</li>
+</ul>
+<p>如果在 <strong>Impala</strong> 服务中未设置此标志，则每次创建表格时都必须手动提供此配置，方法是在 <strong>TBLPROPERTIES</strong> 子句中指定 <strong>kudu_master_addresses</strong> 属性。</p>
+<p>本指南的其余部分假设配置已设置。</p>
+<h2 id="impala-shell">使用 Impala Shell</h2>
+<p>注意</p>
+<p>这只是 <strong>Impala Shell</strong> 功能的一小部分。有关详细信息，请参阅 <strong>Impala Shell</strong> 文档。</p>
+<ul>
+<li>使用 <strong>impala-shell</strong> 命令启动 <strong>Impala Shell</strong> 。默认情况下， <strong>impala-shell</strong> 尝试连接到端口 <strong>21000</strong> 上的 <strong>localhost</strong> 上的 <strong>Impala</strong> 守护程序。要连接到其他主机，请使用<strong> -i &lt;host:port&gt;</strong> 选项。要自动连接到特定的 <strong>Impala</strong> 数据库，请使用<strong> -d &lt;database&gt;</strong> 选项。例如，如果您的所有 <strong>Kudu</strong> 表都位于 <strong>Impala_kudu</strong> 数据库中的 <strong>Impala</strong> 中，请使用 <strong>-d impala_kudu</strong> 来使用此数据库。</li>
+<li>要退出 <strong>Impala Shell</strong>，请使用以下命令：<strong>quit</strong>;</li>
+</ul>
+<h3 id="impala">内部和外部 Impala 表</h3>
+<p>使用 <strong>Impala</strong> 创建新的 <strong>Kudu</strong> 表时，可以将表创建为内部表或外部表。</p>
+<h4 id="internal">Internal ( 内部 )</h4>
+<p>内部表由 <strong>Impala</strong> 管理，当您从 <strong>Impala</strong> 中删除时，数据和表确实被删除。当您使用 <strong>Impala</strong> 创建新表时，通常是内部表。</p>
+<h4 id="external">External ( 外部 )</h4>
+<p>外部表（由 <strong>CREATE EXTERNAL TABLE</strong> 创建）不受 <strong>Impala</strong> 管理，并且删除此表不会将表从其源位置（此处为 <strong>Kudu</strong> ）丢弃。相反，它只会去除 <strong>Impala</strong> 和 <strong>Kudu</strong> 之间的映射。这是 <strong>Kudu</strong> 提供的用于将现有表映射到 <strong>Impala</strong> 的语法。</p>
+<p>有关内部和外部表的更多信息，请参阅 <a href="http://www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/impala_tables.html">Impala文档</a> 。</p>
+<h3 id="impala-kudu">查询 Impala 中现有的 Kudu 表</h3>
+<p>通过 <strong>Kudu API</strong> 或其他集成（如 <strong>Apache</strong> <strong>Spark</strong> ）创建的表不会在 <strong>Impala</strong> 中自动显示。要查询它们，您必须先在 <strong>Impala</strong> 中创建外部表以将 <strong>Kudu</strong> 表映射到 <strong>Impala</strong> 数据库中：</p>
+<pre><code>CREATE EXTERNAL TABLE my_mapping_table
+STORED AS KUDU
+TBLPROPERTIES (
+  'kudu.table_name' = 'my_kudu_table'
+);
+</code></pre>
+
+<h3 id="impala-kudu_1">从 Impala 创建一个新的 Kudu 表</h3>
+<p>从 <strong>Impala</strong> 在 <strong>Kudu</strong> 中创建一个新表类似于将现有的 <strong>Kudu</strong> 表映射到 <strong>Impala</strong> 表，但您需要自己指定模式和分区信息。</p>
+<p>使用以下示例作为指导。 <strong>Impala</strong> 首先创建表，然后创建映射。</p>
+<pre><code>CREATE TABLE my_first_table
+(
+  id BIGINT,
+  name STRING,
+  PRIMARY KEY(id)
+)
+PARTITION BY HASH PARTITIONS 16
+STORED AS KUDU;
+</code></pre>
+
+<p>在 <strong>CREATE TABLE</strong> 语句中，必须首先列出构成主键的列。此外，主键列隐式标记为 <strong>NOT NULL</strong> 。</p>
+<p>创建新的 <strong>Kudu</strong> 表时，需要指定一个分配方案。请参阅 <a href="/pages/viewpage.action?pageId=10813620">分区表</a>。为了简单起见，上面的表创建示例通过散列 <strong>id</strong> 列分成 16 个分区。有关分区的指导，请参阅 <a href="/pages/viewpage.action?pageId=10813620"><strong>Thumb</strong> 的分区规则</a>。</p>
+<pre><code>CREATE TABLE AS SELECT
+</code></pre>
+
+<p>您可以使用 <strong>CREATE TABLE ... AS SELECT</strong> 语句查询 <strong>Impala</strong> 中的任何其他表或表来创建表。以下示例将现有表 <strong>old_table</strong> 中的所有行导入到 <strong>Kudu</strong> 表 <strong>new_table</strong> 中。 <strong>new_table</strong> 中的列的名称和类型将根据 <strong>SELECT</strong> 语句的结果集中的列确定。请注意，您必须另外指定主键和分区。</p>
+<pre><code>CREATE TABLE new_table
+PRIMARY KEY (ts, name)
+PARTITION BY HASH(name) PARTITIONS 8
+STORED AS KUDU
+AS SELECT ts, name, value FROM old_table;
+</code></pre>
+
+<h4 id="tablet-partitioning-tablet">指定 Tablet Partitioning ( Tablet 分区 )</h4>
+<p>表分为每个由一个或多个 <strong>tablet servers</strong> 提供的 <strong>tablets</strong> 。理想情况下，<strong>tablets</strong> 应该相对平等地拆分表的数据。 <strong>Kudu</strong> 目前没有自动（或手动）拆分预先存在的 <strong>tablets  </strong>的机制。在实现此功能之前，您必须在创建表时指定分区。在设计表格架构时，请考虑使用主键，您可以将表拆分成以类似速度增长的分区。使用 <strong>Impala</strong> 创建表时，可以使用 <strong>PARTITION BY</strong> 子句指定分区：</p>
+<p>注意</p>
+<p><strong>Impala</strong> 关键字（如 <strong>group</strong> ）在关键字意义上不被使用时，由背面的字符包围。</p>
+<pre><code>CREATE TABLE cust_behavior (
+  _id BIGINT PRIMARY KEY,
+  salary STRING,
+  edu_level INT,
+  usergender STRING,
+  `group` STRING,
+  city STRING,
+  postcode STRING,
+  last_purchase_price FLOAT,
+  last_purchase_date BIGINT,
+  category STRING,
+  sku STRING,
+  rating INT,
+  fulfilled_date BIGINT
+)
+PARTITION BY RANGE (_id)
+(
+    PARTITION VALUES &lt; 1439560049342,
+    PARTITION 1439560049342 &lt;= VALUES &lt; 1439566253755,
+    PARTITION 1439566253755 &lt;= VALUES &lt; 1439572458168,
+    PARTITION 1439572458168 &lt;= VALUES &lt; 1439578662581,
+    PARTITION 1439578662581 &lt;= VALUES &lt; 1439584866994,
+    PARTITION 1439584866994 &lt;= VALUES &lt; 1439591071407,
+    PARTITION 1439591071407 &lt;= VALUES
+)
+STORED AS KUDU;
+</code></pre>
+
+<p>如果您有多个主键列，则可以使用元组语法指定分区边界：<strong>（'va'，1），（'ab'，2）</strong>。该表达式必须是有效的 <strong>JSON</strong> 。</p>
+<h4 id="impala-kudu_2">Impala 数据库和 Kudu</h4>
+<p>每个 <strong>Impala</strong> 表都包含在称为数据库的命名空间中。默认数据库称为默认数据库，用户可根据需要创建和删除其他数据库。</p>
+<p>当从 <strong>Impala</strong> 中创建一个受管 <strong>Kudu</strong> 表时，相应的 <strong>Kudu</strong> 表将被命名为 <strong>my_database :: table_name</strong> 。</p>
+<h4 id="kudu-impala">不支持 Kudu 表的 Impala 关键字</h4>
+<p>创建 <strong>Kudu</strong> 表时不支持以下 <strong>Impala</strong> 关键字： <strong>- PARTITIONED - LOCATION - ROWFORMAT</strong></p>
+<h3 id="sql">优化评估 SQL 谓词的性能</h3>
+<p>如果您的查询的 <strong>WHERE</strong> 子句包含与 <strong>operators =</strong> ， <strong>&lt;=</strong> ， <strong>'** ， </strong>'\'<strong> ， </strong>&gt; =<strong> ， </strong>BETWEEN<strong> 或 </strong>IN<strong> 的比较，则 </strong>Kudu<strong> 直接评估该条件，只返回相关结果。这提供了最佳性能，因为 </strong>Kudu<strong> 只将相关结果返回给 </strong>Impala<strong> 。对于谓词 </strong>!=<strong> ， </strong>LIKE<strong> 或 </strong>Impala<strong> 支持的任何其他谓词类型， </strong>Kudu<strong> 不会直接评估谓词，而是将所有结果返回给 </strong>Impala<strong> ，并依赖于 </strong>Impala** 来评估剩余的谓词并相应地过滤结果。这可能会导致性能差异，这取决于评估 WHERE 子句之前和之后的结果集的增量。</p>
+<h3 id="_3">分区表</h3>
+<p>根据主键列上的分区模式将表格划分为 <strong>tablets </strong>。每个 <strong>tablet </strong>由至少一台 <strong>tablet server </strong>提供。理想情况下，一张表应该分成多个 <strong>tablets </strong>中分布的<strong> tablet servers</strong> ，以最大化并行操作。您使用的分区模式的详细信息将完全取决于您存储的数据类型和访问方式。关于 <strong>Kudu</strong> 模式设计的全面讨论，请参阅 <strong><a href="/pages/viewpage.action?pageId=10813632">Schema Design</a></strong>。</p>
+<p><strong>Kudu</strong> 目前没有在创建表之后拆分或合并 <strong>tablets</strong> 的机制。创建表时，必须为表提供分区模式。在设计表格时，请考虑使用主键，这样您就可以将表格分为以相同速率增长的 <strong>tablets</strong> 。</p>
+<p>您可以使用 <strong>Impala</strong> 的 <strong>PARTITION BY</strong> 关键字对表进行分区，该关键字支持 <strong>RANGE</strong> 或 <strong>HASH</strong> 分发。分区方案可以包含零个或多个 <strong>HASH</strong> 定义，后面是可选的 <strong>RANGE</strong> 定义。 <strong>RANGE</strong> 定义可以引用一个或多个主键列。<a href="/pages/viewpage.action?pageId=10813620">基本</a> 和 <a href="/pages/viewpage.action?pageId=10813620">高级分区</a> 的示例如下所示。</p>
+<h4 id="_4">基本分区</h4>
+<p><strong>PARTITION BY RANGE ( 按范围划分 )</strong></p>
+<p>您可以为一个或多个主键列指定范围分区。 <strong>Kudu</strong> 中的范围分区允许根据所选分区键的特定值或值的范围拆分表。这样可以平衡并行写入与扫描效率。</p>
+<p>假设您有一个具有列 <strong>state </strong>，<strong>name </strong>和 <strong>purchase_count</strong> 的表。以下示例创建 50 个 <strong>tablets</strong> ，每个 <strong>US state</strong> 。</p>
+<p>注意</p>
+<p><strong>单调增加 Values</strong></p>
+<p>如果您在其值单调递增的列上按范围进行分区，则最后一个 <strong>tablet </strong>的增长将远大于其他平台。此外，插入的所有数据将一次写入单个 tablet ，限制了数据摄取的可扩展性。在这种情况下，请考虑通过 <strong>HASH</strong> 分配，而不是或除 <strong>RANGE</strong> 之外。</p>
+<pre><code>CREATE TABLE customers (
+  state STRING,
+  name STRING,
+  purchase_count int,
+  PRIMARY KEY (state, name)
+)
+PARTITION BY RANGE (state)
+(
+  PARTITION VALUE = 'al',
+  PARTITION VALUE = 'ak',
+  PARTITION VALUE = 'ar',
+  -- ... etc ...
+  PARTITION VALUE = 'wv',
+  PARTITION VALUE = 'wy'
+)
+STORED AS KUDU;
+</code></pre>
+
+<p>PARTITION BY HASH ( 哈希分区 )</p>
+<p>您可以通过散列分发到特定数量的 “<strong>buckets</strong>” ，而不是通过显式范围进行分发，或与范围分布组合。您指定要分区的主键列，以及要使用的存储桶数。通过散列指定的键列来分配行。假设散列的值本身不会表现出显着的偏差，这将有助于将数据均匀地分布在数据桶之间。</p>
+<p>您可以指定多个定义，您可以指定使用复合主键的定义。但是，在多个散列定义中不能提及一列。考虑两列a和b：<strong>√ * HASH(a)，HASH(b)<em>  √ HASH(a，b)</em>  × HASH(a)，HASH(a，b)</strong></p>
+<p>注意</p>
+<p>没有指定列的 HASH 的 PARTITION BY HASH 是通过散列所有主键列来创建所需数量的桶的快捷方式。</p>
+<p>如果主键值均匀分布在其域中，并且数据偏移不明显，例如 <strong>timestamps</strong> ( 时间戳 ) 或 <strong>IDs</strong> ( 序列号 )，则哈希分区是合理的方法。</p>
+<p>以下示例通过散列 <strong>id</strong> 和 <strong>sku</strong> 列创建 16 个 <strong>tablets </strong>。这传播了所有 16 个 <strong>tablets </strong>的写作。在这个例子中，对一系列 sku 值的查询可能需要读取所有 16 个 <strong>tablets </strong>，因此这可能不是此表的最佳模式。有关扩展示例，请参阅 <a href="/pages/viewpage.action?pageId=10813620">高级分区</a>。</p>
+<pre><code>CREATE TABLE cust_behavior (
+  id BIGINT,
+  sku STRING,
+  salary STRING,
+  edu_level INT,
+  usergender STRING,
+  `group` STRING,
+  city STRING,
+  postcode STRING,
+  last_purchase_price FLOAT,
+  last_purchase_date BIGINT,
+  category STRING,
+  rating INT,
+  fulfilled_date BIGINT,
+  PRIMARY KEY (id, sku)
+)
+PARTITION BY HASH PARTITIONS 16
+STORED AS KUDU;
+</code></pre>
+
+<h4 id="_5">高级分区</h4>
+<p>您可以组合 <strong>HASH</strong> 和 <strong>RANGE</strong> 分区来创建更复杂的分区模式。您可以指定零个或多个 <strong>HASH</strong> 定义，后跟零个或一个 <strong>RANGE</strong> 定义。每个定义可以包含一个或多个列。虽然枚举每个可能的分发模式都超出了本文档的范围，但是几个例子说明了一些可能性。</p>
+<p><strong>PARTITION BY HASH and RANGE</strong></p>
+<p>考虑上面的 <a href="/pages/viewpage.action?pageId=10813620">简单哈希</a> 示例，如果您经常查询一系列 sku 值，可以通过将哈希分区与范围分区相结合来优化示例。</p>
+<p>以下示例仍然创建了16个 <strong>tablets</strong> ，首先将 <strong>id</strong> 列分为 <strong>4</strong> 个存储区，然后根据 <strong>sku</strong> 字符串的值应用范围划分将每个存储区分为四个数据块。至少四片（最多可达<strong>16</strong>张）。当您查询相邻范围的 <strong>sku</strong> 值时，您很有可能只需从四分之一的 <strong>tablets</strong> 中读取即可完成查询。</p>
+<p>注意</p>
+<p>默认情况下，使用 <strong>PARTITION BY HASH</strong> 时，整个主键是散列的。要只对主键进行散列，可以使用像 <strong>PARTITION BY HASH(id, sku)</strong> 这样的语法来指定它。</p>
+<pre><code>CREATE TABLE cust_behavior (
+  id BIGINT,
+  sku STRING,
+  salary STRING,
+  edu_level INT,
+  usergender STRING,
+  `group` STRING,
+  city STRING,
+  postcode STRING,
+  last_purchase_price FLOAT,
+  last_purchase_date BIGINT,
+  category STRING,
+  rating INT,
+  fulfilled_date BIGINT,
+  PRIMARY KEY (id, sku)
+)
+PARTITION BY HASH (id) PARTITIONS 4,
+RANGE (sku)
+(
+  PARTITION VALUES &lt; 'g',
+  PARTITION 'g' &lt;= VALUES &lt; 'o',
+  PARTITION 'o' &lt;= VALUES &lt; 'u',
+  PARTITION 'u' &lt;= VALUES
+)
+STORED AS KUDU;
+</code></pre>
+
+<p><strong>Multiple <code>PARTITION BY HASH</code> Definitions ( 多重划分由 HASH 定义 )</strong></p>
+<p>再次扩展上述示例，假设查询模式将是不可预测的，但您希望确保写入分布在大量 <strong>tablets</strong> 上您可以通过在主键列上进行散列来实现整个主键的最大分配。</p>
+<pre><code>CREATE TABLE cust_behavior (
+  id BIGINT,
+  sku STRING,
+  salary STRING,
+  edu_level INT,
+  usergender STRING,
+  `group` STRING,
+  city STRING,
+  postcode STRING,
+  last_purchase_price FLOAT,
+  last_purchase_date BIGINT,
+  category STRING,
+  rating INT,
+  fulfilled_date BIGINT,
+  PRIMARY KEY (id, sku)
+)
+PARTITION BY HASH (id) PARTITIONS 4,
+             HASH (sku) PARTITIONS 4
+STORED AS KUDU;
+</code></pre>
+
+<p>该示例创建<strong>16</strong>个分区。您也可以使用 <strong>HASH(id,sku) PARTITIONS 16</strong>.但是，对于 <strong>sku</strong> 值的扫描几乎总是会影响所有<strong>16</strong>个分区，而不是可能限制为 <strong>4</strong> 。</p>
+<p><strong>Non-Covering Range Partitions ( 不覆盖分区 )</strong></p>
+<p><strong>Kudu 1.0</strong> 及更高版本支持使用非覆盖范围分区，其解决方案如下：</p>
+<ul>
+<li>没有未覆盖的范围分区，在需要考虑不断增加的主键的时间序列数据或其他模式的情况下，服务于旧数据的 tablet 的大小相对固定，而接收新数据的 <strong>tablets</strong> 将不受限制地增长。</li>
+<li>在您希望根据其类别（如销售区域或产品类型）对数据进行分区的情况下，无需覆盖范围分区，则必须提前了解所有分区，或者如果需要添加或删除分区，请手动重新创建表。 例如引入或消除产品类型。</li>
+</ul>
+<p>非覆盖范围分区有一些注意事项。请务必阅读链接：<strong>/docs/schema_design.html [Schema Design guide]</strong>。</p>
+<p>此示例每年创建一个 <strong>tablet</strong> （共5个 <strong>tablets</strong> ），用于存储日志数据。该表仅接受 <strong>2012</strong> 年至 <strong>2016</strong>年 的数据。这些范围之外的键将被拒绝。</p>
+<pre><code>CREATE TABLE sales_by_year (
+  year INT, sale_id INT, amount INT,
+  PRIMARY KEY (sale_id, year)
+)
+PARTITION BY RANGE (year) (
+  PARTITION VALUE = 2012,
+  PARTITION VALUE = 2013,
+  PARTITION VALUE = 2014,
+  PARTITION VALUE = 2015,
+  PARTITION VALUE = 2016
+)
+STORED AS KUDU;
+</code></pre>
+
+<p>当记录开始进入 <strong>2017</strong> 年时，他们将被拒绝。在这一点上， <strong>2017</strong> 年的范围应该如下：</p>
+<pre><code>ALTER TABLE sales_by_year ADD RANGE PARTITION VALUE = 2017;
+</code></pre>
+
+<p>在需要数据保留的滚动窗口的情况下，范围分区也可能会丢弃。例如，如果不再保留 <strong>2012</strong> 年的数据，则可能会批量删除数据：</p>
+<pre><code>ALTER TABLE sales_by_year DROP RANGE PARTITION VALUE = 2012;
+</code></pre>
+
+<p>请注意，就像删除表一样，这不可逆转地删除存储在丢弃的分区中的所有数据。</p>
+<h4 id="partitioning-rules-of-thumb">Partitioning Rules of Thumb ( 拇指分区规则 )</h4>
+<ul>
+<li>对于大型表格，如事实表，目标是在集群中拥有核心数量的 tablets 。</li>
+<li>对于小型表格（如维度表），目标是足够数量的 <strong>tablets</strong> ，每个 <strong>tablets</strong> 的大小至少为 <strong>1 GB</strong> 。</li>
+</ul>
+<p>一般来说，请注意，在当前的实现中， <strong>tablets</strong> 的数量限制了读取的并行性。增加 <strong>tablets</strong> 数量超过核心数量可能会有减少的回报。</p>
+<h3 id="kudu">将数据插入 Kudu 表</h3>
+<p><strong>Impala</strong> 允许您使用标准 <strong>SQL</strong> 语句将数据插入 <strong>Kudu</strong> 。</p>
+<h4 id="_6">插入单个值</h4>
+<p>此示例插入单个行。</p>
+<pre><code>INSERT INTO my_first_table VALUES (99, &quot;sarah&quot;);
+</code></pre>
+
+<p>此示例使用单个语句插入三行。</p>
+<pre><code>INSERT INTO my_first_table VALUES (1, &quot;john&quot;), (2, &quot;jane&quot;), (3, &quot;jim&quot;);
+</code></pre>
+
+<h4 id="_7">批量插入</h4>
+<p>批量插入时，至少有三种常用选择。每个可能有优点和缺点，具体取决于您的数据和情况。</p>
+<p><strong>Multiple single <code>INSERT</code> statements ( 多个单独的 INSERT 语句 )</strong></p>
+<p>这种方法具有易于理解和实现的优点。这种方法可能是低效的，因为 <strong>Impala</strong> 与 <strong>Kudu</strong> 的插入性能相比具有很高的查询启动成本。这将导致相对较高的延迟和较差的吞吐量。</p>
+<p><strong>Single INSERT statement with multiple VALUES ( 具有多个 VALUES 的单个 INSERT 语句 )</strong></p>
+<p>如果包含超过 1024 个 <strong>VALUES</strong> 语句，则在将请求发送到 <strong>Kudu</strong> 之前，<strong>Impala</strong> 将其分组为 1024 （或 <strong>batch_size</strong> 的值）。通过在 <strong>Impala</strong> 方面摊销查询启动处罚，此方法可能会执行比多个顺序 <strong>INSERT</strong> 语句略好。要设置当前 <strong>Impala Shell</strong> 会话的批量大小，请使用以下语法：<strong>set batch_size = 10000;</strong></p>
+<p>注意</p>
+<p>增加 <strong>Impala</strong> 批量大小会导致 <strong>Impala</strong> 使用更多的内存。您应该验证对群集的影响并进行相应调整。</p>
+<p><strong>Batch Insert ( 批量插入 )</strong></p>
+<p>从 <strong>Impala</strong> 和 <strong>Kudu</strong> 的角度来看，通常表现最好的方法通常是使用 <strong>Impala</strong> 中的 <strong>SELECT FROM</strong> 语句导入数据。</p>
+<ol>
+<li>
+<p>如果您的数据尚未在 <strong>Impala</strong> 中，则一种策略是 <a href="http://www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/impala_txtfile.html">从文本文件</a>（如 <strong>TSV</strong> 或 <strong>CSV</strong> 文件）导入。</p>
+</li>
+<li>
+<p><a href="/pages/viewpage.action?pageId=10813620">创建 <strong>Kudu</strong> 表</a>，注意指定为主键的列不能为空值。</p>
+</li>
+<li>通过查询包含原始数据的表将值插入到 <strong>Kudu</strong> 表中，如以下示例所示：</li>
+</ol>
+<pre><code>INSERT INTO my_kudu_table
+  SELECT * FROM legacy_data_import_table;
+</code></pre>
+
+<p><strong>Ingest using the C++ or Java API ( 采用C ++ 或 Java API )</strong></p>
+<p>在许多情况下，适当的摄取路径是使用 <strong>C ++</strong> 或 <strong>Java API</strong> 直接插入到 <strong>Kudu</strong> 表中。与其他 <strong>Impala</strong> 表不同，通过 <strong>API</strong> 插入到 <strong>Kudu</strong> 表中的数据可用于 <strong>Impala</strong> 中的查询，而不需要任何 <strong>INVALIDATE METADATA</strong> 语句或其他 <strong>Impala</strong> 存储类型所需的其他语句。</p>
+<h4 id="insert-and-primary-key-uniqueness-violations"><a href="http://kudu.apache.org/docs/kudu_impala_integration.html#insert_ignore"><code>INSERT</code> and Primary Key Uniqueness Violations</a> ( 插入和主键唯一性违规 )</h4>
+<p>在大多数关系数据库中，如果您尝试插入已插入的行，则插入将失败，因为主键将被重复。请参阅 <a href="/pages/viewpage.action?pageId=10813620"><strong>INSERT</strong>，<strong>UPDATE</strong> 和 <strong>DELETE</strong> 操作</a>中的故障。然而，<strong>Impala</strong> 不会失败查询。相反，它会生成一个警告，但是继续执行 <strong>insert</strong> 语句的其余部分。</p>
+<p>如果插入的行意图替换现有行，则可以使用 <strong>UPSERT</strong> 而不是 <strong>INSERT</strong> 。</p>
+<pre><code>INSERT INTO my_first_table VALUES (99, &quot;sarah&quot;);
+UPSERT INTO my_first_table VALUES (99, &quot;zoe&quot;);
+-- the current value of the row is 'zoe'
+</code></pre>
+
+<h3 id="_8">更新行</h3>
+<pre><code>UPDATE my_first_table SET name=&quot;bob&quot; where id = 3;
+</code></pre>
+
+<p>注意</p>
+<p>当目标表在 <strong>Kudu</strong> 时，<strong>UPDATE</strong> 语句仅适用于 <strong>Impala</strong> 。</p>
+<h4 id="_9">批量更新</h4>
+<p>您可以使用批量插入中相同的方法 <a href="/pages/viewpage.action?pageId=10813620">批量更新</a> 。</p>
+<pre><code>UPDATE my_first_table SET name=&quot;bob&quot; where age &gt; 10;
+</code></pre>
+
+<h3 id="_10">删除行</h3>
+<pre><code>DELETE FROM my_first_table WHERE id &lt; 3;
+</code></pre>
+
+<p>您也可以使用更复杂的语法进行删除。 <strong>FROM</strong> 子句中的逗号是 <strong>Impala</strong> 指定连接查询的一种方法。有关 <strong>Impala</strong> 连接的更多信息，请参阅</p>
+<pre><code>DELETE c FROM my_second_table c, stock_symbols s WHERE c.name = s.symbol;
+</code></pre>
+
+<p>注意</p>
+<p>当目标表在 <strong>Kudu</strong> 时，<strong>DELETE</strong> 语句仅适用于 <strong>Impala</strong> 。</p>
+<h4 id="_11">批量删除</h4>
+<p>您可以使用 <a href="/pages/viewpage.action?pageId=10813620">“插入批量”</a> 中概述的相同方法 批量删除 。</p>
+<pre><code>DELETE FROM my_first_table WHERE id &lt; 3;
+</code></pre>
+
+<h3 id="insertupdate-delete">INSERT，UPDATE 和 DELETE 操作期间的故障</h3>
+<p><strong>INSERT</strong> ，<strong>UPDATE</strong> 和 <strong>DELETE</strong> 语句不能被视为整体事务。如果这些操作中的一个无法部分通过，则可能已经创建了密钥（在 <strong>INSERT</strong> 的情况下），或者记录可能已被其他进程修改或删除（在 <strong>UPDATE</strong> 或 <strong>DELETE</strong> 的情况下）。您应该设计您的应用程序。</p>
+<h3 id="_12">更改表属性</h3>
+<p>您可以通过更改表的属性来更改 <strong>Impala</strong> 与给定 <strong>Kudu</strong> 表相关的元数据。这些属性包括表名， <strong>Kudu</strong> 主地址列表，以及表是否由 <strong>Impala</strong> （内部）或外部管理。</p>
+<p><strong>Rename an Impala Mapping Table ( 重命名 Impala 映射表 )</strong></p>
+<pre><code>ALTER TABLE my_table RENAME TO my_new_table;
+</code></pre>
+
+<p>注意</p>
+<p>使用 <strong>ALTER TABLE ... RENAME</strong> 语句重命名表仅重命名 <strong>Impala</strong> 映射表，无论该表是内部还是外部表。这样可以避免可能访问基础的 <strong>Kudu</strong> 表的其他应用程序的中断。</p>
+<p><strong>Rename the underlying Kudu table for an internal table ( 重新命名内部表的基础 Kudu 表 )</strong></p>
+<p>如果表是内部表，则可以通过更改 <strong>kudu.table_name</strong> 属性重命名底层的 <strong>Kudu</strong> 表：</p>
+<pre><code>ALTER TABLE my_internal_table
+SET TBLPROPERTIES('kudu.table_name' = 'new_name')
+</code></pre>
+
+<p><strong>Remapping an external table to a different Kudu table ( 将外部表重新映射到不同的 Kudu 表 )</strong></p>
+<p>如果另一个应用程序在 <strong>Impala</strong> 下重命名了 <strong>Kudu</strong> 表，则可以重新映射外部表以指向不同的 <strong>Kudu</strong> 表名称。</p>
+<pre><code>ALTER TABLE my_external_table_
+SET TBLPROPERTIES('kudu.table_name' = 'some_other_kudu_table')
+</code></pre>
+
+<p><strong>Change the Kudu Master Address ( 更改 Kudu Master 地址 )</strong></p>
+<pre><code>ALTER TABLE my_table
+SET TBLPROPERTIES('kudu.master_addresses' = 'kudu-new-master.example.com:7051');
+</code></pre>
+
+<p><strong>Change an Internally-Managed Table to External ( 将内部管理的表更改为外部 )</strong></p>
+<pre><code>ALTER TABLE my_table SET TBLPROPERTIES('EXTERNAL' = 'TRUE');
+</code></pre>
+
+<h3 id="impala-kudu_3">使用 Impala 删除 Kudu 表</h3>
+<p>如果表是使用 <strong>Impala</strong> 中的内部表创建的，则使用 <strong>CREATE TABLE</strong> ，标准 <strong>DROP TABLE</strong> 语法会删除底层的 <strong>Kudu</strong> 表及其所有数据。如果表被创建为一个外部表，使用 <strong>CREATE EXTERNAL TABLE，Impala</strong> 和 <strong>Kudu</strong> 之间的映射被删除，但 <strong>Kudu</strong> 表保持原样，并包含其所有数据。</p>
+<pre><code>DROP TABLE my_first_table;
+</code></pre>
+
+<h2 id="_13">下一步做什么？</h2>
+<p>上面的例子只是探索了 <strong>Impala Shell</strong> 所能做的一小部分。</p>
+<ul>
+<li>了解 <a href="http://impala.io/"><strong>Impala</strong> 项目</a></li>
+<li>阅读 <a href="http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/impala.html"><strong>Impala</strong> 文档</a></li>
+<li>查看 <a href="http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/impala_langref.html"><strong>Impala SQL</strong> 参考</a></li>
+<li>阅读<strong> Impala</strong> 内部部分或了解如何在<strong> <a href="https://github.com/cloudera/Impala/wiki">Impala Wiki</a></strong> 上为 <strong>Impala</strong> 做出贡献。</li>
+<li>阅读原生的 <a href="/pages/viewpage.action?pageId=10813613"><strong>Kudu API</strong></a> 。</li>
+</ul>
+<h3 id="_14">已知问题和限制</h3>
+<ul>
+<li>在使用 <strong>Impala</strong> 中的外部表格时，必须为具有大写字母或非 <strong>ASCII</strong> 字符的名称的 <strong>Kudu</strong> 表分配备用名称。</li>
+<li>具有包含大写字母或非 <strong>ASCII</strong> 字符的列名称的 <strong>Kudu</strong> 表可能不会用作 <strong>Impala</strong> 中的外部表。专栏可能在 <strong>Kudu</strong> 更名为解决这个问题。</li>
+<li>创建 <strong>Kudu</strong> 表时，<strong>CREATE TABLE</strong> 语句必须在主键顺序中包含其他列之间的主键列。</li>
+<li>包含 <strong>UNIXTIME_MICROS</strong> 类型列的库杜表可能不会用作 <strong>Impala</strong> 中的外部表。</li>
+<li><strong>Impala</strong> 不能使用 <strong>TIMESTAMP</strong> ， <strong>DECIMAL</strong> ， <strong>VARCHAR</strong> 或嵌套类型的列创建 Kudu 表。</li>
+<li><strong>Impala</strong> 无法更新主键列中的值。</li>
+<li><strong>NULL</strong>，<strong>NOT NULL</strong>，<strong>!=</strong> 和 <strong>LIKE</strong> 谓词不会被推送到 <strong>Kudu</strong> ，而是会被 <strong>Impala</strong> 扫描节点评估。这可能会降低相对于其他类型谓词的性能。</li>
+<li>通过 <strong>Impala</strong> 的更新，插入和删除是非事务性的。如果查询失败的一部分途径，其部分效果将不会回滚。</li>
+<li>单个查询的最大并行度仅限于表中的 <strong>tablets</strong> 数量。为了获得良好的分析性能，针对每个主机10个或更多个 <strong>tablets</strong> 或使用大型表。</li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+
+              <hr/>
+              <div align="center">
+                  <p><a href="http://www.apachecn.org/" target="_blank"><font face="KaiTi" size="6" color="red">我们一直在努力</font></a><p>
+                  <p><a href="https://github.com/apachecn/kudu-doc-zh/" target="_blank">apachecn/kudu-doc-zh</a></p>
+                  <p><iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=watch&count=true&v=2" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=star&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=fork&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=bcee938030cc9e1552deb3bd9617bbbf62d3ec1647e4b60d9cd6b6e8f78ddc03"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="ML | ApacheCN" title="ML | ApacheCN"></a></p>
+                  <div style="text-align:center;margin:0 0 10.5px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-3565452474788507"
+                             data-ad-slot="2543897000"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script></div>
+              </div>
+
+              <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+              <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+              <div id="gitalk-container" class="container-fluid"></div>
+              <script type="text/javascript">
+                  var gitalk = new Gitalk({
+                  clientID: 'f27b87eb424ba43df978',
+                  clientSecret: '9b3482a495c5257a1d269d8108b9bfd71f048c3c',
+                  repo: 'kudu-doc-zh',
+                  owner: 'apachecn',
+                  admin: ['jiangzhonglian'],
+                  id: md5(location.pathname),
+                  distractionFreeMode: false
+                  })
+                  gitalk.render('gitalk-container')
+              </script>
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../4/" title="配置 Kudu" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  后退
+                </span>
+                配置 Kudu
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../6/" title="管理 Kudu" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  前进
+                </span>
+                管理 Kudu
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.583bbe55.js"></script>
+      
+        
+        
+          
+          <script src="../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+                <script src="../assets/javascripts/lunr/tinyseg.js"></script>
+              
+              
+                <script src="../assets/javascripts/lunr/lunr.jp.js"></script>
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

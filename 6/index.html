@@ -1,0 +1,1421 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Kudu 1.4.0 中文文档">
+      
+      
+        <link rel="canonical" href="http://kudu.apachecn.org/6/">
+      
+      
+        <meta name="author" content="ApacheCN Team">
+      
+      
+        <meta name="lang:clipboard.copy" content="复制">
+      
+        <meta name="lang:clipboard.copied" content="已复制">
+      
+        <meta name="lang:search.language" content="jp">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="没有找到符合条件的结果">
+      
+        <meta name="lang:search.result.one" content="找到 1 个符合条件的结果">
+      
+        <meta name="lang:search.result.other" content="# 个符合条件的结果">
+      
+        <meta name="lang:search.tokenizer" content="[\uff0c\u3002]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.3">
+    
+    
+      
+        <title>管理 Kudu - Kudu 1.4.0 中文文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?44851246425f0efa5dd4676b59413604";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <!-- google webmaster -->
+    <meta name="google-site-verification" content="pyo9N70ZWyh8JB43bIu633mhxesJ1IcwWCZlM3jUfFo" />
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="../#kudu" tabindex="1" class="md-skip">
+        跳转至
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Kudu 1.4.0 中文文档
+              </span>
+              <span class="md-header-nav__topic">
+                管理 Kudu
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            键入以开始搜索
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="http://kudu.apachecn.org" title="Kudu 1.4.0 中文文档" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Kudu 1.4.0 中文文档
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/apachecn/kudu-doc-zh/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      kudu-doc-zh
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Kudu 1.4.0 中文文档" class="md-nav__link">
+      Kudu 1.4.0 中文文档
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../1/" title="介绍 Kudu" class="md-nav__link">
+      介绍 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../2/" title="Kudu 入门指南" class="md-nav__link">
+      Kudu 入门指南
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../3/" title="安装指南" class="md-nav__link">
+      安装指南
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../4/" title="配置 Kudu" class="md-nav__link">
+      配置 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../5/" title="Kudu 集成 Apache Impala" class="md-nav__link">
+      Kudu 集成 Apache Impala
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        管理 Kudu
+      </label>
+    
+    <a href="./" title="管理 Kudu" class="md-nav__link md-nav__link--active">
+      管理 Kudu
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#apache-kudu-administration-apache-kudu" title="Apache Kudu Administration ( 管理 Apache Kudu )" class="md-nav__link">
+    Apache Kudu Administration ( 管理 Apache Kudu )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu_1" title="启动和停止 Kudu 进程" class="md-nav__link">
+    启动和停止 Kudu 进程
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu-web" title="Kudu Web 界面" class="md-nav__link">
+    Kudu Web 界面
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kudu-master-web-interface" title="Kudu Master Web Interface" class="md-nav__link">
+    Kudu Master Web Interface
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kudu-tablets-server-web" title="Kudu Tablets Server Web 界面" class="md-nav__link">
+    Kudu Tablets Server Web 界面
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web" title="常见的 Web 界面页面" class="md-nav__link">
+    常见的 Web 界面页面
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu-metrics" title="Kudu Metrics ( 指标 )" class="md-nav__link">
+    Kudu Metrics ( 指标 )
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" title="列出可用的指标" class="md-nav__link">
+    列出可用的指标
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http" title="通过HTTP收集指标" class="md-nav__link">
+    通过HTTP收集指标
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" title="收集指标到日志" class="md-nav__link">
+    收集指标到日志
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu_2" title="常见的 Kudu 工作流程" class="md-nav__link">
+    常见的 Kudu 工作流程
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kudu-master" title="迁移到多个 Kudu Master" class="md-nav__link">
+    迁移到多个 Kudu Master
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" title="准备迁移" class="md-nav__link">
+    准备迁移
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" title="执行迁移" class="md-nav__link">
+    执行迁移
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#master-kudu-master" title="在多 Master 部署中从死亡的 Kudu Master 恢复" class="md-nav__link">
+    在多 Master 部署中从死亡的 Kudu Master 恢复
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" title="为恢复做准备" class="md-nav__link">
+    为恢复做准备
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" title="执行恢复" class="md-nav__link">
+    执行恢复
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ksck" title="使用 ksck 检查集群运行状况" class="md-nav__link">
+    使用 ksck 检查集群运行状况
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" title="从磁盘故障恢复" class="md-nav__link">
+    从磁盘故障恢复
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../7/" title="Kudu 故障排除" class="md-nav__link">
+      Kudu 故障排除
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../8/" title="使用 Kudu 开发应用程序" class="md-nav__link">
+      使用 Kudu 开发应用程序
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../9/" title="Kudu Schema Design ( 模式设计 )" class="md-nav__link">
+      Kudu Schema Design ( 模式设计 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../10/" title="Kudu Security ( 安全 )" class="md-nav__link">
+      Kudu Security ( 安全 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../11/" title="Kudu Transaction Semantics ( 事务语义 )" class="md-nav__link">
+      Kudu Transaction Semantics ( 事务语义 )
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../12/" title="后台维护任务" class="md-nav__link">
+      后台维护任务
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../13/" title="Kudu 配置参考" class="md-nav__link">
+      Kudu 配置参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../14/" title="Kudu 命令行工具参考" class="md-nav__link">
+      Kudu 命令行工具参考
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../15/" title="已知的问题和限制" class="md-nav__link">
+      已知的问题和限制
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../16/" title="贡献于 Kudu" class="md-nav__link">
+      贡献于 Kudu
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../17/" title="Export Control Notice ( 出口管制通知 )" class="md-nav__link">
+      Export Control Notice ( 出口管制通知 )
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#apache-kudu-administration-apache-kudu" title="Apache Kudu Administration ( 管理 Apache Kudu )" class="md-nav__link">
+    Apache Kudu Administration ( 管理 Apache Kudu )
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu_1" title="启动和停止 Kudu 进程" class="md-nav__link">
+    启动和停止 Kudu 进程
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu-web" title="Kudu Web 界面" class="md-nav__link">
+    Kudu Web 界面
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kudu-master-web-interface" title="Kudu Master Web Interface" class="md-nav__link">
+    Kudu Master Web Interface
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kudu-tablets-server-web" title="Kudu Tablets Server Web 界面" class="md-nav__link">
+    Kudu Tablets Server Web 界面
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web" title="常见的 Web 界面页面" class="md-nav__link">
+    常见的 Web 界面页面
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu-metrics" title="Kudu Metrics ( 指标 )" class="md-nav__link">
+    Kudu Metrics ( 指标 )
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" title="列出可用的指标" class="md-nav__link">
+    列出可用的指标
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http" title="通过HTTP收集指标" class="md-nav__link">
+    通过HTTP收集指标
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" title="收集指标到日志" class="md-nav__link">
+    收集指标到日志
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kudu_2" title="常见的 Kudu 工作流程" class="md-nav__link">
+    常见的 Kudu 工作流程
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kudu-master" title="迁移到多个 Kudu Master" class="md-nav__link">
+    迁移到多个 Kudu Master
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" title="准备迁移" class="md-nav__link">
+    准备迁移
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" title="执行迁移" class="md-nav__link">
+    执行迁移
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#master-kudu-master" title="在多 Master 部署中从死亡的 Kudu Master 恢复" class="md-nav__link">
+    在多 Master 部署中从死亡的 Kudu Master 恢复
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" title="为恢复做准备" class="md-nav__link">
+    为恢复做准备
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" title="执行恢复" class="md-nav__link">
+    执行恢复
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ksck" title="使用 ksck 检查集群运行状况" class="md-nav__link">
+    使用 ksck 检查集群运行状况
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" title="从磁盘故障恢复" class="md-nav__link">
+    从磁盘故障恢复
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/apachecn/kudu-doc-zh/edit/master/docs/6.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="kudu">管理 Kudu</h1>
+<p>原文链接 : <a href="http://kudu.apache.org/docs/administration.html">http://kudu.apache.org/docs/administration.html</a></p>
+<p>译文链接 : <a href="http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813623">http://cwiki.apachecn.org/pages/viewpage.action?pageId=10813623</a></p>
+<p>贡献者 : <a href="/display/~chenyao">小瑶</a> <a href="/display/~apachecn">ApacheCN</a> <a href="/display/~apachechina">Apache中文网</a></p>
+<h2 id="apache-kudu-administration-apache-kudu">Apache Kudu Administration ( 管理 Apache Kudu )</h2>
+<p>注意</p>
+<p><strong>Kudu</strong> 与<strong><a href="http://www.cloudera.com/content/www/en-us/products/cloudera-manager.html">Cloudera Manager</a></strong> 相比在独立安装中更容易管理。 有关使用 <strong>Kudu</strong> 与 <strong>Cloudera Manager</strong> 的更多详细信息，请参阅 <a href="http://www.cloudera.com/documentation/kudu/latest/topics/kudu_installation.html"><strong>Cloudera Kudu</strong> 文档</a> 。</p>
+<h2 id="kudu_1">启动和停止 Kudu 进程</h2>
+<p>重要</p>
+<p>仅当使用操作系统软件包（例如 <strong>rpm</strong> 或 <strong>deb</strong> ）安装 <strong>Kudu</strong> 时，这些说明才是相关的。</p>
+<ol>
+<li>
+<p>使用以下命令启动 <strong>Kudu</strong> 服务：</p>
+<p><code>$ sudo service kudu-master start
+$ sudo service kudu-tserver start</code></p>
+</li>
+<li>
+<p>要停止 <strong>Kudu</strong> 服务，请使用以下命令：</p>
+<p><code>$ sudo service kudu-master stop
+$ sudo service kudu-tserver stop</code></p>
+</li>
+</ol>
+<h2 id="kudu-web">Kudu Web 界面</h2>
+<p><strong>Kudu tablet servers</strong> 和 <strong>masters</strong> 在内置的 <strong>Web</strong> 界面上显示有用的操作信息，</p>
+<h3 id="kudu-master-web-interface">Kudu Master Web Interface</h3>
+<p><strong>Kudu</strong> 主进程在 <strong>8051</strong> 端口上为其 <strong>Web</strong> 界面提供服务。该界面暴露了几个页面，其中包含有关群集状态的信息：</p>
+<ul>
+<li><strong>tablet servers</strong> 列表，其 <strong>host names</strong> 和上次心跳时间。</li>
+<li>表格列表，包括每个表的 <strong>schema </strong>和 <strong>tablet location information</strong> 信息。</li>
+<li>您可以将其粘贴到 <strong>Impala</strong> <strong>Shell</strong> 中以将现有表添加到 Impala 的已知数据源列表中的 <strong>SQL</strong> 代码。</li>
+</ul>
+<h3 id="kudu-tablets-server-web">Kudu Tablets Server Web 界面</h3>
+<p>每个<strong>tablet server</strong> 都提供端口 <strong>8050</strong> 上的 <strong>Web</strong> 界面。该界面显示有关服务器上托管的每个<strong>tablet</strong> 的信息，其当前状态以及有关维护后台操作的调试信息。</p>
+<h3 id="web">常见的 Web 界面页面</h3>
+<p><strong>Kudu masters</strong> 和 <strong>tablet servers</strong> 通过其 <strong>Web</strong> 界面暴露了一组通用的信息：</p>
+<ul>
+<li>HTTP 访问服务器日志。</li>
+<li>
+<p>一个 <strong>/rpcz</strong> 端点，通过 <strong>JSON</strong> 列出当前运行的 <strong>RPC</strong> 。</p>
+</li>
+<li>
+<p>页面提供了有关进程不同组件的内存使用情况的概述和详细信息。</p>
+</li>
+<li>
+<p>关于当前配置标志的信息。</p>
+</li>
+<li>关于当前正在运行的线程及其资源消耗的信息。</li>
+<li>
+<p>一个 <strong>JSON</strong> 端点显示有关服务器的指标。</p>
+</li>
+<li>
+<p>有关守护程序部署版本号的信息。</p>
+</li>
+</ul>
+<p>这些界面是从每个守护进程的 <strong>Web UI</strong> 的 <strong>landing page</strong> 链接的。</p>
+<h2 id="kudu-metrics">Kudu Metrics ( 指标 )</h2>
+<p><strong>Kudu</strong> 守护进程公开了大量的指标。一些指标与整个服务器进程相关联，而其他指标与特定 <strong>tablet</strong> 副本相关联。</p>
+<h3 id="_1">列出可用的指标</h3>
+<p><strong>Kudu</strong> 服务器的全套可用度量值可以通过特殊的命令行标志进行转储：</p>
+<pre><code>$ kudu-tserver --dump_metrics_json
+$ kudu-master --dump_metrics_json
+</code></pre>
+
+<p>这将输出一个大的 <strong>JSON</strong> 文档。每个指标都表示其名称，标签，描述，单位和类型。由于输出是 <strong>JSON</strong> 格式的，所以可以轻松地将这些信息进行解析，并将其馈送到从 <strong>Kudu</strong> 服务器收集指标的其他工具中。</p>
+<h3 id="http">通过HTTP收集指标</h3>
+<p>可以通过访问/指标通过其 <strong>HTTP</strong> 接口从服务器进程收集度量。此页面的输出是 <strong>JSON</strong> ，可以通过监视服务轻松解析。此端点在其查询字符串中接受几个 <strong>GET</strong> 参数：</p>
+<ul>
+<li><strong>/metrics?metrics=&lt;substring1&gt;,&lt;substring2&gt;,…</strong> - 将返回的指标限制为至少包含一个提供的子字符串的指标。子串也匹配实体名称，因此可用于收集特定 <strong>tablet</strong> 的指标。</li>
+<li><strong>/metrics?include_schema=1</strong> -  包括 JSON 输出中的度量架构信息，如单位，描述和标签。通常这些信息可以节省空间。</li>
+<li><strong>/metrics?compact=1</strong> - 从结果 JSON 中消除不必要的空格，从远程主机获取此页面时可以减少带宽。</li>
+<li><strong>/metrics?include_raw_histograms=1</strong> - 包括直方图指标的原始存储桶和值，可实现随时间和跨主机的百分位数度量的准确聚合。</li>
+</ul>
+<p>例如：</p>
+<pre><code>$ curl -s 'http://example-ts:8050/metrics?include_schema=1&amp;metrics=connections_accepted'
+</code></pre>
+
+<pre><code>[
+    {
+        &quot;type&quot;: &quot;server&quot;,
+        &quot;id&quot;: &quot;kudu.tabletserver&quot;,
+        &quot;attributes&quot;: {},
+        &quot;metrics&quot;: [
+            {
+                &quot;name&quot;: &quot;rpc_connections_accepted&quot;,
+                &quot;label&quot;: &quot;RPC Connections Accepted&quot;,
+                &quot;type&quot;: &quot;counter&quot;,
+                &quot;unit&quot;: &quot;connections&quot;,
+                &quot;description&quot;: &quot;Number of incoming TCP connections made to the RPC server&quot;,
+                &quot;value&quot;: 92
+            }
+        ]
+    }
+]
+</code></pre>
+
+<pre><code>$ curl -s 'http://example-ts:8050/metrics?metrics=log_append_latency'
+</code></pre>
+
+<pre><code>[
+    {
+        &quot;type&quot;: &quot;tablet&quot;,
+        &quot;id&quot;: &quot;c0ebf9fef1b847e2a83c7bd35c2056b1&quot;,
+        &quot;attributes&quot;: {
+            &quot;table_name&quot;: &quot;lineitem&quot;,
+            &quot;partition&quot;: &quot;hash buckets: (55), range: [(&lt;start&gt;), (&lt;end&gt;))&quot;,
+            &quot;table_id&quot;: &quot;&quot;
+        },
+        &quot;metrics&quot;: [
+            {
+                &quot;name&quot;: &quot;log_append_latency&quot;,
+                &quot;total_count&quot;: 7498,
+                &quot;min&quot;: 4,
+                &quot;mean&quot;: 69.3649,
+                &quot;percentile_75&quot;: 29,
+                &quot;percentile_95&quot;: 38,
+                &quot;percentile_99&quot;: 45,
+                &quot;percentile_99_9&quot;: 95,
+                &quot;percentile_99_99&quot;: 167,
+                &quot;max&quot;: 367244,
+                &quot;total_sum&quot;: 520098
+            }
+        ]
+    }
+]
+</code></pre>
+
+<p>注意</p>
+<p>所有直方图和计数器都是从服务器开始时间开始测量的，收集后不会重置。</p>
+<h3 id="_2">收集指标到日志</h3>
+<p><strong>Kudu</strong> 可以配置为使用 <strong>--metrics_log_interval_ms</strong> 标志将其所有度量值定期转储到本地日志文件。将此标志设置为将度量值写入日志文件的时间间隔。</p>
+<p>度量日志将与其他 <strong>Kudu</strong> 日志文件一样写入与其相同的目录，具有相同的命名格式。任何指标日志文件达到 <strong>64MB</strong> 未压缩后，日志将被滚动，上一个文件将被 <strong>gzip</strong> 压缩。</p>
+<p>生成的日志文件有三个空格分隔的字段。第一个字段是单词指标。第二个字段是自 <strong>Unix</strong> 纪元以来的微秒的当前时间戳。第三个是使用紧凑的 <strong>JSON</strong> 编码在服务器上的所有指标的当前值。编码与通过上述 <strong>HTTP</strong> 获取的指标相同。</p>
+<p>注意</p>
+<p>虽然度量记录自动滚动并压缩以前的日志文件，但它不会删除旧的日志文件。由于度量记录可以使用大量的磁盘空间，因此请考虑设置系统实用程序来监视日志目录中的空间并归档或删除旧段。</p>
+<h2 id="kudu_2">常见的 Kudu 工作流程</h2>
+<h3 id="kudu-master">迁移到多个 Kudu Master</h3>
+<p>为了获得高可用性并避免出现单点故障，<strong>Kudu</strong> 集群应该由多个主人创建。许多 <strong>Kudu</strong> 集群是由一个单一的主人创建的，无论是简单的还是由于 <strong>Kudu</strong> 多主人的支持在当时仍然是实验性的。此工作流演示如何迁移到多主配置。</p>
+<p>注意</p>
+<p>将工作流添加到现有的多主配置中是不安全的。不要为此目的使用它。</p>
+<p>注意</p>
+<p>该工作流程至少基本上熟悉 <strong>Kudu</strong> 配置管理。如果使用 <strong>Cloudera Manager（CM）</strong> ，工作流程也预先假定它是熟悉的。</p>
+<p>注意</p>
+<p>以下所有命令行步骤都应该像 <strong>Kudu</strong> <strong>UNIX</strong> 用户一般执行。</p>
+<h4 id="_3">准备迁移</h4>
+<ol>
+<li>建立维护窗口（一小时应该足够）。在此期间，<strong>Kudu</strong> 集群将不可用。</li>
+<li>决定使用多少 <strong>masters</strong> 。 <strong>masters</strong> 的数量应该是奇数。建议使用三或五个节点主配置;他们可以容忍一两个故障。</li>
+<li>
+<p>对现有 <strong>master</strong> 执行以下准备步骤：</p>
+<ul>
+<li>识别和记录主数据所在的目录。如果使用 <strong>Kudu</strong> 系统软件包，则默认值为 <strong>/var/lib/kudu/master</strong> ，但可以通过 <strong>fs_wal_dir</strong> 和 <strong>fs_data_dirs</strong> 配置参数进行自定义。请注意，如果您将 <strong>fs_data_dirs</strong> 设置为除 <strong>fs_wal_dir</strong> 值之外的某些目录，则应将其明确包含在其中还包含 fs_wal_dir 的每个命令中。</li>
+<li>识别和记录 <strong>master</strong> 正在为 <strong>RPC</strong> 使用的端口。默认端口值为 <strong>7051</strong> ，但可能使用 <strong>rpc_bind_addresses</strong> 配置参数进行了自定义。</li>
+<li>
+<p>识别 <strong>master</strong> 的 <strong>UUID</strong> 。可以使用以下命令获取它：</p>
+<p><code>$ kudu fs dump uuid --fs_wal_dir=&amp;lt;master_data_dir&amp;gt; 2&amp;gt;/dev/null</code></p>
+<p><strong>master_data_dir</strong>
+现有 master 以前记录的数据目录
+<strong>例子</strong></p>
+<p><code>$ kudu fs dump uuid --fs_wal_dir=/var/lib/kudu/master 2&amp;gt;/dev/null
+4aab798a69e94fab8d77069edff28ce0</code></p>
+</li>
+<li>
+<p>可选：配置 <strong>master</strong> 的 <strong>DNS</strong> 别名。别名可能是 <strong>DNS cname</strong> （如果机器已经在 <strong>DNS</strong> 中有 <strong>A</strong> 记录）， <strong>A</strong> 记录（如果机器仅由其 <strong>IP</strong> 地址知道）或 <strong>/etc/hosts</strong> 中的别名。别名应该是 <strong>master</strong> 的抽象表示（例如，<strong>master - 1</strong>）。</p>
+<p>注意</p>
+<p>没有 <strong>DNS</strong> 别名，不可能从永久性主机故障中恢复，因此强烈建议。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>为每个新的主设备执行以下准备步骤：</p>
+</li>
+<li>
+<ul>
+<li>
+<p>在集群中选择一个未使用的机器。主机生成的负载很小，因此它可以与其他数据服务或负载生成过程共同配置，尽管与其他 <strong>Kudu</strong> 主机不同，配置相同。</p>
+</li>
+<li>
+<p>确保 <strong>Kudu</strong> 通过系统包装（在这种情况下应安装 <strong>kudu</strong> 和 <strong>kudu-master</strong> 包装）或通过其他方式安装在机器上。</p>
+</li>
+<li>
+<p>选择并记录主数据将存在的目录。</p>
+</li>
+<li>选择并记录主机应用于 <strong>RPC</strong> 的端口。</li>
+<li>可选：配置主服务器的 <strong>DNS</strong> 别名（例如，<strong>master-2</strong> ， <strong>master-3</strong> 等）。</li>
+</ul>
+</li>
+</ol>
+<h4 id="_4">执行迁移</h4>
+<ol>
+<li>停止整个集群中的所有 <strong>Kudu</strong> 进程。</li>
+<li>
+<p>格式化每个新 <strong>master  </strong>上的数据目录，并记录生成的 <strong>UUID</strong> 。使用以下命令序列：</p>
+<p><code>$ kudu fs format --fs_wal_dir=&amp;lt;master_data_dir&amp;gt;
+$ kudu fs dump uuid --fs_wal_dir=&amp;lt;master_data_dir&amp;gt; 2&amp;gt;/dev/null</code></p>
+<p><strong>master_data_dir</strong></p>
+<p>新 master 以前录制的数据目录。
+<strong>示例</strong></p>
+<p><code>$ kudu fs format --fs_wal_dir=/var/lib/kudu/master
+$ kudu fs dump uuid --fs_wal_dir=/var/lib/kudu/master 2&amp;gt;/dev/null
+f5624e05f40649b79a757629a69d061e</code></p>
+</li>
+<li>
+<p>如果使用 <strong>CM</strong> ，现在添加新的 <strong>Kudu master roles</strong> ，但不要启动它们。</p>
+<ul>
+<li>如果使用 <strong>DNS</strong> 别名，请使用该主机的别名覆盖每个角色（包括现有主角色）的 <strong>“Master Address”</strong> 参数的空值。</li>
+<li>如果使用非默认 <strong>RPC</strong> 端口值，请添加端口号（以冒号分隔）。</li>
+<li>使用以下命令重写 <strong>master</strong> 的 <strong>Raft</strong> 配置，在现有主机上执行：</li>
+</ul>
+<p><code>$ kudu local_replica cmeta rewrite_raft_config --fs_wal_dir=&amp;lt;master_data_dir&amp;gt; &amp;lt;tablet_id&amp;gt; &amp;lt;all_masters&amp;gt;</code></p>
+<p><strong>master_data_dir</strong></p>
+<p>现有 master 以前记录的数据目录
+<strong>tablet_id</strong>必须是字符串 00000000000000000000000000000000<strong>all_masters</strong>空格分隔的 master 的列表，新的和现在的。列表中的每个条目必须是 &lt;uuid&gt;：&lt;hostname&gt;：&lt;port&gt; 格式的字符串   <strong>UUID</strong>
+   master 以前记录的 UUID
+<strong>hostname</strong>
+   master 以前记录的 hostname 或 别名
+<strong>port</strong>
+   master 以前记录的 RPC 的端口号
+<strong>示例</strong></p>
+<p><code>$ kudu local_replica cmeta rewrite_raft_config --fs_wal_dir=/var/lib/kudu/master 00000000000000000000000000000000 4aab798a69e94fab8d77069edff28ce0:master-1:7051 f5624e05f40649b79a757629a69d061e:master-2:7051 988d8ac6530f426cbe180be5ba52033d:master-3:7051</code></p>
+</li>
+<li>
+<p>修改现有 <strong>master</strong> 和新 <strong>masters</strong> 的 <strong>master_addresses</strong> 配置参数的值。新值必须是所有主节点的逗号分隔列表。每个条目是 <strong>&lt;hostname&gt;：&lt;port&gt;</strong> 形式的字符串</p>
+<p><strong>hostname</strong>
+   master 以前记录的 hostname 和 别名
+<strong>port</strong>
+   master 以前记录的 RPC 端口号</p>
+</li>
+<li>
+<p>启动现有的 <strong>master</strong></p>
+</li>
+<li>
+<p>使用以下命令将 <strong>master</strong> 数据复制到每个新 <strong>master</strong> ，在每台新 <strong>master</strong> 上执行：</p>
+<p><code>$ kudu local_replica copy_from_remote --fs_wal_dir=&amp;lt;master_data_dir&amp;gt; &amp;lt;tablet_id&amp;gt; &amp;lt;existing_master&amp;gt;</code></p>
+<p><strong>master_data_dir</strong></p>
+<p>新 master 以前记录的数据目录</p>
+<p><strong>tablet_id</strong></p>
+<p>必须是字符串 00000000000000000000000000000000</p>
+<p><strong>existing_master</strong></p>
+<p>现有 master 的 RPC 地址必须是 &lt;hostname&gt;：&lt;port&gt; 形式的字符串</p>
+<p><strong>hostname</strong></p>
+<p>现有 master 以前记录的 hostname 或别名
+<strong>port</strong>
+现有 master 以前记录的 RPC 端口号
+<strong>示例</strong></p>
+<p><code>$ kudu local_replica copy_from_remote --fs_wal_dir=/var/lib/kudu/master 00000000000000000000000000000000 master-1:7051</code></p>
+</li>
+<li>
+<p>启动所有的新的 <strong>master</strong></p>
+<p>注意</p>
+<p>如果使用 <strong>CM</strong> ，请跳过下一步。</p>
+</li>
+<li>
+<p>修改每个 <strong>tablet</strong> <strong>server</strong> 的 <strong>tserver_master_addrs</strong> 配置参数的值。新值必须是以逗号分隔的主文件列表，其中每个条目是 <strong>&lt;hostname&gt;</strong> 形式的字符串 ：<strong>&lt;port&gt;</strong> 
+    <strong>hostname</strong>
+    master 以前记录的 hostname 和别名
+    <strong>port</strong>
+    master 以前记录的 RPC 端口号</p>
+</li>
+<li>
+<p>启动所有的 <strong>tablet servers</strong></p>
+</li>
+</ol>
+<p>恭喜，集群已经迁移到多个 <strong>masters</strong> 了！要验证所有 <strong>master</strong> 是否正常工作，请考虑执行以下健康性检查：</p>
+<ul>
+<li>使用浏览器访问每个 <strong>master</strong> 的 <strong>Web UI</strong> 。看看 <strong>/master page</strong> 。所有的 <strong>master</strong> 都应该被列在那里，一个主人在 <strong>LEADER</strong> 角色，其他的在 <strong>FOLLOWER</strong> 角色。每个 <strong>master</strong> 的 <strong>master</strong> 的内容应该是一样的。</li>
+<li>使用 <strong>kudu</strong> 命令行工具在集群上运行 <strong>Kudu</strong> 系统检查（ <strong>ksck</strong> ）。有关详细信息，请参阅 <a href="/pages/viewpage.action?pageId=10813623">使用 <strong>ksck</strong> 检查群集运行状况</a>。</li>
+</ul>
+<h3 id="master-kudu-master">在多 Master 部署中从死亡的 Kudu Master 恢复</h3>
+<p><strong>Kudu  multi-master</strong> 部署功能通常在主机丢失的情况下。但是，重要的是更换死主;否则第二次故障可能会导致可用性的丢失，具体取决于可用 <strong>master</strong> 的数量。此工作流程描述如何更换 <strong>dead master</strong> 。</p>
+<p>由于 <a href="https://issues.apache.org/jira/browse/KUDU-1620">KUDU-1620</a> ，无需重新启动现场主机即可执行此工作流程。因此，工作流需要一个维护窗口，尽管主要通常是快速重启。</p>
+<p>注意</p>
+<p><strong>Kudu</strong> 还不支持主人的 <strong>Raft</strong> 配置更改。因此，如果部署是使用 <strong>DNS</strong> 别名创建的，则只能替换主服务器。有关详细信息，请参阅<a href="/pages/viewpage.action?pageId=10813623"> <strong>multi-master</strong>  移动工作流程</a>。</p>
+<p>注意</p>
+<p>该工作流程至少基本上熟悉 <strong>Kudu</strong> 配置管理。如果使用 <strong>Cloudera Manager （CM）</strong> ，工作流程也预先假定它是熟悉的。</p>
+<p>注意</p>
+<p>以下所有命令行步骤都应该像 <strong>Kudu</strong> <strong>UNIX</strong> 用户一般执行。</p>
+<h4 id="_5">为恢复做准备</h4>
+<ol>
+<li>确保 <strong>dead master</strong> 机器正常并且真正死亡。采取一切必要步骤，防止意外重启;这对于集群后恢复来说可能是相当危险的。</li>
+<li>选择剩下的仍然活着的 <strong>master</strong> 之一作为恢复的基础。这个工作流程的其余部分将把这个主机称为 “<strong>reference</strong>” 主机。</li>
+<li>选择 <strong>new master</strong> 所在的群集中未使用的机器。<strong>master</strong> 生成的负载很小，因此它可以与其他数据服务或负载生成过程共同配置，尽管与其他 <strong>Kudu</strong> 主机不同，配置相同。这个工作流程的其余部分将把这个主机称为 “<strong>replacement</strong>” 主机。</li>
+<li>
+<p>为 <strong>replacement master</strong> 执行以下准备步骤：</p>
+<ul>
+<li>确保 <strong>Kudu</strong> 通过系统包装（在这种情况下应安装 <strong>kudu</strong> 和 <strong>kudu-master</strong> 包装）或通过其他方式安装在机器上。</li>
+<li>选择并记录 <strong>master</strong> 数据将存在的目录。</li>
+<li>
+<p>为每个现在活着的 <strong>master</strong> 执行以下步骤：</p>
+</li>
+<li>
+<p>识别和记录主数据所在的目录。如果使用 <strong>Kudu</strong> 系统软件包，则默认值为 <strong>/var/lib/kudu/master</strong> ，但可以通过 <strong>fs_wal_dir</strong> 和 <strong>fs_data_dirs</strong> 配置参数进行自定义。请注意，如果您将 <strong>fs_data_dirs</strong> 设置为除 <strong>fs_wal_dir</strong> 值之外的某些目录，则应将其明确包含在其中还包含 <strong>fs_wal_dir</strong> 的每个命令中。</p>
+</li>
+<li>
+<p>识别和记录 <strong>master</strong> 的 <strong>UUID</strong> 。可以使用以下命令获取它：</p>
+<p><code>$ kudu fs dump uuid --fs_wal_dir=&amp;lt;master_data_dir&amp;gt; 2&amp;gt;/dev/null</code></p>
+<p><strong>master_data_dir</strong></p>
+<p>活着 master 以前记录的数据目录</p>
+<p><strong>示例</strong></p>
+<p><code>$ kudu fs dump uuid --fs_wal_dir=/var/lib/kudu/master 2&amp;gt;/dev/null
+80a82c4b8a9f4c819bab744927ad765c</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>对 <strong>reference master</strong> 执行以下准备步骤：</p>
+<ul>
+<li>识别和记录主数据所在的目录。如果使用 <strong>Kudu</strong> 系统软件包，则默认值为 <strong>/var/lib/kudu/master</strong> ，但可以通过 <strong>fs_wal_dir</strong> 和 <strong>fs_data_dirs</strong> 配置参数进行自定义。请注意，如果您将 <strong>fs_data_dirs</strong> 设置为除 <strong>fs_wal_dir</strong> 值之外的某些目录，则应将其明确包含在其中还包含 fs_wal_dir 的每个命令中。</li>
+<li>
+<p>使用以下命令识别并记录集群中每个 <strong>master</strong> 的 <strong>UUID</strong> ：</p>
+<p><code>$ kudu local_replica cmeta print_replica_uuids --fs_wal_dir=&amp;lt;master_data_dir&amp;gt; &amp;lt;tablet_id&amp;gt; 2&amp;gt;/dev/null</code></p>
+<p><strong>master_data_dir</strong></p>
+<p>reference master 以前记录的数据目录</p>
+<p><strong>tablet_id</strong></p>
+<p>必须是字符串 00000000000000000000000000000000</p>
+<p><strong>示例</strong></p>
+<p><code>$ kudu local_replica cmeta print_replica_uuids --fs_wal_dir=/var/lib/kudu/master 00000000000000000000000000000000 2&amp;gt;/dev/null
+80a82c4b8a9f4c819bab744927ad765c 2a73eeee5d47413981d9a1c637cce170 1c3f3094256347528d02ec107466aef3</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>使用以前记录的两个 <strong>UUID</strong> 列表（一个用于所有 <strong>live master</strong> ，一个用于所有 <strong>master</strong> ），确定并记录（通过消除处理） <strong>dead master</strong> 的 <strong>UUID</strong> 。</p>
+</li>
+</ol>
+<h4 id="_6">执行恢复</h4>
+<ol>
+<li>
+<p>使用以前记录的 <strong>dead master</strong> 主机的 <strong>UUID</strong> 格式化 <strong>replacement master</strong>  上的数据目录。使用以下命令序列：</p>
+<p><code>$ kudu fs format --fs_wal_dir=&amp;lt;master_data_dir&amp;gt; --uuid=&amp;lt;uuid&amp;gt;</code></p>
+<p><strong>master_data_dir</strong></p>
+<p>replacement master 以前记录的数据目录</p>
+<p><strong>uuid</strong></p>
+<p>dead master 以前记录的 UUID</p>
+<p><strong>例子</strong></p>
+<p><code>$ kudu fs format --fs_wal_dir=/var/lib/kudu/master --uuid=80a82c4b8a9f4c819bab744927ad765c</code></p>
+</li>
+<li>
+<p>使用以下命令将 <strong>master</strong> 数据复制到 <strong>replacement master</strong> ：</p>
+<p><code>$ kudu local_replica copy_from_remote --fs_wal_dir=&amp;lt;master_data_dir&amp;gt; &amp;lt;tablet_id&amp;gt; &amp;lt;reference_master&amp;gt;</code></p>
+<p><strong>master_data_dir</strong></p>
+<p>replacement master 以前记录的数据目录</p>
+<p><strong>tablet_id</strong></p>
+<p>必须是字符串 00000000000000000000000000000000</p>
+<p><strong>reference_master</strong></p>
+<p>reference_master 的 RPC 地址必须是 &lt;hostname&gt;：&lt;port&gt; 形式的字符串</p>
+<p><strong>hostname</strong></p>
+<p>reference master 以前记录的 hostname 或别名
+<strong>port</strong>
+reference master 之前记录的 RPC 的端口号
+<strong>示例</strong></p>
+<p><code>$ kudu local_replica copy_from_remote --fs_wal_dir=/var/lib/kudu/master 00000000000000000000000000000000 master-2:7051</code></p>
+</li>
+<li>
+<p>如果使用 <strong>CM</strong> ，请立即添加替换的 <strong>Kudu master role</strong> ，但不要启动它。</p>
+<ul>
+<li>使用 <strong>replacement master</strong> 的别名覆盖<strong> new role</strong> 的 <strong>“ Master Address”</strong> 参数的空值。</li>
+<li>如果使用非默认 <strong>RPC</strong> 端口值，请添加端口号（以冒号分隔）。</li>
+<li>重新配置 <strong>dead master</strong> 的 <strong>DNS</strong> 别名以指向 <strong>replacement master</strong> 。</li>
+<li>启动<strong> replacement master</strong> 。</li>
+<li>重新启动现有的 <strong>live master</strong> 。这导致短暂的可用性中断，但是只有 masters 回来才能持续。</li>
+</ul>
+</li>
+</ol>
+<p>恭喜，<strong>dead master</strong> 已经被替换了！要验证所有 <strong>master</strong> 是否正常工作，请考虑执行以下健康性检查：</p>
+<ul>
+<li>使用浏览器访问每个 <strong>master</strong> 的 <strong>Web UI</strong> 。看看 <strong>/master page</strong> 。所有的主人都应该被列在那里，一个 <strong>master</strong> 在 <strong>LEADER</strong> 角色，其他的在 <strong>FOLLOWER</strong> 角色。每个 <strong>master</strong> 的 <strong>master</strong> 的内容应该是一样的。</li>
+<li>使用 <strong>kudu</strong> 命令行工具在集群上运行 <strong>Kudu</strong> 系统检查（ <strong>ksck</strong> ）。有关详细信息，请参阅 <a href="/pages/viewpage.action?pageId=10813623">使用 ksck 检查群集运行状况</a>。</li>
+</ul>
+<h3 id="ksck">使用 ksck 检查集群运行状况</h3>
+<p><strong>kudu CLI</strong> 包括一个名为 <strong>ksck</strong> 的工具，可用于检查群集运行状况和数据完整性。 <strong>ksck</strong> 会发现问题，如副本不足的 <strong>tablet</strong> ，无法连接的 <strong>tablet server</strong> 或没有 <strong>leader</strong> 的 <strong>tablet</strong> 。</p>
+<p>应从命令行运行 <strong>ksck</strong> ，并要求指定 master  address 的完整列表：</p>
+<pre><code>$ kudu cluster ksck master-01.example.com,master-02.example.com,master-03.example.com
+</code></pre>
+
+<p>要查看 <strong>ksck</strong> 可用选项的完整列表，请使用 <strong>--help</strong> 标志。如果集群是健康的， <strong>ksck</strong> 将打印成功消息，并返回零（成功）退出状态。</p>
+<pre><code>Connected to the Master
+Fetched info from all 1 Tablet Servers
+Table IntegrationTestBigLinkedList is HEALTHY (1 tablet(s) checked)
+
+The metadata for 1 table(s) is HEALTHY
+OK
+</code></pre>
+
+<p>如果集群不健康，例如，如果 <strong>tablet server</strong> 进程已停止，则 <strong>ksck</strong> 将报告问题并返回非零退出状态：</p>
+<pre><code>Connected to the Master
+WARNING: Unable to connect to Tablet Server 8a0b66a756014def82760a09946d1fce
+(tserver-01.example.com:7050): Network error: could not send Ping RPC to server: Client connection negotiation failed: client connection to 192.168.0.2:7050: connect: Connection refused (error 61)
+WARNING: Fetched info from 0 Tablet Servers, 1 weren't reachable
+Tablet ce3c2d27010d4253949a989b9d9bf43c of table 'IntegrationTestBigLinkedList'
+is unavailable: 1 replica(s) not RUNNING
+  8a0b66a756014def82760a09946d1fce (tserver-01.example.com:7050): TS unavailable [LEADER]
+
+  Table IntegrationTestBigLinkedList has 1 unavailable tablet(s)
+
+  WARNING: 1 out of 1 table(s) are not in a healthy state
+  ==================
+  Errors:
+  ==================
+  error fetching info from tablet servers: Network error: Not all Tablet Servers are reachable
+  table consistency check error: Corruption: 1 table(s) are bad
+
+  FAILED
+  Runtime error: ksck discovered errors
+</code></pre>
+
+<p>为了验证数据完整性，可以设置可选的 <strong>--checksum_scan</strong> 标志，通过扫描每个 <strong>tablet</strong> 副本并比较结果，可以确保集群具有一致的数据。 <strong> --tables</strong> 或 <strong>--tablets</strong> 标志可用于将校验和扫描的范围分别限制在特定的表格或 <strong>tablet</strong> 上。例如，可以使用以下命令对 <strong>IntegrationTestBigLinkedList</strong> 表上的数据完整性进行检查：</p>
+<pre><code>$ kudu cluster ksck --checksum_scan --tables IntegrationTestBigLinkedList master-01.example.com,master-02.example.com,master-03.example.com
+</code></pre>
+
+<h3 id="_7">从磁盘故障恢复</h3>
+<p><strong>Kudu tablet servers</strong> 无法恢复磁盘故障。当包含数据目录或预写日志（ <strong>WAL</strong> ）的磁盘死机时，必须重建整个 <strong>tablet server</strong>。在 <strong>tablet server</strong> 发生故障后， <strong>Kudu</strong> 会在其他服务器上自动重新复制 <strong>tablet</strong> ，但需要手动干预才能将失败的 <strong>tablet server</strong> 还原到运行状态。</p>
+<p>在磁盘故障后恢复 <strong>tablet servers</strong> 的第一步是更换发生故障的磁盘，或从数据目录 <strong>and/or  WAL</strong> 配置中删除出现故障的磁盘。接下来，必须删除数据目录和 <strong>WAL</strong> 目录的内容。例如，如果 <strong>tablet servers</strong> 配置了<strong>--fs_wal_dir = /data/0/kudu-tserver-wal</strong> 和 <strong>--fs_data_dirs = /data/1/kudu-tserver/data/2/kudu-tserver</strong> ，则以下命令将删除数据目录和 <strong>WAL</strong> 目录内容：</p>
+<pre><code>$ rm -rf /data/0/kudu-tserver-wal/* /data/1/kudu-tserver/* /data/2/kudu-tserver/*
+</code></pre>
+
+<p>在 <strong>WAL</strong> 和数据目录被清空之后，可以启动 <strong>tablet servers</strong> 进程。当使用系统包安装 <strong>Kudu</strong> 时，通常使用服务：</p>
+<pre><code>$ sudo service kudu-tserver start
+</code></pre>
+
+<p>一旦 <strong>tablet servers</strong> 再次运行，就会根据需要在其上创建新的 <strong>tablet</strong> 副本。</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+
+              <hr/>
+              <div align="center">
+                  <p><a href="http://www.apachecn.org/" target="_blank"><font face="KaiTi" size="6" color="red">我们一直在努力</font></a><p>
+                  <p><a href="https://github.com/apachecn/kudu-doc-zh/" target="_blank">apachecn/kudu-doc-zh</a></p>
+                  <p><iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=watch&count=true&v=2" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=star&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <iframe align="middle" src="https://ghbtns.com/github-btn.html?user=apachecn&repo=kudu-doc-zh&type=fork&count=true" frameborder="0" scrolling="0" width="100px" height="25px"></iframe>
+                  <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=bcee938030cc9e1552deb3bd9617bbbf62d3ec1647e4b60d9cd6b6e8f78ddc03"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="ML | ApacheCN" title="ML | ApacheCN"></a></p>
+                  <div style="text-align:center;margin:0 0 10.5px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:728px;height:90px"
+                             data-ad-client="ca-pub-3565452474788507"
+                             data-ad-slot="2543897000"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script></div>
+              </div>
+
+              <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+              <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+              <div id="gitalk-container" class="container-fluid"></div>
+              <script type="text/javascript">
+                  var gitalk = new Gitalk({
+                  clientID: 'f27b87eb424ba43df978',
+                  clientSecret: '9b3482a495c5257a1d269d8108b9bfd71f048c3c',
+                  repo: 'kudu-doc-zh',
+                  owner: 'apachecn',
+                  admin: ['jiangzhonglian'],
+                  id: md5(location.pathname),
+                  distractionFreeMode: false
+                  })
+                  gitalk.render('gitalk-container')
+              </script>
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../5/" title="Kudu 集成 Apache Impala" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  后退
+                </span>
+                Kudu 集成 Apache Impala
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../7/" title="Kudu 故障排除" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  前进
+                </span>
+                Kudu 故障排除
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.583bbe55.js"></script>
+      
+        
+        
+          
+          <script src="../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+                <script src="../assets/javascripts/lunr/tinyseg.js"></script>
+              
+              
+                <script src="../assets/javascripts/lunr/lunr.jp.js"></script>
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
